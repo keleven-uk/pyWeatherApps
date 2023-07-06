@@ -21,7 +21,7 @@
 ###############################################################################################################
 
 ########################################################################################### printSortLicense ######
-def printShortLicense(name, version, logger, screen=False):
+def printShortLicense(name, version, logger, screen=True):
     logger.info("")
     logger.info(f"{name} {version}   Copyright (C) 2023  Kevin Scott")
     logger.info(f"This program comes with ABSOLUTELY NO WARRANTY; for details type `{name} -l'.")

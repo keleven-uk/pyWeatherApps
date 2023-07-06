@@ -27,13 +27,9 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import os
 import sys
 import textwrap
 import argparse
-import colorama
-
-from pathlib import Path
 
 import src.License as License
 import src.utils.dataUtils as utils
@@ -50,7 +46,7 @@ def parseArgs(appName, appVersion, logger):
         formatter_class=argparse.RawTextHelpFormatter,
         description=textwrap.dedent("""\
         Builds a main spreadsheeet out of individual weather data spreadsheets."""),
-        epilog=f" Kevin Scott (C) 22023 :: {appName} {appVersion}")
+        epilog=f" Kevin Scott (C) 2023 :: {appName} {appVersion}")
 
     parser.add_argument("-l", "--license", action="store_true", help="Print the Software License.")
     parser.add_argument("-v", "--version", action="store_true", help="Print the version of the application.")
@@ -59,7 +55,7 @@ def parseArgs(appName, appVersion, logger):
     args = parser.parse_args()
 
     if args.version:
-        License.printShortLicense(appName, appVersion, logger, False)
+        License.printShortLicense(appName, appVersion, logger)
         logger.info(f"Running on {sys.version} Python")
         logger.info(f"End of {appName} V{appVersion}: version")
         print("Goodbye.")

@@ -20,7 +20,23 @@ History of pyDataBuild.py
 #                                                                                                             #
 ###############################################################################################################
 
-V3.23.1
+V23.2
+
+    Created a class WeatherData in weatherData.py.
+        This will hold the data form a single spreadsheet of weather data, typically daily; held in a dict.
+        It will also contain the necessary methods to manipulate the data.  i.e. load, add etc.
+        Only loadFile and loafData so far.
+    Created a class weatherValues in dataClasses.py.
+        This will hold the data from a single row of the spreadsheet.
+    Created a data mapping in dataMapping.
+        This is a mappings for the weather spreadsheet column headers.
+
+    The spreadsheet load into weatherData class, but still working on loading the rows.
+
+    Also source passes ruff check . - I ignore th 80 column line limit.
+
+
+V23.1
 
     Basic framework - taken from pyMp3Duplicate.
     App excepts command line arguments -h, -l, -e only.

@@ -24,17 +24,18 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import os
 import sys
 
-from pathlib import Path
-#from alive_progress import alive_bar
+import colorama
 
 import src.args as args
 import src.Timer as Timer
 import src.Config as Config
 import src.Logger as Logger
 import src.License as License
+import src.weatherData as WD
+import src.utils.dataUtils as utils
+
 
 ############################################################################################### __main__ ######
 
@@ -42,14 +43,12 @@ if __name__ == "__main__":
 
 
     Config = Config.Config()  # Need to do this first.
-
     LGpath = "logs\\" +Config.NAME +".log"
-
-    logger      = Logger.get_logger(LGpath)                        # Create the logger.
-    timer       = Timer.Timer()
+    logger = Logger.get_logger(LGpath)                        # Create the logger.
 
     args.parseArgs(Config.NAME, Config.VERSION, logger)
 
+    timer = Timer.Timer()
     timer.Start()
 
     message = f"Start of {Config.NAME} {Config.VERSION}"
@@ -59,7 +58,21 @@ if __name__ == "__main__":
     logger.info(message)
     logger.info(f"Running on {sys.version} Python")
 
-    License.printShortLicense(Config.NAME, Config.VERSION, logger, True)
+    License.printShortLicense(Config.NAME, Config.VERSION, logger)
+
+    dataFiles = utils.listFiles()
+
+    if dataFiles == []:
+        message = "ERROR : no data files to build"
+        logger.error(message)
+        print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
+        sys.exit(1)
+
+    mainData = WD.WeatherData("data\\main.xlsx")
+
+    # for file in dataFiles:
+    #     newData = WD.WeatherData(file)
+
 
 
 

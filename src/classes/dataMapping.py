@@ -1,9 +1,10 @@
 ###############################################################################################################
-#    dataUtils.py   Copyright (C) <2023>  <Kevin Scott>                                                       #                                                                                                             #                                                                                                             #
-#    A number of helper and utility functions                                                                 #
+#    dataMapping.py    Copyright (C) <2023>  <Kevin Scott>                                                    #
+#                                                                                                             #
+#    Mappings for the weather spreadsheet column headers.                                                     #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                     #
+#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -18,33 +19,28 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import os
-import glob
+#  Start of data
+START_ROW = 3
 
-import colorama
-
-######################################################################################## loadExplorer() ######
-def loadExplorer(logger):
-    """  Load program working directory into file explorer.
-    """
-    try:
-        os.startfile(os.getcwd(), "explore")
-    except NotImplementedError as error:
-        logger.error(error)
-
-########################################################################################### listFiles() ######
-def listFiles(screen=True):
-    """  Produce a list of weather data files in the data directory.
-         If screen is Tue [default], the file name will be printed to screen.
-
-         NB  assumes it's run in the parent directory and the data files are in sub directory called data.'
-    """
-    dataFiles = glob.glob("data//all*.xlsx")
-
-    for file in dataFiles:
-        print(f"{colorama.Fore.YELLOW} Found data file {file}{colorama.Fore.RESET}")
-
-    return(dataFiles)
-
-
-
+#  Data Columns
+TIME                = 0
+OUTDOOR_TEMPERATURE = 1
+UTDOOR_FEELS_LIKE   = 2
+OUTDOOR_DEW_POINT   = 3
+OUTDOOR_HUMIDITY    = 4
+INDOOR_TEMPERATURE  = 5
+INDOOR_HUMIDITY     = 6
+SOLAR               = 7
+UVI                 = 8
+RAIN_RATE           = 9
+RAIN_DAILY          = 10
+RAIN_EVENT          = 11
+RAIN_HOURLY         = 12
+RAIN_WEEKLY         = 13
+RAIN_MONTHLY        = 14
+RAIN_YEARLY         = 15
+WIND_SPEED          = 16
+WIND_GUST           = 17
+WIND_DIRECTION      = 18
+PRESSURE_RELATIVE   = 19
+PRESSURE_ABSOLUTE   = 20
