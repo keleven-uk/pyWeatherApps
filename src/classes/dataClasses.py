@@ -21,23 +21,52 @@
 
 
 class weatherValues:
-    OutdoorTemperature :str
-    OutdoorFeelsLike   :str
-    OutdoorDewPoint    :str
-    OutdoorHumidity    :str
-    IndoorTemperature  :str
-    IndoorHumidity     :str
-    Solar              :str
-    UVI                :str
-    RainRate           :str
-    RainDaily          :str
-    RainEvent          :str
-    RainHourly         :str
-    RainWeekly         :str
-    RainMonthly        :str
-    RainYearly         :str
-    WindSpeed          :str
-    WindGust           :str
-    WindDirection      :str
-    PressureRelative   :str
-    PressureAbsolute   :str
+    """  A class to hold weather data.
+
+         wv = weatherValues()
+
+         then
+
+         wv.data = datavalue
+
+         TODO
+            currently stored as strings, need to convert to numerical values.
+    """
+    def __init__(self):
+        """  Basic init, just initialise to empty strings.
+        """
+        self.OutdoorTemperature = ""
+        self.OutdoorFeelsLike   = ""
+        self.OutdoorDewPoint    = ""
+        self.OutdoorHumidity    = ""
+        self.IndoorTemperature  = ""
+        self.IndoorHumidity     = ""
+        self.Solar              = ""
+        self.UVI                = ""
+        self.RainRate           = ""
+        self.RainDaily          = ""
+        self.RainEvent          = ""
+        self.RainHourly         = ""
+        self.RainWeekly         = ""
+        self.RainMonthly        = ""
+        self.RainYearly         = ""
+        self.WindSpeed          = ""
+        self.WindGust           = ""
+        self.WindDirection      = ""
+        self.PressureRelative   = ""
+        self.PressureAbsolute   = ""
+
+
+    def __repr__(self):
+        first  = f"{self.OutdoorTemperature} : {self.OutdoorFeelsLike} : {self.OutdoorDewPoint} : {self.OutdoorHumidity} : "
+        second = f"{self.IndoorTemperature} : {self.IndoorTemperature} : {self.Solar} : {self.UVI}"
+        third  = f"{self.RainRate} : {self.RainDaily} : {self.RainEvent} : {self.RainHourly} : {self.RainWeekly} : {self.RainMonthly } :{self.RainYearly }"
+        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute } 1"
+        return f"{first}{second}{third}{fourth}"
+
+    def __str__(self):
+        first  = f"{self.OutdoorTemperature} : {self.OutdoorFeelsLike} : {self.OutdoorDewPoint} : {self.OutdoorHumidity} : "
+        second = f"{self.IndoorTemperature} : {self.IndoorTemperature} : {self.Solar} : {self.UVI}"
+        third  = f"{self.RainRate} : {self.RainDaily} : {self.RainEvent} : {self.RainHourly} : {self.RainWeekly} : {self.RainMonthly } :{self.RainYearly }"
+        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute } 2"
+        return f"{first}{second}{third}{fourth}"

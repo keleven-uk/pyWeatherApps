@@ -2,6 +2,7 @@ History of pyDataBuild.py
 
 ###############################################################################################################
 #    pyDataBuild   Copyright (C) <2023>  <Kevin Scott>                                                        #
+#                                                                                                             #
 #    Scans a given directory for excel spreadsheets the contains weather data and for                         #
 #    new data adds them to a main spreadsheet.                                                                #
 ###############################################################################################################
@@ -20,6 +21,15 @@ History of pyDataBuild.py
 #                                                                                                             #
 ###############################################################################################################
 
+V23.3
+
+    Added to WeatherData class.
+        countData() - Return the number of entries.
+        nextRow()   - Returns the data, one line at a time.
+
+    The spreadsheets are now loaded into classes and make their data available one row at a time.
+
+
 V23.2
 
     Created a class WeatherData in weatherData.py.
@@ -33,7 +43,7 @@ V23.2
 
     The spreadsheet load into weatherData class, but still working on loading the rows.
 
-    Also source passes ruff check . - I ignore th 80 column line limit.
+    Also source passes ruff check - I ignore the 80 column line limit, I have a wide monitor ;-)
 
 
 V23.1

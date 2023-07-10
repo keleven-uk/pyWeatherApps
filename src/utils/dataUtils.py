@@ -35,7 +35,7 @@ def loadExplorer(logger):
 ########################################################################################### listFiles() ######
 def listFiles(screen=True):
     """  Produce a list of weather data files in the data directory.
-         If screen is Tue [default], the file name will be printed to screen.
+         If screen is True [default], the file name will be printed to screen.
 
          NB  assumes it's run in the parent directory and the data files are in sub directory called data.'
     """

@@ -19,13 +19,17 @@
 #                                                                                                             #
 ###############################################################################################################
 
+"""  Global constantans.
+"""
+
+
 #  Start of data
 START_ROW = 3
 
 #  Data Columns
 TIME                = 0
 OUTDOOR_TEMPERATURE = 1
-UTDOOR_FEELS_LIKE   = 2
+OUTDOOR_FEELS_LIKE  = 2
 OUTDOOR_DEW_POINT   = 3
 OUTDOOR_HUMIDITY    = 4
 INDOOR_TEMPERATURE  = 5

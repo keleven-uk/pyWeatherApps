@@ -32,8 +32,6 @@ class Config():
 
          If config.toml is not found, a default configure file is generated.
 
-         Use single quotes :-(
-
          usage:
             myConfig = myConfig.Config()
     """
@@ -75,17 +73,16 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.2",
+        config["INFO"] = {"myVERSION": "2023.3.beta",
                           "myNAME"   : "pyDataBuild"}
 
 
         st_toml = toml.dumps(config)
 
         with open(self.FILE_NAME, "w") as configFile:       # In context manager.
-            configFile.write("#   Configure files for pyMP3duplicates.py \n")
+            configFile.write("#   Configure files for pyDataBuild.py \n")
             configFile.write("#\n")
             configFile.write("#   true and false are lower case \n")
-            configFile.write("#   Configure files for pyMP3duplicates.py \n")
             configFile.write("#   location needs double \ i.e. c:\\tmp\\music - well, on windows any way. \n")
             configFile.write("#\n")
             configFile.write("#   <2023> (c) Kevin Scott \n")

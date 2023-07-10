@@ -1,6 +1,6 @@
 ###############################################################################################################
 #    pyDataBuild   Copyright (C) <2023>  <Kevin Scott>                                                        #
-#    Scans a given directory for excel spreadsheets the contains weather data and for                         #
+#    Scans a given directory for excel spreadsheets the contains weather data and for each                    #
 #    new data adds them to a main spreadsheet.                                                                #
 #                                                                                                             #
 #  Usage:                                                                                                     #
@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    dataFiles = utils.listFiles()
+    dataFiles = utils.listFiles()   #  Returns a list of excel spreadsheets
 
     if dataFiles == []:
         message = "ERROR : no data files to build"
@@ -68,10 +68,15 @@ if __name__ == "__main__":
         print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
         sys.exit(1)
 
-    mainData = WD.WeatherData("data\\main.xlsx")
+    mainData = WD.WeatherData("data\\main.xlsx")    #  Load the main spreadsheet - this is the running aggregate of weather data.
 
-    # for file in dataFiles:
-    #     newData = WD.WeatherData(file)
+    for file in dataFiles:                          #  Loop through excel spreadsheets
+        newData = WD.WeatherData(file)
+
+        for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
+            key, row = next(newData.nextRow())
+
+        newData = None
 
 
 
