@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    dataFiles = utils.listFiles()   #  Returns a list of excel spreadsheets
+    dataFiles = utils.listFiles(screen=False)   #  Returns a list of excel spreadsheets
 
     if dataFiles == []:
         message = "ERROR : no data files to build"
@@ -68,23 +68,38 @@ if __name__ == "__main__":
         print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
         sys.exit(1)
 
-    mainData = WD.WeatherData("data\\main.xlsx")    #  Load the main spreadsheet - this is the running aggregate of weather data.
+    mainData = WD.WeatherData("data\\main.xlsx", screen=False)    #  Load the main spreadsheet - this is the running aggregate of weather data.
+    print(f" Starting size of mainData : {mainData.countData()}")
+    mainData.saveDataJson("mainStart.json")
+
+    old_rows = 0
+    new_rows = 0
 
     for file in dataFiles:                          #  Loop through excel spreadsheets
-        newData = WD.WeatherData(file)
+        newData = WD.WeatherData(file, screen=False)
 
         for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
             key, row = next(newData.nextRow())
 
+            if (key in mainData):
+                old_rows += 1
+            else:
+                new_rows += 1
+                mainData.add(key, row)
+
         newData = None
 
 
+    print(f" rows existing {old_rows} :: rows to be added {new_rows}")
+    print(f" New size of mainData : {mainData.countData()}")
+    mainData.saveDataJson("mainEnd.json")
 
+    print(" Saving back to main.xlsx")
+    mainData.saveData()
 
     timeStop = timer.Stop
 
-    message = f"{Config.NAME} Completed :: {timeStop}"
-
+    message = f" {Config.NAME} Completed :: {timeStop}"
     print(message)
     logger.info(message)
     logger.info(f"End of {Config.NAME} {Config.VERSION}")

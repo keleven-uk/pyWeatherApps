@@ -61,12 +61,12 @@ class weatherValues:
         first  = f"{self.OutdoorTemperature} : {self.OutdoorFeelsLike} : {self.OutdoorDewPoint} : {self.OutdoorHumidity} : "
         second = f"{self.IndoorTemperature} : {self.IndoorTemperature} : {self.Solar} : {self.UVI}"
         third  = f"{self.RainRate} : {self.RainDaily} : {self.RainEvent} : {self.RainHourly} : {self.RainWeekly} : {self.RainMonthly } :{self.RainYearly }"
-        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute } 1"
+        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute }"
         return f"{first}{second}{third}{fourth}"
 
     def __str__(self):
         first  = f"{self.OutdoorTemperature} : {self.OutdoorFeelsLike} : {self.OutdoorDewPoint} : {self.OutdoorHumidity} : "
         second = f"{self.IndoorTemperature} : {self.IndoorTemperature} : {self.Solar} : {self.UVI}"
         third  = f"{self.RainRate} : {self.RainDaily} : {self.RainEvent} : {self.RainHourly} : {self.RainWeekly} : {self.RainMonthly } :{self.RainYearly }"
-        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute } 2"
+        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute }"
         return f"{first}{second}{third}{fourth}"

@@ -41,8 +41,9 @@ def listFiles(screen=True):
     """
     dataFiles = glob.glob("data//all*.xlsx")
 
-    for file in dataFiles:
-        print(f"{colorama.Fore.YELLOW} Found data file {file}{colorama.Fore.RESET}")
+    if screen:
+        for file in dataFiles:
+            print(f"{colorama.Fore.YELLOW} Found data file {file}{colorama.Fore.RESET}")
 
     return(dataFiles)
 

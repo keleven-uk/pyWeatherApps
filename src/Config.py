@@ -73,7 +73,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.3.beta",
+        config["INFO"] = {"myVERSION": "2023.4",
                           "myNAME"   : "pyDataBuild"}
 
 

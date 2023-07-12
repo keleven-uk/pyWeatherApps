@@ -21,11 +21,23 @@ History of pyDataBuild.py
 #                                                                                                             #
 ###############################################################################################################
 
+
+V23.4
+
+    Added to WeatherData class.
+        __contains__ - checks to see if a given data set is in the data dictionary.
+        add()        - adds data to the data dictionary.
+        saveData     - saves the dictionary to a spreadsheet
+        saveDataJson - saves the dictionary to a text file using json, uses a custom json encoder.
+
+    The spreadsheets are now loaded correctly and their data is added to the main dictionary if not already included.
+
+
 V23.3
 
     Added to WeatherData class.
-        countData() - Return the number of entries.
-        nextRow()   - Returns the data, one line at a time.
+        countData() - Return the number of entries in the dictionary.
+        nextRow()   - Returns the data in the dictionary, one line at a time.
 
     The spreadsheets are now loaded into classes and make their data available one row at a time.
 
@@ -33,9 +45,9 @@ V23.3
 V23.2
 
     Created a class WeatherData in weatherData.py.
-        This will hold the data form a single spreadsheet of weather data, typically daily; held in a dict.
+        This will hold the data form a single spreadsheet of weather data, typically daily; held in a dictionaryrm *.json.
         It will also contain the necessary methods to manipulate the data.  i.e. load, add etc.
-        Only loadFile and loafData so far.
+        Only loadFile and loadData so far.
     Created a class weatherValues in dataClasses.py.
         This will hold the data from a single row of the spreadsheet.
     Created a data mapping in dataMapping.
