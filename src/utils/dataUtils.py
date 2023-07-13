@@ -33,13 +33,13 @@ def loadExplorer(logger):
         logger.error(error)
 
 ########################################################################################### listFiles() ######
-def listFiles(screen=True):
+def listFiles(targetFiles, screen=True):
     """  Produce a list of weather data files in the data directory.
          If screen is True [default], the file name will be printed to screen.
 
          NB  assumes it's run in the parent directory and the data files are in sub directory called data.'
     """
-    dataFiles = glob.glob("data//all*.xlsx")
+    dataFiles = glob.glob(targetFiles)
 
     if screen:
         for file in dataFiles:

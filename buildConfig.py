@@ -65,6 +65,13 @@ class Config():
         """
         return self.config["INFO"]["myVERSION"]
 
+    @property
+    def MAIN_WB(self):
+        location  = self.config["DATA"]["directory"]
+        filename  = self.config["DATA"]["mainwWorkBook"]
+        extension = "xlsx"
+        return f"{location}\\{filename}.{extension}"
+
 
 
     def _writeDefaultConfig(self):
@@ -73,7 +80,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.4",
+        config["INFO"] = {"myVERSION": "2023.5.beta",
                           "myNAME"   : "pyDataBuild"}
 
 

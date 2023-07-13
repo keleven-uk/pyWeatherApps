@@ -1,10 +1,10 @@
 ###############################################################################################################
-#    pyDataBuild   Copyright (C) <2023>  <Kevin Scott>                                                        #
-#    Scans a given directory for excel spreadsheets the contains weather data and for each                    #
+#    main.py   Copyright (C) <2023>  <Kevin Scott>                                                            #
+#                                                                                                             #
 #    new data adds them to a main spreadsheet.                                                                #
 #                                                                                                             #
 #  Usage:                                                                                                     #
-#     pyDataBuild.py [-h] [-l] [-v] [-e]                                                                      #
+#     main.py.py [-h] [-l] [-v] [-e]                                                                      #
 #                                                                                                             #
 #     For changes see history.txt                                                                             #
 #                                                                                                             #
@@ -28,23 +28,21 @@ import sys
 
 import colorama
 
-import src.args as args
 import src.Timer as Timer
-import src.Config as Config
 import src.Logger as Logger
 import src.License as License
-import src.weatherData as WD
-import src.utils.dataUtils as utils
-
-
-############################################################################################### __main__ ######
+import src.buildArgs as args
+import src.buildConfig as Config
+import src.dataBuild as dataBuild
 
 if __name__ == "__main__":
-
 
     Config = Config.Config()  # Need to do this first.
     LGpath = "logs\\" +Config.NAME +".log"
     logger = Logger.get_logger(LGpath)                        # Create the logger.
+
+    mainWB      = Config.MAIN_WB
+    targetFiles = Config.TARGET_FILES
 
     args.parseArgs(Config.NAME, Config.VERSION, logger)
 
@@ -60,42 +58,8 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    dataFiles = utils.listFiles(screen=False)   #  Returns a list of excel spreadsheets
+    dataBuild.build(mainWB, targetFiles)
 
-    if dataFiles == []:
-        message = "ERROR : no data files to build"
-        logger.error(message)
-        print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
-        sys.exit(1)
-
-    mainData = WD.WeatherData("data\\main.xlsx", screen=False)    #  Load the main spreadsheet - this is the running aggregate of weather data.
-    print(f" Starting size of mainData : {mainData.countData()}")
-    mainData.saveDataJson("mainStart.json")
-
-    old_rows = 0
-    new_rows = 0
-
-    for file in dataFiles:                          #  Loop through excel spreadsheets
-        newData = WD.WeatherData(file, screen=False)
-
-        for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
-            key, row = next(newData.nextRow())
-
-            if (key in mainData):
-                old_rows += 1
-            else:
-                new_rows += 1
-                mainData.add(key, row)
-
-        newData = None
-
-
-    print(f" rows existing {old_rows} :: rows to be added {new_rows}")
-    print(f" New size of mainData : {mainData.countData()}")
-    mainData.saveDataJson("mainEnd.json")
-
-    print(" Saving back to main.xlsx")
-    mainData.saveData()
 
     timeStop = timer.Stop
 

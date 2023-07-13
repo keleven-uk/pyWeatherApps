@@ -4,6 +4,6 @@
   new data adds them to a main spreadsheet.
     
     
-    Kevin Scott (C) 2023 :: pyMP3duplicate 2023.4
+    Kevin Scott (C) 2023 :: pyMP3duplicate 2023.5
 
 For changes see history.txt

@@ -22,6 +22,16 @@ History of pyDataBuild.py
 ###############################################################################################################
 
 
+V23.5
+
+    Renamed some of the source files to have a prefix of build [a report app coming soon).
+    Added the config options
+        for the location and name for the main spreadsheet.
+        for the glob string for the target files( that are merged into the main spreadsheet.)
+    Moved the pyDataBuild.py into the src directory.
+    Created a main.py that sets things up and calls pyDataBuild.
+
+
 V23.4
 
     Added to WeatherData class.

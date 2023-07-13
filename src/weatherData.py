@@ -24,7 +24,7 @@ from json import JSONEncoder
 
 import colorama
 
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 
 import src.classes.dataMapping as DM
 
@@ -70,9 +70,13 @@ class WeatherData():
 
 
     def loadFile(self):
-        """  Load the spreadsheet in read only [don't want to accidentally amend] and only load data and not formulas.
+        """  Load the spreadsheet only load data and not formulas.
         """
-        self.workBook = load_workbook(filename=self.fileName, read_only=False, data_only=True)
+        try:
+            self.workBook = load_workbook(filename=self.fileName, read_only=False, data_only=True)
+        except FileNotFoundError:
+            print("ERROR")
+            self.workBook = Workbook()      #  Initial spreadsheet dosn't exist - create a new blank one.
 
         #  Grab the active worksheet
         self.workSheet = self.workBook.active
