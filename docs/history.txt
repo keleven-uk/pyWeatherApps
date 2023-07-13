@@ -22,6 +22,15 @@ History of pyDataBuild.py
 ###############################################################################################################
 
 
+V23.6
+
+    Changed the way the spreadsheet is read in weatherData.py from reading a row at a time
+    to reading individual cells values.  This method returns actual value type i.e floats
+    and not strings.  This will be useful in the reporting app.
+    Added logPrint to src.utils.dataUtils.  This allows the same message to be
+    displayed and logged - reduces duplicate code.
+
+
 V23.5
 
     Renamed some of the source files to have a prefix of build [a report app coming soon).

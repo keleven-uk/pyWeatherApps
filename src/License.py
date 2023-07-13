@@ -29,7 +29,7 @@ def printShortLicense(name, version, logger, screen=True):
     logger.info("")
     if screen:
         print("")
-        print(f"{name} {version}   Copyright (C) 2020-2023  Kevin Scott")
+        print(f"{name} {version}   Copyright (C) 2023  Kevin Scott")
         print(f"This program comes with ABSOLUTELY NO WARRANTY; for details type `{name} -l'.")
         print("This is free software, and you are welcome to redistribute it under certain conditions.")
         print("")

@@ -1,10 +1,10 @@
 ###############################################################################################################
 #    main.py   Copyright (C) <2023>  <Kevin Scott>                                                            #
 #                                                                                                             #
-#    new data adds them to a main spreadsheet.                                                                #
+#    pyWeatherApp - Builds a main spreadsheet out of individual daily spreadsheets.                           #
 #                                                                                                             #
 #  Usage:                                                                                                     #
-#     main.py.py [-h] [-l] [-v] [-e]                                                                      #
+#     main.py.py [-h] [-l] [-v] [-e]                                                                          #
 #                                                                                                             #
 #     For changes see history.txt                                                                             #
 #                                                                                                             #
@@ -24,9 +24,12 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import sys
+"""  pyWeatherApp - Builds a main spreadsheet out of individual daily spreadsheets.
 
-import colorama
+     dataBuild.build(mainWB, targetFiles) - builds the main spreadsheet.
+"""
+
+import sys
 
 import src.Timer as Timer
 import src.Logger as Logger
@@ -34,6 +37,7 @@ import src.License as License
 import src.buildArgs as args
 import src.buildConfig as Config
 import src.dataBuild as dataBuild
+import src.utils.dataUtils as utils
 
 if __name__ == "__main__":
 
@@ -49,23 +53,18 @@ if __name__ == "__main__":
     timer = Timer.Timer()
     timer.Start()
 
-    message = f"Start of {Config.NAME} {Config.VERSION}"
-
-    print(message)
-    logger.info("-" * 100)
-    logger.info(message)
-    logger.info(f"Running on {sys.version} Python")
+    utils.logPrint(logger, False, "-" * 100)
+    utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}")
+    utils.logPrint(logger, False, f"Running on {sys.version} Python")
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
-    dataBuild.build(mainWB, targetFiles)
+    dataBuild.build(mainWB, targetFiles, logger)
 
 
     timeStop = timer.Stop
 
-    message = f" {Config.NAME} Completed :: {timeStop}"
-    print(message)
-    logger.info(message)
-    logger.info(f"End of {Config.NAME} {Config.VERSION}")
+    utils.logPrint(logger, True, f"{Config.NAME} Completed :: {timeStop}")
+    utils.logPrint(logger, True, f"End of {Config.NAME} {Config.VERSION}")
 
     sys.exit(0)

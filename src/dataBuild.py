@@ -20,12 +20,12 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import colorama
+import sys
 
 import src.weatherData as WD
 import src.utils.dataUtils as utils
 
-def build(mainWB, targetFiles):
+def build(mainWB, targetFiles, logger):
     """  Scans a given directory for excel spreadsheets the contains weather data and for
          each new data adds them to a main spreadsheet.
     """
@@ -33,12 +33,10 @@ def build(mainWB, targetFiles):
     dataFiles = utils.listFiles(targetFiles, screen=True)   #  Returns a list of excel spreadsheets
 
     if dataFiles == []:
-        message = "ERROR : no data files to build"
-        logger.error(message)
-        print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
+        utils.logPrint(logger, True, "ERROR : no data files to build", "Red")
         sys.exit(1)
 
-    mainData = WD.WeatherData(mainWB, screen=True)    #  Load the main spreadsheet - this is the running aggregate of weather data.
+    mainData = WD.WeatherData(mainWB, screen=True)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
     print(f" Starting size of mainData : {mainData.countData()}")
 
     old_rows = 0
@@ -59,10 +57,10 @@ def build(mainWB, targetFiles):
         newData = None
 
 
-    print(f" rows existing {old_rows} :: rows to be added {new_rows}")
-    print(f" New size of mainData : {mainData.countData()}")
+    utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}")
+    utils.logPrint(logger, True, f" New size of mainData : {mainData.countData()}")
+    utils.logPrint(logger, True, f" Saving back to {mainWB}")
 
-    print(f" Saving back to {mainWB}")
     mainData.saveData()
 
 

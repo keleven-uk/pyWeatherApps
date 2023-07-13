@@ -35,26 +35,26 @@ class weatherValues:
     def __init__(self):
         """  Basic init, just initialise to empty strings.
         """
-        self.OutdoorTemperature = ""
-        self.OutdoorFeelsLike   = ""
-        self.OutdoorDewPoint    = ""
-        self.OutdoorHumidity    = ""
-        self.IndoorTemperature  = ""
-        self.IndoorHumidity     = ""
-        self.Solar              = ""
-        self.UVI                = ""
-        self.RainRate           = ""
-        self.RainDaily          = ""
-        self.RainEvent          = ""
-        self.RainHourly         = ""
-        self.RainWeekly         = ""
-        self.RainMonthly        = ""
-        self.RainYearly         = ""
-        self.WindSpeed          = ""
-        self.WindGust           = ""
-        self.WindDirection      = ""
-        self.PressureRelative   = ""
-        self.PressureAbsolute   = ""
+        self.OutdoorTemperature = 0.0
+        self.OutdoorFeelsLike   = 0.0
+        self.OutdoorDewPoint    = 0.0
+        self.OutdoorHumidity    = 0.0
+        self.IndoorTemperature  = 0.0
+        self.IndoorHumidity     = 0.0
+        self.Solar              = 0.0
+        self.UVI                = 0.0
+        self.RainRate           = 0.0
+        self.RainDaily          = 0.0
+        self.RainEvent          = 0.0
+        self.RainHourly         = 0.0
+        self.RainWeekly         = 0.0
+        self.RainMonthly        = 0.0
+        self.RainYearly         = 0.0
+        self.WindSpeed          = 0.0
+        self.WindGust           = 0.0
+        self.WindDirection      = 0.0
+        self.PressureRelative   = 0.0
+        self.PressureAbsolute   = 0.0
 
 
     def __repr__(self):

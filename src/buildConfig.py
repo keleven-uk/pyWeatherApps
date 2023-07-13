@@ -85,8 +85,8 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.5.beta",
-                          "myNAME"   : "pyDataBuild"}
+        config["INFO"] = {"myVERSION": "2023.6",
+                          "myNAME"   : "pyWeatherApp"}
 
         config["DATA"] = {"directory"      : "data",
                            "mainwWorkBook" : "July2023",

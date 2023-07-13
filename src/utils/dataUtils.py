@@ -32,6 +32,20 @@ def loadExplorer(logger):
     except NotImplementedError as error:
         logger.error(error)
 
+########################################################################################### logPrint() #######
+def logPrint(logger, screen, message, colour=""):
+    """  If a logger is supplied, log message.
+         If screen is True, print message to screen.
+    """
+    if logger:
+        logger.info(message)
+
+    if screen:
+        if colour == "Red":
+            print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
+        else:
+            print(message)
+
 ########################################################################################### listFiles() ######
 def listFiles(targetFiles, screen=True):
     """  Produce a list of weather data files in the data directory.

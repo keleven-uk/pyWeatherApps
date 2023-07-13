@@ -86,31 +86,31 @@ class WeatherData():
     def loadData(self):
         """  Loads the entries into the directory.
         """
-        for row in self.workSheet.iter_rows(min_row=DM.START_ROW, values_only=True):
+        for rowNumber in range(DM.START_ROW, self.workSheet.max_row):
             self.wv = weatherValues()  #  A class to hold each row of weather data.  **REMEMBER**
 
-            self.wv.OutdoorTemperature = row[DM.OUTDOOR_TEMPERATURE]
-            self.wv.OutdoorFeelsLike   = row[DM.OUTDOOR_FEELS_LIKE]
-            self.wv.OutdoorDewPoint    = row[DM.OUTDOOR_DEW_POINT]
-            self.wv.OutdoorHumidity    = row[DM.OUTDOOR_HUMIDITY]
-            self.wv.IndoorTemperature  = row[DM.INDOOR_TEMPERATURE]
-            self.wv.IndoorHumidity     = row[DM.INDOOR_HUMIDITY]
-            self.wv.Solar              = row[DM.SOLAR]
-            self.wv.UVI                = row[DM.UVI]
-            self.wv.RainRate           = row[DM.RAIN_RATE]
-            self.wv.RainDaily          = row[DM.RAIN_DAILY]
-            self.wv.RainEvent          = row[DM.RAIN_EVENT]
-            self.wv.RainHourly         = row[DM.RAIN_HOURLY]
-            self.wv.RainWeekly         = row[DM.RAIN_WEEKLY ]
-            self.wv.RainMonthly        = row[DM.RAIN_MONTHLY]
-            self.wv.RainYearly         = row[DM.RAIN_YEARLY ]
-            self.wv.WindSpeed          = row[DM.WIND_SPEED]
-            self.wv.WindGust           = row[DM.WIND_GUST]
-            self.wv.WindDirection      = row[DM.WIND_DIRECTION]
-            self.wv.PressureRelative   = row[DM.PRESSURE_RELATIVE]
-            self.wv.PressureAbsolute   = row[DM.PRESSURE_ABSOLUTE]
+            self.wv.OutdoorTemperature = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_TEMPERATURE).value
+            self.wv.OutdoorFeelsLike   = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_FEELS_LIKE).value
+            self.wv.OutdoorDewPoint    = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_DEW_POINT).value
+            self.wv.OutdoorHumidity    = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_HUMIDITY).value
+            self.wv.IndoorTemperature  = self.workSheet.cell(row=rowNumber, column=DM.INDOOR_TEMPERATURE).value
+            self.wv.IndoorHumidity     = self.workSheet.cell(row=rowNumber, column=DM.INDOOR_HUMIDITY).value
+            self.wv.Solar              = self.workSheet.cell(row=rowNumber, column=DM.SOLAR).value
+            self.wv.UVI                = self.workSheet.cell(row=rowNumber, column=DM.UVI).value
+            self.wv.RainRate           = self.workSheet.cell(row=rowNumber, column=DM.RAIN_RATE).value
+            self.wv.RainDaily          = self.workSheet.cell(row=rowNumber, column=DM.RAIN_DAILY).value
+            self.wv.RainEvent          = self.workSheet.cell(row=rowNumber, column=DM.RAIN_EVENT).value
+            self.wv.RainHourly         = self.workSheet.cell(row=rowNumber, column=DM.RAIN_HOURLY).value
+            self.wv.RainWeekly         = self.workSheet.cell(row=rowNumber, column=DM.RAIN_WEEKLY).value
+            self.wv.RainMonthly        = self.workSheet.cell(row=rowNumber, column=DM.RAIN_MONTHLY).value
+            self.wv.RainYearly         = self.workSheet.cell(row=rowNumber, column=DM.RAIN_YEARLY).value
+            self.wv.WindSpeed          = self.workSheet.cell(row=rowNumber, column=DM.WIND_SPEED).value
+            self.wv.WindGust           = self.workSheet.cell(row=rowNumber, column=DM.WIND_GUST).value
+            self.wv.WindDirection      = self.workSheet.cell(row=rowNumber, column=DM.WIND_DIRECTION).value
+            self.wv.PressureRelative   = self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_RELATIVE).value
+            self.wv.PressureAbsolute   = self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_ABSOLUTE).value
 
-            self.key                   = row[DM.TIME]
+            self.key                   = self.workSheet.cell(row=rowNumber, column=DM.TIME).value
 
             self.values[self.key]      = self.wv
 
@@ -129,7 +129,7 @@ class WeatherData():
 
 
     def saveDataJson(self, jsonFileName="dump.json"):
-        """  Converts the data directory to a json object, then writs to a file.
+        """  Converts the data directory to a json object, then writes to a file.
              Needs a custom encoder (dataEncoder), weatherValues is not natively serializable.
         """
         json_object = json.dumps(self.values, indent=4, cls=dataEncoder)
@@ -155,34 +155,32 @@ class WeatherData():
 
     def saveData(self):
         """  Save the data directory to a excel spreadsheet.
-
-             NB  Spreadsheets start at column 1.
         """
         rowNumber = DM.START_ROW
         for key, row in self.values.items():
 
             # the .cell is a function, we ignore the return value - looks like the cell reference.
-            self.workSheet.cell(row=rowNumber, column=DM.TIME + 1               , value = key)
-            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_TEMPERATURE + 1, value = row.OutdoorTemperature )
-            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_FEELS_LIKE + 1 , value = row.OutdoorFeelsLike)
-            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_DEW_POINT + 1  , value = row.OutdoorDewPoint)
-            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_HUMIDITY + 1   , value = row.OutdoorHumidity)
-            self.workSheet.cell(row=rowNumber, column=DM.INDOOR_TEMPERATURE + 1 , value = row.IndoorTemperature)
-            self.workSheet.cell(row=rowNumber, column=DM.INDOOR_HUMIDITY + 1    , value = row.IndoorHumidity)
-            self.workSheet.cell(row=rowNumber, column=DM.SOLAR + 1              , value = row.Solar)
-            self.workSheet.cell(row=rowNumber, column=DM.UVI + 1                , value = row.UVI)
-            self.workSheet.cell(row=rowNumber, column=DM.RAIN_RATE + 1          , value = row.RainRate)
-            self.workSheet.cell(row=rowNumber, column=DM.RAIN_DAILY + 1         , value = row.RainDaily)
-            self.workSheet.cell(row=rowNumber, column=DM.RAIN_EVENT + 1         , value = row.RainEvent)
-            self.workSheet.cell(row=rowNumber, column=DM.RAIN_HOURLY + 1        , value = row.RainHourly)
-            self.workSheet.cell(row=rowNumber, column=DM.RAIN_WEEKLY + 1        , value = row.RainWeekly)
-            self.workSheet.cell(row=rowNumber, column=DM.RAIN_MONTHLY + 1       , value = row.RainMonthly)
-            self.workSheet.cell(row=rowNumber, column=DM.RAIN_YEARLY + 1        , value = row.RainYearly)
-            self.workSheet.cell(row=rowNumber, column=DM.WIND_SPEED + 1         , value = row.WindSpeed)
-            self.workSheet.cell(row=rowNumber, column=DM.WIND_GUST + 1          , value = row.WindGust)
-            self.workSheet.cell(row=rowNumber, column=DM.WIND_DIRECTION + 1     , value = row.WindDirection)
-            self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_RELATIVE + 1  , value = row.PressureRelative)
-            self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_ABSOLUTE + 1  , value = row.PressureAbsolute)
+            self.workSheet.cell(row=rowNumber, column=DM.TIME               , value = key)
+            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_TEMPERATURE, value = row.OutdoorTemperature )
+            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_FEELS_LIKE , value = row.OutdoorFeelsLike)
+            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_DEW_POINT  , value = row.OutdoorDewPoint)
+            self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_HUMIDITY   , value = row.OutdoorHumidity)
+            self.workSheet.cell(row=rowNumber, column=DM.INDOOR_TEMPERATURE , value = row.IndoorTemperature)
+            self.workSheet.cell(row=rowNumber, column=DM.INDOOR_HUMIDITY    , value = row.IndoorHumidity)
+            self.workSheet.cell(row=rowNumber, column=DM.SOLAR              , value = row.Solar)
+            self.workSheet.cell(row=rowNumber, column=DM.UVI                , value = row.UVI)
+            self.workSheet.cell(row=rowNumber, column=DM.RAIN_RATE          , value = row.RainRate)
+            self.workSheet.cell(row=rowNumber, column=DM.RAIN_DAILY         , value = row.RainDaily)
+            self.workSheet.cell(row=rowNumber, column=DM.RAIN_EVENT         , value = row.RainEvent)
+            self.workSheet.cell(row=rowNumber, column=DM.RAIN_HOURLY        , value = row.RainHourly)
+            self.workSheet.cell(row=rowNumber, column=DM.RAIN_WEEKLY        , value = row.RainWeekly)
+            self.workSheet.cell(row=rowNumber, column=DM.RAIN_MONTHLY       , value = row.RainMonthly)
+            self.workSheet.cell(row=rowNumber, column=DM.RAIN_YEARLY        , value = row.RainYearly)
+            self.workSheet.cell(row=rowNumber, column=DM.WIND_SPEED         , value = row.WindSpeed)
+            self.workSheet.cell(row=rowNumber, column=DM.WIND_GUST          , value = row.WindGust)
+            self.workSheet.cell(row=rowNumber, column=DM.WIND_DIRECTION     , value = row.WindDirection)
+            self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_RELATIVE  , value = row.PressureRelative)
+            self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_ABSOLUTE  , value = row.PressureAbsolute)
 
             rowNumber += 1
 
