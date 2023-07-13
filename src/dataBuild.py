@@ -37,7 +37,8 @@ def build(mainWB, targetFiles, logger):
         sys.exit(1)
 
     mainData = WD.WeatherData(mainWB, screen=True)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
-    print(f" Starting size of mainData : {mainData.countData()}")
+    if mainData.countData() !=0:
+        print(f" Starting size of mainData : {mainData.countData()}")
 
     old_rows = 0
     new_rows = 0

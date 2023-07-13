@@ -75,7 +75,7 @@ class WeatherData():
         try:
             self.workBook = load_workbook(filename=self.fileName, read_only=False, data_only=True)
         except FileNotFoundError:
-            print("ERROR")
+            print(f"{self.fileName} not found, create blank file.")
             self.workBook = Workbook()      #  Initial spreadsheet dosn't exist - create a new blank one.
 
         #  Grab the active worksheet
@@ -87,28 +87,28 @@ class WeatherData():
         """  Loads the entries into the directory.
         """
         for rowNumber in range(DM.START_ROW, self.workSheet.max_row):
-            self.wv = weatherValues()  #  A class to hold each row of weather data.  **REMEMBER**
-
-            self.wv.OutdoorTemperature = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_TEMPERATURE).value
-            self.wv.OutdoorFeelsLike   = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_FEELS_LIKE).value
-            self.wv.OutdoorDewPoint    = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_DEW_POINT).value
-            self.wv.OutdoorHumidity    = self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_HUMIDITY).value
-            self.wv.IndoorTemperature  = self.workSheet.cell(row=rowNumber, column=DM.INDOOR_TEMPERATURE).value
-            self.wv.IndoorHumidity     = self.workSheet.cell(row=rowNumber, column=DM.INDOOR_HUMIDITY).value
-            self.wv.Solar              = self.workSheet.cell(row=rowNumber, column=DM.SOLAR).value
-            self.wv.UVI                = self.workSheet.cell(row=rowNumber, column=DM.UVI).value
-            self.wv.RainRate           = self.workSheet.cell(row=rowNumber, column=DM.RAIN_RATE).value
-            self.wv.RainDaily          = self.workSheet.cell(row=rowNumber, column=DM.RAIN_DAILY).value
-            self.wv.RainEvent          = self.workSheet.cell(row=rowNumber, column=DM.RAIN_EVENT).value
-            self.wv.RainHourly         = self.workSheet.cell(row=rowNumber, column=DM.RAIN_HOURLY).value
-            self.wv.RainWeekly         = self.workSheet.cell(row=rowNumber, column=DM.RAIN_WEEKLY).value
-            self.wv.RainMonthly        = self.workSheet.cell(row=rowNumber, column=DM.RAIN_MONTHLY).value
-            self.wv.RainYearly         = self.workSheet.cell(row=rowNumber, column=DM.RAIN_YEARLY).value
-            self.wv.WindSpeed          = self.workSheet.cell(row=rowNumber, column=DM.WIND_SPEED).value
-            self.wv.WindGust           = self.workSheet.cell(row=rowNumber, column=DM.WIND_GUST).value
-            self.wv.WindDirection      = self.workSheet.cell(row=rowNumber, column=DM.WIND_DIRECTION).value
-            self.wv.PressureRelative   = self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_RELATIVE).value
-            self.wv.PressureAbsolute   = self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_ABSOLUTE).value
+            self.wv = weatherValues(
+                self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_TEMPERATURE).value,
+                self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_FEELS_LIKE).value,
+                self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_DEW_POINT).value,
+                self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_HUMIDITY).value,
+                self.workSheet.cell(row=rowNumber, column=DM.INDOOR_TEMPERATURE).value,
+                self.workSheet.cell(row=rowNumber, column=DM.INDOOR_HUMIDITY).value,
+                self.workSheet.cell(row=rowNumber, column=DM.SOLAR).value,
+                self.workSheet.cell(row=rowNumber, column=DM.UVI).value,
+                self.workSheet.cell(row=rowNumber, column=DM.RAIN_RATE).value,
+                self.workSheet.cell(row=rowNumber, column=DM.RAIN_DAILY).value,
+                self.workSheet.cell(row=rowNumber, column=DM.RAIN_EVENT).value,
+                self.workSheet.cell(row=rowNumber, column=DM.RAIN_HOURLY).value,
+                self.workSheet.cell(row=rowNumber, column=DM.RAIN_WEEKLY).value,
+                self.workSheet.cell(row=rowNumber, column=DM.RAIN_MONTHLY).value,
+                self.workSheet.cell(row=rowNumber, column=DM.RAIN_YEARLY).value,
+                self.workSheet.cell(row=rowNumber, column=DM.WIND_SPEED).value,
+                self.workSheet.cell(row=rowNumber, column=DM.WIND_GUST).value,
+                self.workSheet.cell(row=rowNumber, column=DM.WIND_DIRECTION).value,
+                self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_RELATIVE).value,
+                self.workSheet.cell(row=rowNumber, column=DM.PRESSURE_ABSOLUTE).value
+            )  #  A class to hold each row of weather data.  **REMEMBER**
 
             self.key                   = self.workSheet.cell(row=rowNumber, column=DM.TIME).value
 
@@ -117,9 +117,6 @@ class WeatherData():
             self.wv = None      #  Is this needed? - memory??
 
         self.val_keys = list(self.values.keys())    #  A list of keys for later.
-
-        if self.screen:
-            print(f"{colorama.Fore.GREEN}     with {self.countData()} rows{colorama.Fore.RESET}")
 
 
     def countData(self):

@@ -19,54 +19,33 @@
 #                                                                                                             #
 ###############################################################################################################
 
+from dataclasses import dataclass
 
+
+@dataclass
 class weatherValues:
-    """  A class to hold weather data.
-
-         wv = weatherValues()
-
-         then
-
-         wv.data = datavalue
-
-         TODO
-            currently stored as strings, need to convert to numerical values.
+    """  A data class to hold weather data.
     """
-    def __init__(self):
-        """  Basic init, just initialise to empty strings.
-        """
-        self.OutdoorTemperature = 0.0
-        self.OutdoorFeelsLike   = 0.0
-        self.OutdoorDewPoint    = 0.0
-        self.OutdoorHumidity    = 0.0
-        self.IndoorTemperature  = 0.0
-        self.IndoorHumidity     = 0.0
-        self.Solar              = 0.0
-        self.UVI                = 0.0
-        self.RainRate           = 0.0
-        self.RainDaily          = 0.0
-        self.RainEvent          = 0.0
-        self.RainHourly         = 0.0
-        self.RainWeekly         = 0.0
-        self.RainMonthly        = 0.0
-        self.RainYearly         = 0.0
-        self.WindSpeed          = 0.0
-        self.WindGust           = 0.0
-        self.WindDirection      = 0.0
-        self.PressureRelative   = 0.0
-        self.PressureAbsolute   = 0.0
+
+    OutdoorTemperature : float
+    OutdoorFeelsLike   : float
+    OutdoorDewPoint    : float
+    OutdoorHumidity    : float
+    IndoorTemperature  : float
+    IndoorHumidity     : float
+    Solar              : float
+    UVI                : float
+    RainRate           : float
+    RainDaily          : float
+    RainEvent          : float
+    RainHourly         : float
+    RainWeekly         : float
+    RainMonthly        : float
+    RainYearly         : float
+    WindSpeed          : float
+    WindGust           : float
+    WindDirection      : float
+    PressureRelative   : float
+    PressureAbsolute   : float
 
 
-    def __repr__(self):
-        first  = f"{self.OutdoorTemperature} : {self.OutdoorFeelsLike} : {self.OutdoorDewPoint} : {self.OutdoorHumidity} : "
-        second = f"{self.IndoorTemperature} : {self.IndoorTemperature} : {self.Solar} : {self.UVI}"
-        third  = f"{self.RainRate} : {self.RainDaily} : {self.RainEvent} : {self.RainHourly} : {self.RainWeekly} : {self.RainMonthly } :{self.RainYearly }"
-        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute }"
-        return f"{first}{second}{third}{fourth}"
-
-    def __str__(self):
-        first  = f"{self.OutdoorTemperature} : {self.OutdoorFeelsLike} : {self.OutdoorDewPoint} : {self.OutdoorHumidity} : "
-        second = f"{self.IndoorTemperature} : {self.IndoorTemperature} : {self.Solar} : {self.UVI}"
-        third  = f"{self.RainRate} : {self.RainDaily} : {self.RainEvent} : {self.RainHourly} : {self.RainWeekly} : {self.RainMonthly } :{self.RainYearly }"
-        fourth = f"{self.WindSpeed} : {self.WindGust} : {self.WindDirection} :{self.PressureRelative} : {self.PressureAbsolute }"
-        return f"{first}{second}{third}{fourth}"
