@@ -36,7 +36,7 @@ class Config():
             myConfig = myConfig.Config()
     """
 
-    FILE_NAME = "config.toml"
+    FILE_NAME = "Config.toml"
 
     def __init__(self):
         try:
@@ -85,7 +85,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.7",
+        config["INFO"] = {"myVERSION": "2023.8",
                           "myNAME"   : "pyWeatherApp"}
 
         config["DATA"] = {"directory"      : "data",

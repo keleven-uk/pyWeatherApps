@@ -48,9 +48,11 @@ def parseArgs(appName, appVersion, logger):
         Builds a main spreadsheeet out of individual weather data spreadsheets."""),
         epilog=f" Kevin Scott (C) 2023 :: {appName} {appVersion}")
 
-    parser.add_argument("-l", "--license", action="store_true", help="Print the Software License.")
-    parser.add_argument("-v", "--version", action="store_true", help="Print the version of the application.")
+    parser.add_argument("-l", "--license",  action="store_true", help="Print the Software License.")
+    parser.add_argument("-v", "--version",  action="store_true", help="Print the version of the application.")
     parser.add_argument("-e", "--explorer", action="store_true", help="Load program working directory into file explorer.")
+    parser.add_argument("-b", "--build",    action="store_true", help="Build the data - consolidate the spreadsheets.")
+    parser.add_argument("-r", "--report",   action="store_true", help="report on the data - finds the highs and lows.")
 
     args = parser.parse_args()
 
@@ -71,6 +73,8 @@ def parseArgs(appName, appVersion, logger):
         utils.loadExplorer(logger)             # Load program working directory n file explorer.
         print("Goodbye.")
         sys.exit(0)
+
+    return(args.build, args.report)
 
 
 

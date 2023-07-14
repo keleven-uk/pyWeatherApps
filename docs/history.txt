@@ -21,6 +21,18 @@ History of pyDataBuild.py
 #                                                                                                             #
 ###############################################################################################################
 
+V23.8
+
+    Added dataReport.py - will be the report part of the app. This will find the highs and lows.
+        This is loosely based on dataBuild.py.
+    Added arguments to main.py ro either call build or report (should call build and then report).
+
+
+V23.7
+
+    Converted weatherValues class to be a dataClass.
+        Makes the logic in weatherData simple and clean.
+
 
 V23.6
 
