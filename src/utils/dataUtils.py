@@ -57,9 +57,32 @@ def listFiles(targetFiles, screen=True):
 
     if screen:
         for file in dataFiles:
-            print(f"{colorama.Fore.YELLOW} Found data file {file}{colorama.Fore.RESET}")
+            print(f"{colorama.Fore.YELLOW} Found data file :: {file}{colorama.Fore.RESET}")
 
     return(dataFiles)
+
+
+############################################################################################### maxMin() ######
+def maxMin(recordValue, newValue, recordDate, newDate, mode):
+    """  Checks to see if a newValue is greater of less then the recordValue.
+         Returns the new record values with the corresponding date.
+    """
+    if mode == "MAX":
+        if newValue == 200.0:                 #  An inserted value, so ignore.
+            return recordValue, recordDate
+        elif newValue > recordValue:
+            return newValue, newDate
+        else:
+            return recordValue, recordDate
+
+    if mode == "MIN":
+        if newValue < recordValue:
+            return newValue, newDate
+        else:
+            return recordValue, recordDate
+
+
+
 
 
 

@@ -21,6 +21,15 @@ History of pyDataBuild.py
 #                                                                                                             #
 ###############################################################################################################
 
+V23.9
+
+    Added utils function maxMin(), given a values and the current record will return the new record.
+        Also return the corresponding date.
+    Added a __post_init__ function to the data class weatherValues.
+        This checks each values is a float, if not sets the values to a float (currently 200.00).
+    dataReport.py now displays the max and min values for outdoor and indoor temperatures plus rain rate.
+
+
 V23.8
 
     Added dataReport.py - will be the report part of the app. This will find the highs and lows.

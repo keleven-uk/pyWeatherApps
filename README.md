@@ -4,6 +4,6 @@
   new data adds them to a main spreadsheet.
     
     
-    Kevin Scott (C) 2023 :: pyWeatherApp 2023.8
+    Kevin Scott (C) 2023 :: pyWeatherApp 2023.9
 
 For changes see history.txt

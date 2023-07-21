@@ -85,7 +85,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.8",
+        config["INFO"] = {"myVERSION": "2023.9",
                           "myNAME"   : "pyWeatherApp"}
 
         config["DATA"] = {"directory"      : "data",

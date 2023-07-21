@@ -87,6 +87,7 @@ class WeatherData():
         """  Loads the entries into the directory.
         """
         for rowNumber in range(DM.START_ROW, self.workSheet.max_row):
+
             self.wv = weatherValues(
                 self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_TEMPERATURE).value,
                 self.workSheet.cell(row=rowNumber, column=DM.OUTDOOR_FEELS_LIKE).value,

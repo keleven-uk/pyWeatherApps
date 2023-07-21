@@ -25,22 +25,57 @@ import sys
 import src.weatherData as WD
 import src.utils.dataUtils as utils
 
+
 def report(mainWB, logger):
     """  Scans a given spreadsheet and produces a report in min and max values.
     """
+    maxOutdoorTemperature     = 0
+    maxOutdoorTemperatureDate = ""
+    minOutdoorTemperature     = 100
+    minOutdoorTemperatureDate = ""
 
+    maxIndoorTemperature     = 0
+    maxIndoorTemperatureDate = ""
+    minIndoorTemperature     = 100
+    minIndoorTemperatureDate = ""
+
+    maxRainRate     = 0
+    maxRainRateDate = ""
+    minRainRate     = 100
+    minRainRateDate = ""
 
     mainData = WD.WeatherData(mainWB, screen=True)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
+
     if mainData.countData() !=0:
         print(f" Starting size of mainData : {mainData.countData()}")
     else:
-        utils.logPrint(logger, True, "No entires in main spreadsheet - mayber rin build first", Red)
+        utils.logPrint(logger, True, "No entries in main spreadsheet - maybe run build first", "Red")
         sys.exit(1)
 
 
     for _ in range(mainData.countData()-1):      #  Iterate each row of each new spreadsheet.
-        key, row = next(mainData.nextRow())
-        print(key, row)
+        date, row = next(mainData.nextRow())
+
+        maxOutdoorTemperature, maxOutdoorTemperatureDate = utils.maxMin(maxOutdoorTemperature, row.OutdoorTemperature, maxOutdoorTemperatureDate, date, "MAX")
+        minOutdoorTemperature, minOutdoorTemperatureDate = utils.maxMin(minOutdoorTemperature, row.OutdoorTemperature, minOutdoorTemperatureDate, date, "MIN")
+
+        maxIndoorTemperature, maxIndoorTemperatureDate = utils.maxMin(maxIndoorTemperature, row.IndoorTemperature, maxIndoorTemperatureDate, date, "MAX")
+        minIndoorTemperature, minIndoorTemperatureDate = utils.maxMin(minIndoorTemperature, row.IndoorTemperature, minIndoorTemperatureDate, date, "MIN")
+
+        maxRainRate, maxRainRateDate = utils.maxMin(maxRainRate, row.RainRate, maxRainRateDate, date, "MAX")
+        minRainRate, minRainRateDate = utils.maxMin(minRainRate, row.RainRate, minRainRateDate, date, "MIN")
+
+
+    print("")
+    print(f" The max outdoor temp {maxOutdoorTemperature} occurred on {maxOutdoorTemperatureDate}")
+    print(f" The min outdoor temp {minOutdoorTemperature} occurred on {minOutdoorTemperatureDate}")
+
+    print(f" The max indoor temp {maxIndoorTemperature} occurred on {maxIndoorTemperatureDate}")
+    print(f" The min indoor temp {minIndoorTemperature} occurred on {minIndoorTemperatureDate}")
+
+    print(f" The max Rain Rate {maxRainRate} occurred on {maxRainRateDate}")
+    print(f" The min Rain Rate {minRainRate} occurred on {minRainRateDate}")
+
 
 
 
