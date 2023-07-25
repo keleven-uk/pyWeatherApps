@@ -31,7 +31,7 @@ import sys
 import textwrap
 import argparse
 
-import src.License as License
+import src.license as License
 import src.utils.dataUtils as utils
 
 ############################################################################################## parseArgs ######
@@ -52,7 +52,8 @@ def parseArgs(appName, appVersion, logger):
     parser.add_argument("-v", "--version",  action="store_true", help="Print the version of the application.")
     parser.add_argument("-e", "--explorer", action="store_true", help="Load program working directory into file explorer.")
     parser.add_argument("-b", "--build",    action="store_true", help="Build the data - consolidate the spreadsheets.")
-    parser.add_argument("-r", "--report",   action="store_true", help="report on the data - finds the highs and lows.")
+    parser.add_argument("-r", "--report",   action="store_true", help="Report on the data - finds the highs and lows.")
+    parser.add_argument("-V", "--Verbose",  action="store_true", help="Verbose - print more detail.")
 
     args = parser.parse_args()
 
@@ -74,7 +75,7 @@ def parseArgs(appName, appVersion, logger):
         print("Goodbye.")
         sys.exit(0)
 
-    return(args.build, args.report)
+    return(args.build, args.report, args.Verbose)
 
 
 

@@ -21,7 +21,8 @@
 import os
 import glob
 
-import colorama
+from src.console import console
+
 
 ######################################################################################## loadExplorer() ######
 def loadExplorer(logger):
@@ -33,21 +34,21 @@ def loadExplorer(logger):
         logger.error(error)
 
 ########################################################################################### logPrint() #######
-def logPrint(logger, screen, message, colour=""):
+def logPrint(logger, verbose, message, style):
     """  If a logger is supplied, log message.
          If screen is True, print message to screen.
     """
     if logger:
         logger.info(message)
 
-    if screen:
-        if colour == "Red":
-            print(f"{colorama.Fore.RED}{message}{colorama.Fore.RESET}")
+    if verbose:
+        if style == "warning":
+            console.log(f"{message}", style="warning")
         else:
-            print(message)
+            console.log(f"{message}", style="info")
 
 ########################################################################################### listFiles() ######
-def listFiles(targetFiles, screen=True):
+def listFiles(targetFiles, verbose):
     """  Produce a list of weather data files in the data directory.
          If screen is True [default], the file name will be printed to screen.
 
@@ -55,9 +56,9 @@ def listFiles(targetFiles, screen=True):
     """
     dataFiles = glob.glob(targetFiles)
 
-    if screen:
+    if verbose:
         for file in dataFiles:
-            print(f"{colorama.Fore.YELLOW} Found data file :: {file}{colorama.Fore.RESET}")
+            console.log(f"Found data file :: {file}", style="info")
 
     return(dataFiles)
 

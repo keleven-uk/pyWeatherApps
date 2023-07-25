@@ -20,6 +20,12 @@
 #                                                                                                             #
 ###############################################################################################################
 
+from src.console import console
+
+from rich import print
+from rich.text import Text
+from rich.panel import Panel
+
 ########################################################################################### printSortLicense ######
 def printShortLicense(name, version, logger, screen=True):
     logger.info("")
@@ -28,11 +34,18 @@ def printShortLicense(name, version, logger, screen=True):
     logger.info("This is free software, and you are welcome to redistribute it under certain conditions.")
     logger.info("")
     if screen:
-        print("")
-        print(f"{name} {version}   Copyright (C) 2023  Kevin Scott")
-        print(f"This program comes with ABSOLUTELY NO WARRANTY; for details type `{name} -l'.")
-        print("This is free software, and you are welcome to redistribute it under certain conditions.")
-        print("")
+        # print("")
+        # print(f"{name} {version}   Copyright (C) 2023  Kevin Scott")
+        # print(f"This program comes with ABSOLUTELY NO WARRANTY; for details type `{name} -l'.")
+        # print("This is free software, and you are welcome to redistribute it under certain conditions.")
+        # print("")
+
+
+        text = Text()
+        text.append(f"This program comes with ABSOLUTELY NO WARRANTY; for details type `{name} -l'.\n")
+        text.append("This is free software, and you are welcome to redistribute it under certain conditions.")
+        console.print(Panel.fit(text, title=f"{name} {version}", subtitle="Copyright (C) 2023  Kevin Scott"))
+
 ########################################################################################### printLongLicense ######
 def printLongLicense(name, version):
     print(f"""

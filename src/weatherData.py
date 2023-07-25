@@ -20,14 +20,13 @@
 ###############################################################################################################
 
 import json
+
 from json import JSONEncoder
-
-import colorama
-
 from openpyxl import load_workbook, Workbook
 
 import src.classes.dataMapping as DM
 
+from src.console import console
 from src.classes.dataClasses import weatherValues
 
 
@@ -49,9 +48,9 @@ class WeatherData():
 
     """
 
-    def __init__(self, file, screen=True):
+    def __init__(self, file, screen):
         if screen:
-            print(f"{colorama.Fore.GREEN} Processing data file {file}{colorama.Fore.RESET}")
+            console.log(f"Processing data file {file}")
 
         self.screen = screen
         self.fileName = file
@@ -75,13 +74,13 @@ class WeatherData():
         try:
             self.workBook = load_workbook(filename=self.fileName, read_only=False, data_only=True)
         except FileNotFoundError:
-            print(f"{self.fileName} not found, create blank file.")
-            self.workBook = Workbook()      #  Initial spreadsheet dosn't exist - create a new blank one.
+            console.log(f"{self.fileName} not found, create blank file.", style="warning")
+            self.workBook = Workbook()      #  Initial spreadsheet doesn't exist - create a new blank one.
 
         #  Grab the active worksheet
         self.workSheet = self.workBook.active
         if self.screen:
-            print(f"{colorama.Fore.GREEN}     Scanning {self.workSheet.title} in {self.fileName}{colorama.Fore.RESET}")
+            console.log(f"   Scanning {self.workSheet.title} in {self.fileName}")
 
     def loadData(self):
         """  Loads the entries into the directory.

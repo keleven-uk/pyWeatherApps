@@ -25,42 +25,46 @@ import sys
 import src.weatherData as WD
 import src.utils.dataUtils as utils
 
-def build(mainWB, targetFiles, logger):
+from src.console import console
+
+def build(mainWB, targetFiles, logger, verbose):
     """  Scans a given directory for excel spreadsheets the contains weather data and for
          each new data adds them to a main spreadsheet.
     """
 
-    dataFiles = utils.listFiles(targetFiles, screen=True)   #  Returns a list of excel spreadsheets
+    dataFiles = utils.listFiles(targetFiles, verbose)   #  Returns a list of excel spreadsheets
 
     if dataFiles == []:
-        utils.logPrint(logger, True, "ERROR : no data files to build", "Red")
+        utils.logPrint(logger, True, "ERROR : no data files to build", "warning")
         sys.exit(1)
 
-    mainData = WD.WeatherData(mainWB, screen=False)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
+    mainData = WD.WeatherData(mainWB, screen=verbose)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
     if mainData.countData() !=0:
-        print(f" Starting size of mainData : {mainData.countData()}")
+        utils.logPrint(logger, verbose, "Size of mainData : {mainData.countData()}", "info")
 
     old_rows = 0
     new_rows = 0
 
-    for file in dataFiles:                          #  Loop through excel spreadsheets
-        newData = WD.WeatherData(file, screen=False)
+    with console.status("Building main..."):
+        for file in dataFiles:   #  Loop through excel spreadsheets
+            #console.log(file)
+            newData = WD.WeatherData(file, screen=False)
 
-        for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
-            key, row = next(newData.nextRow())
+            for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
+                key, row = next(newData.nextRow())
 
-            if (key in mainData):
-                old_rows += 1
-            else:
-                new_rows += 1
-                mainData.add(key, row)
+                if (key in mainData):
+                    old_rows += 1
+                else:
+                    new_rows += 1
+                    mainData.add(key, row)
 
-        newData = None
+            newData = None
 
 
-    utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}")
-    utils.logPrint(logger, True, f" New size of mainData : {mainData.countData()}")
-    utils.logPrint(logger, True, f" Saving back to {mainWB}")
+    utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}", "info")
+    utils.logPrint(logger, True, f" New size of mainData : {mainData.countData()}", "info")
+    utils.logPrint(logger, True, f" Saving back to {mainWB}", "info")
 
     mainData.saveData()
 

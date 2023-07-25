@@ -32,10 +32,10 @@
 import sys
 
 import src.args as args
-import src.Timer as Timer
-import src.Config as Config
-import src.Logger as Logger
-import src.License as License
+import src.timer as Timer
+import src.config as Config
+import src.logger as Logger
+import src.license as License
 import src.dataBuild as dataBuild
 import src.dataReport as dataReport
 import src.utils.dataUtils as utils
@@ -49,30 +49,30 @@ if __name__ == "__main__":
     mainWB      = Config.MAIN_WB
     targetFiles = Config.TARGET_FILES
 
-    build, report = args.parseArgs(Config.NAME, Config.VERSION, logger)
+    build, report, verbose = args.parseArgs(Config.NAME, Config.VERSION, logger)
 
     timer = Timer.Timer()
     timer.Start()
 
-    utils.logPrint(logger, False, "-" * 100)
-    utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}")
-    utils.logPrint(logger, False, f"Running on {sys.version} Python")
-
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
+    utils.logPrint(logger, False, "-" * 100, "info")
+    utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
+    utils.logPrint(logger, verbose, f"Running on {sys.version} Python", "info")
+
     if build:
-         utils.logPrint(logger, True, "Running build")
-         dataBuild.build(mainWB, targetFiles, logger)
+         utils.logPrint(logger, verbose, "Running build", "info")
+         dataBuild.build(mainWB, targetFiles, logger, verbose)
 
     if report:
-         utils.logPrint(logger, True, "Running report")
-         dataReport.report(mainWB, logger)
+         utils.logPrint(logger, verbose, "Running report", "info")
+         dataReport.report(mainWB, logger, verbose)
 
 
     timeStop = timer.Stop
 
     print("")
-    utils.logPrint(logger, True, f"{Config.NAME} Completed :: {timeStop}")
-    utils.logPrint(logger, True, f"End of {Config.NAME} {Config.VERSION}")
+    utils.logPrint(logger, True, f"{Config.NAME} Completed :: {timeStop}", "info")
+    utils.logPrint(logger, True, f"End of {Config.NAME} {Config.VERSION}", "info")
 
     sys.exit(0)

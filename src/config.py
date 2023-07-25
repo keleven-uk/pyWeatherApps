@@ -22,7 +22,8 @@
 ###############################################################################################################
 
 import toml
-import colorama
+
+import src.utils.dataUtils as utils
 
 
 class Config():
@@ -43,15 +44,15 @@ class Config():
             with open(self.FILE_NAME, "r") as configFile:       # In context manager.
                 self.config = toml.load(configFile)             # Load the configure file, in toml.
         except FileNotFoundError:
-            print(f"{colorama.Fore.RED}Configure file not found. {colorama.Fore.RESET}")
-            print(f"{colorama.Fore.YELLOW}Writing default configure file. {colorama.Fore.RESET}")
+            console.print(f"Configure file not found.", "warning")
+            console.print(f"Writing default configure file.", "warning")
             self._writeDefaultConfig()
-            print(f"{colorama.Fore.GREEN}Running program with default configure settings. {colorama.Fore.RESET}")
+            console.print(f"Running program with default configure settings.", "warning")
         except toml.TomlDecodeError:
-            print(f"{colorama.Fore.RED}Error reading configure file. {colorama.Fore.RESET}")
-            print(f"{colorama.Fore.YELLOW}Writing default configure file. {colorama.Fore.RESET}")
+            console.print(f"Error reading configure file.", "warning")
+            console.print(f"Writing default configure file.", "info")
             self._writeDefaultConfig()
-            print(f"{colorama.Fore.GREEN}Running program with default configure settings. {colorama.Fore.RESET}")
+            console.print(f"Running program with default configure settings.", "info")
 
     @property
     def NAME(self):
@@ -85,7 +86,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.9",
+        config["INFO"] = {"myVERSION": "2023.10",
                           "myNAME"   : "pyWeatherApp"}
 
         config["DATA"] = {"directory"      : "data",

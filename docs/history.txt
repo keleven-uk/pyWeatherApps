@@ -1,10 +1,12 @@
-History of pyDataBuild.py
-
 ###############################################################################################################
-#    pyDataBuild   Copyright (C) <2023>  <Kevin Scott>                                                        #
+#    history.txt   Copyright (C) <2023>  <Kevin Scott>                                                        #
 #                                                                                                             #
-#    Scans a given directory for excel spreadsheets the contains weather data and for                         #
-#    new data adds them to a main spreadsheet.                                                                #
+#    History file for pyWeatherApps                                                                           #
+#                                                                                                             #
+#    The apps include -                                                                                       #
+#                      pyDataBuild  - scans a number of excel files and merges into one file.                 #
+#                      pyDataReport - scans the main file and finds the highs and lows.                       #
+#                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
 #                                                                                                             #
@@ -21,6 +23,16 @@ History of pyDataBuild.py
 #                                                                                                             #
 ###############################################################################################################
 
+V23.10
+
+    Added the python package rich.
+        Rich is a Python library for writing rich text (with colour and style) to the terminal,
+        and for displaying advanced content such as tables, markdown, and syntax highlighted code.
+        The configuration of such is a console class in src.console.py
+    Removed the uses of colorama.
+    Added a command line arguments -v [--verbose] to control the amount of detail displayed.
+    Changes to source files to reflect the two above additions.
+
 V23.9
 
     Added utils function maxMin(), given a values and the current record will return the new record.
@@ -34,7 +46,7 @@ V23.8
 
     Added dataReport.py - will be the report part of the app. This will find the highs and lows.
         This is loosely based on dataBuild.py.
-    Added arguments to main.py ro either call build or report (should call build and then report).
+    Added arguments to main.py to either call build or report (should call build and then report).
 
 
 V23.7
