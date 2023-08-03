@@ -1,7 +1,8 @@
 ###############################################################################################################
 #    dataReport   Copyright (C) <2023>  <Kevin Scott>                                                         #
 #    Scans the previously built main data for min and max values.                                             #
-#    new data adds them to a main spreadsheet.                                                                ##                                                                                                             #
+#    new data adds them to a main spreadsheet.                                                                #
+#                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
 #                                                                                                             #
@@ -44,7 +45,7 @@ def report(mainWB, logger, verbose):
     maxRainDaily     = 0
     maxRainDailyDate = ""
 
-    mainData = WD.WeatherData(mainWB, screen=verbose)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
+    mainData = WD.WeatherData(mainWB, screen=verbose)    #  Load the main spreadsheet - this is the running aggregate of weather data.
 
     if mainData.countData() !=0:
         utils.logPrint(logger, verbose, "Size of mainData : {mainData.countData()}", "info")

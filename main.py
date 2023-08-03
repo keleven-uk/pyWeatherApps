@@ -26,7 +26,8 @@
 
 """  pyWeatherApp - Builds a main spreadsheet out of individual daily spreadsheets.
 
-     dataBuild.build(mainWB, targetFiles) - builds the main spreadsheet.
+     dataBuild.build(mainWB, targetFiles, logger, verbose) - builds the main spreadsheet.
+     dataReportreport(mainWB, logger, verbose) - scans the main file and finds the highs and lows.
 """
 
 import sys
@@ -36,8 +37,9 @@ import src.timer as Timer
 import src.config as Config
 import src.logger as Logger
 import src.license as License
-import src.dataBuild as dataBuild
-import src.dataReport as dataReport
+import src.dataXBuild as dataXBuild
+import src.dataXReport as dataXReport
+import src.dataSQLBuild as dataSQLBuild
 import src.utils.dataUtils as utils
 
 if __name__ == "__main__":
@@ -47,9 +49,11 @@ if __name__ == "__main__":
     logger = Logger.get_logger(LGpath)                        # Create the logger.
 
     mainWB      = Config.MAIN_WB
+    mainDB      = Config.MAIN_DB
+    DB_TYPE     = Config.DB_TYPE
     targetFiles = Config.TARGET_FILES
 
-    build, report, verbose = args.parseArgs(Config.NAME, Config.VERSION, logger)
+    build, report, verbose, create = args.parseArgs(Config.NAME, Config.VERSION, logger)
 
     timer = Timer.Timer()
     timer.Start()
@@ -60,13 +64,26 @@ if __name__ == "__main__":
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
     utils.logPrint(logger, verbose, f"Running on {sys.version} Python", "info")
 
+
+    if create:
+        utils.logPrint(logger, True, "Creating SQLite database and tables", "info")
+        dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+
     if build:
-         utils.logPrint(logger, verbose, "Running build", "info")
-         dataBuild.build(mainWB, targetFiles, logger, verbose)
+        if DB_TYPE == "excel":
+            utils.logPrint(logger, True, "Running build to EXCEL", "info")
+            dataXBuild.build(mainWB, targetFiles, logger, verbose)
+        elif DB_TYPE == "sqlite":
+            print(f"DB file name = {mainDB}")
+            utils.logPrint(logger, True, "Running build to SQLite", "info")
+            dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+        else:
+            utils.logPrint(logger, verbose, "ERROR: Unkown DB type", "danger")
 
     if report:
-         utils.logPrint(logger, verbose, "Running report", "info")
-         dataReport.report(mainWB, logger, verbose)
+        utils.logPrint(logger, verbose, "Running report", "info")
+        dataXReport.report(mainWB, logger, verbose)
+
 
 
     timeStop = timer.Stop

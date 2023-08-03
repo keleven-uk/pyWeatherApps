@@ -1,5 +1,5 @@
 ###############################################################################################################
-#    pyDataBuild   Copyright (C) <2023>  <Kevin Scott>                                                        #
+#    pyDataSQLBuild   Copyright (C) <2023>  <Kevin Scott>                                                     #
 #    Scans a given directory for excel spreadsheets the contains weather data and for each                    #
 #    new data adds them to a main spreadsheet.                                                                #
 #                                                                                                             #
@@ -23,14 +23,32 @@
 import sys
 
 import src.weatherData as WD
+import src.classes.sql3Data as DB
 import src.utils.dataUtils as utils
 
 from src.console import console
 
-def build(mainWB, targetFiles, logger, verbose):
+def build(mainDB, targetFiles, logger, verbose, create=False):
     """  Scans a given directory for excel spreadsheets the contains weather data and for
          each new data adds them to a main spreadsheet.
+         if create os not supplied, default to False.
     """
+
+    print(f"Building SQL in :: {mainDB}")
+
+    try:
+        sql3DB = DB.sql3Data(mainDB)
+    except Exception as e:
+        print(e)
+        sys.exit(1)
+
+    if create:                               #  Create the table - should be on a new database.
+        try:
+            sql3DB.createTable()
+            sys.exit(0)
+        except Exception as e:
+            print(e)
+            sys.exit(1)
 
     dataFiles = utils.listFiles(targetFiles, verbose)   #  Returns a list of excel spreadsheets
 
@@ -38,34 +56,58 @@ def build(mainWB, targetFiles, logger, verbose):
         utils.logPrint(logger, True, "ERROR : no data files to build", "warning")
         sys.exit(1)
 
-    mainData = WD.WeatherData(mainWB, screen=verbose)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
-    if mainData.countData() !=0:
-        utils.logPrint(logger, verbose, "Size of mainData : {mainData.countData()}", "info")
+    #Fetching all row from the table
+    results = sql3DB.fetchall()
+
+    if len(results) !=0:
+        utils.logPrint(logger, verbose, f"Size of mainData : {len(results)}", "info")
 
     old_rows = 0
     new_rows = 0
 
-    with console.status("Building main..."):
+    with console.status("Scanning..."):
         for file in dataFiles:   #  Loop through excel spreadsheets
-            #console.log(file)
-            newData = WD.WeatherData(file, screen=False)
+            console.log(file)
+            newData = WD.WeatherData(file, screen=verbose)
 
             for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
                 key, row = next(newData.nextRow())
 
-                if (key in mainData):
+                if sql3DB.keyExists(key):
                     old_rows += 1
                 else:
                     new_rows += 1
-                    mainData.add(key, row)
+                    sql3DB.insert([key,
+                                   row.OutdoorTemperature,
+                                   row.OutdoorFeelsLike,
+                                   row.OutdoorDewPoint,
+                                   row.OutdoorHumidity,
+                                   row.IndoorTemperature,
+                                   row.IndoorHumidity,
+                                   row.Solar,
+                                   row.UVI,
+                                   row.RainRate,
+                                   row.RainDaily,
+                                   row.RainEvent,
+                                   row.RainHourly,
+                                   row.RainWeekly,
+                                   row.RainMonthly,
+                                   row.RainYearly,
+                                   row.WindSpeed,
+                                   row.WindGust,
+                                   row.WindDirection,
+                                   row.PressureRelative,
+                                   row.PressureAbsolute])
 
             newData = None
 
+    #Fetching all row from the table
+    results = sql3DB.fetchall()
 
     utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}", "info")
-    utils.logPrint(logger, True, f" New size of mainData : {mainData.countData()}", "info")
-    utils.logPrint(logger, True, f" Saving back to {mainWB}", "info")
+    utils.logPrint(logger, True, f" New size of mainData : {len(results)}", "info")
 
-    mainData.saveData()
+
+
 
 

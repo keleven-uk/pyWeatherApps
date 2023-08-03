@@ -1,16 +1,20 @@
-#   Configure files for pyMP3duplicates.py 
+#   Configure files for pyDataBuild.py 
 #
 #   true and false are lower case 
-#   Configure files for pyMP3duplicates.py 
 #   location needs double \ i.e. c:\tmp\music - well, on windows any way. 
 #
-#   <2023> (c) Kevin Scott
+#   <2023> (c) Kevin Scott 
 
 [INFO]
-myVERSION = "2023.10"
+myVERSION = "2023.11"
 myNAME = "pyWeatherApp"
 
 [DATA]
 directory = "data"
 mainwWorkBook = "July2023"
+mainDB = "July2023"
 target = "data//all*.xlsx"
+
+[DB]
+#  either "sqlite" OR "excel"
+type = "excel"

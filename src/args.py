@@ -8,6 +8,10 @@
 #     -l, --license         Print the Software License.                                                       #
 #     -v, --version         Print the version of the application.                                             #
 #     -e, --explorer        Load program working directory into file explorer.                                #
+#     -b, --build           Build the data - consolidate the spreadsheets.                                    #
+#     -r, --report          Report on the data - finds the highs and lows.                                    #
+#     -c, --create          Creates the SQLite3 database and table.                                           #
+#     -V, --Verbose         Verbose - print more detail.                                                      #
 #                                                                                                             #
 #     For changes see history.txt                                                                             #
 #                                                                                                             #
@@ -53,6 +57,7 @@ def parseArgs(appName, appVersion, logger):
     parser.add_argument("-e", "--explorer", action="store_true", help="Load program working directory into file explorer.")
     parser.add_argument("-b", "--build",    action="store_true", help="Build the data - consolidate the spreadsheets.")
     parser.add_argument("-r", "--report",   action="store_true", help="Report on the data - finds the highs and lows.")
+    parser.add_argument("-c", "--create",   action="store_true", help="Creates the SQLite3 database and table.")
     parser.add_argument("-V", "--Verbose",  action="store_true", help="Verbose - print more detail.")
 
     args = parser.parse_args()
@@ -75,7 +80,7 @@ def parseArgs(appName, appVersion, logger):
         print("Goodbye.")
         sys.exit(0)
 
-    return(args.build, args.report, args.Verbose)
+    return(args.build, args.report, args.Verbose, args.create)
 
 
 

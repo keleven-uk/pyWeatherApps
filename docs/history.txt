@@ -23,13 +23,22 @@
 #                                                                                                             #
 ###############################################################################################################
 
+V23.11
+
+    Added the ability to store the aggregate data in sqlite3 as well as excel.
+    Renamed dataBuild.py to dataXbuild.py and dataReport.py to dataXreport.pt - to store and report on Excell data.
+    Added dataSQLBuild.py to store the data in a sqlite3 database.
+        This mimics dataXbuild.pt by looping through the daily spreadsheets, but writes to a sqlite3 database.
+    Added a command line argument [-create] to create the initial sqlite3 database and tables.
+
+
 V23.10
 
     Added the python package rich.
         Rich is a Python library for writing rich text (with colour and style) to the terminal,
         and for displaying advanced content such as tables, markdown, and syntax highlighted code.
         The configuration of such is a console class in src.console.py
-    Removed the uses of colorama.
+    Removed the use of colorama.
     Added a command line arguments -v [--verbose] to control the amount of detail displayed.
     Changes to source files to reflect the two above additions.
 

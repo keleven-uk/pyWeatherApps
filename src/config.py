@@ -23,7 +23,7 @@
 
 import toml
 
-import src.utils.dataUtils as utils
+from src.console import console
 
 
 class Config():
@@ -44,15 +44,15 @@ class Config():
             with open(self.FILE_NAME, "r") as configFile:       # In context manager.
                 self.config = toml.load(configFile)             # Load the configure file, in toml.
         except FileNotFoundError:
-            console.print(f"Configure file not found.", "warning")
-            console.print(f"Writing default configure file.", "warning")
+            console.print("Configure file not found.", "warning")
+            console.print("Writing default configure file.", "warning")
             self._writeDefaultConfig()
-            console.print(f"Running program with default configure settings.", "warning")
+            console.print("Running program with default configure settings.", "warning")
         except toml.TomlDecodeError:
-            console.print(f"Error reading configure file.", "warning")
-            console.print(f"Writing default configure file.", "info")
+            console.print("Error reading configure file.", "warning")
+            console.print("Writing default configure file.", "info")
             self._writeDefaultConfig()
-            console.print(f"Running program with default configure settings.", "info")
+            console.print("Running program with default configure settings.", "info")
 
     @property
     def NAME(self):
@@ -74,8 +74,20 @@ class Config():
         return f"{location}\\{filename}.{extension}"
 
     @property
+    def MAIN_DB(self):
+        location  = self.config["DATA"]["directory"]
+        filename  = self.config["DATA"]["mainDB"]
+        extension = "sql"
+        return f"{location}\\{filename}.{extension}"
+
+    @property
     def TARGET_FILES(self):
         target = self.config["DATA"]["target"]
+        return f"{target}"
+
+    @property
+    def DB_TYPE(self):
+        target = self.config["DB"]["type"]
         return f"{target}"
 
 
@@ -86,12 +98,15 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.10",
+        config["INFO"] = {"myVERSION": "2023.11",
                           "myNAME"   : "pyWeatherApp"}
 
         config["DATA"] = {"directory"      : "data",
                            "mainwWorkBook" : "July2023",
+                           "mainDB"        : "July2023",
                            "target"        : "data//all*.xlsx"}
+
+        config["DB"]   = {"type"           : "sqlite"}              #  either "sqlite" OR "excel"
 
 
         st_toml = toml.dumps(config)
