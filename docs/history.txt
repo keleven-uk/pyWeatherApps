@@ -4,8 +4,9 @@
 #    History file for pyWeatherApps                                                                           #
 #                                                                                                             #
 #    The apps include -                                                                                       #
-#                      pyDataBuild  - scans a number of excel files and merges into one file.                 #
-#                      pyDataReport - scans the main file and finds the highs and lows.                       #
+#                      pyDataXBuild  - scans a number of excel files and merges into one file.                #
+#                      pyDataXReport - scans the main file and finds the highs and lows.                      #
+#                      pyDataSQLBuild - scans a number of excel files and merges into one SQLite3 database.   #
 #                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
@@ -23,13 +24,26 @@
 #                                                                                                             #
 ###############################################################################################################
 
+V23.12
+
+
+    agrs.py - Added an extra command line argument -c, this creates the sql tables.
+              Use this at to initialise a new database [or to clear the database].
+    main.py - The sql build is now called from a try exception block.  Catches no tables error [see above].
+              Sql version printed in verbose mode if build in sql.
+    dataUtils.py - added function to return slq version.
+    sql3Data.py  - Added try exception block to fetchall function.
+    sqlReport.py - New file, will report on highs and lows in sql mode.
+
+
 V23.11
 
     Added the ability to store the aggregate data in sqlite3 as well as excel.
     Renamed dataBuild.py to dataXbuild.py and dataReport.py to dataXreport.pt - to store and report on Excell data.
     Added dataSQLBuild.py to store the data in a sqlite3 database.
         This mimics dataXbuild.pt by looping through the daily spreadsheets, but writes to a sqlite3 database.
-    Added a command line argument [-create] to create the initial sqlite3 database and tables.
+    Added a command line argument -c [-create] to create the initial sqlite3 database and tables.
+        This could be combined, so -cbr [create - build - report] will work.
 
 
 V23.10
@@ -41,6 +55,7 @@ V23.10
     Removed the use of colorama.
     Added a command line arguments -v [--verbose] to control the amount of detail displayed.
     Changes to source files to reflect the two above additions.
+
 
 V23.9
 

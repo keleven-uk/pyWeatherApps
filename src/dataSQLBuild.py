@@ -45,9 +45,9 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
     if create:                               #  Create the table - should be on a new database.
         try:
             sql3DB.createTable()
-            sys.exit(0)
+            utils.logPrint(logger, verbose, "SQLite3 tables created successfully.", "info")
         except Exception as e:
-            print(e)
+            utils.logPrint(logger, verbose, f"{e}.", "info")
             sys.exit(1)
 
     dataFiles = utils.listFiles(targetFiles, verbose)   #  Returns a list of excel spreadsheets
@@ -67,7 +67,6 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
 
     with console.status("Scanning..."):
         for file in dataFiles:   #  Loop through excel spreadsheets
-            console.log(file)
             newData = WD.WeatherData(file, screen=verbose)
 
             for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.

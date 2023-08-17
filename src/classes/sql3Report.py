@@ -1,7 +1,6 @@
 ###############################################################################################################
-#    sql3Data   Copyright (C) <2023>  <Kevin Scott>                                                           #
-#    Scans a given directory for excel spreadsheets the contains weather data and for each                    #
-#    new data adds them to a main sql3lite database.                                                          #
+#    sql3Report   Copyright (C) <2023>  <Kevin Scott>                                                         #
+#    stores the highs and low weather values.                                                                 #
 #                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
@@ -40,11 +39,11 @@ class sql3Data():
 
             #  A lot of increase in speed.
             #  https://avi.im/blag/2021/fast-sqlite-inserts/
-            #self.cnx.execute("PRAGMA journal_mode = OFF;")              #  Turns off rollback journal, thus we cannot go back if any of the transactions fail.
-            self.cnx.execute("PRAGMA synchronous = 0;")                 #  SQLite does not care about writing to disk reliably and hands off that responsibility to the OS.
-            self.cnx.execute("PRAGMA cache_size = 1000000;")            #  Specifies how many memory pages SQLite is allowed to hold in the memory.
-            self.cnx.execute("PRAGMA locking_mode = EXCLUSIVE;")        #  Locking mode, the lock held by the SQLite connection is never released.
-            self.cnx.execute("PRAGMA temp_store = MEMORY;")             #  Make it behave like an in-memory database.
+            # self.cnx.execute("PRAGMA journal_mode = OFF;")              #  Turns off rollback journal, thus we cannot go back if any of the transactions fail.
+            # self.cnx.execute("PRAGMA synchronous = 0;")                 #  SQLite does not care about writing to disk reliably and hands off that responsibility to the OS.
+            # self.cnx.execute("PRAGMA cache_size = 1000000;")            #  Specifies how many memory pages SQLite is allowed to hold in the memory.
+            # self.cnx.execute("PRAGMA locking_mode = EXCLUSIVE;")        #  Locking mode, the lock held by the SQLite connection is never released.
+            # self.cnx.execute("PRAGMA temp_store = MEMORY;")             #  Make it behave like an in-memory database.
 
             #Creating a cursor object using the cursor() method
             self.cursor = self.cnx.cursor()
@@ -68,26 +67,8 @@ class sql3Data():
         """
         sql = """CREATE TABLE DailyData(
                 DateTime CHAR(20) PRIMARY KEY,
-                OutdoorTemperature FLOAT,
-                OutdoorFeelsLike FLOAT,
-                OutdoorDewPoint FLOAT,
-                OutdoorHumidity FLOAT,
-                IndoorTemprature FLOAT,
-                IndoorHumidity FLOAT,
-                Solar FLOAT,
-                UVI FLOAT,
-                RainRate FLOAT,
-                RainDaily FLOAT,
-                RainEvent FLOAT,
-                RainHourly FLOAT,
-                RainWeekly FLOAT,
-                RainMonthly FLOAT,
-                RainYearly FLOAT,
-                WindSpeed FLOAT,
-                WindGust FLOAT,
-                WindDirection FLOAT,
-                PressueRelative FLOAT,
-                PressueAbsolute FLOAT
+                MaxOutdoorTemperature FLOAT,
+                MinOutdoorTemperature FLOAT
                 )"""
         self.execute(sql)
 
@@ -97,11 +78,8 @@ class sql3Data():
              It calls self.execute with a pre-defined sql query and the supplied data.
         """
         query = """INSERT INTO DailyData
-                   (DateTime, OutdoorTemperature, OutdoorFeelsLike, OutdoorDewPoint, OutdoorHumidity,
-                    IndoorTemprature, IndoorHumidity, Solar, UVI, RainRate, RainDaily, RainEvent,
-                    RainHourly, RainWeekly, RainMonthly, RainYearly, WindSpeed, WindGust,
-                    WindDirection, PressueRelative, PressueAbsolute)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+                   (DateTime, MaxOutdoorTemperature, MinOutdoorTemperature)
+                    VALUES (?, ?)"""
 
         try:
             # Executing the SQL command

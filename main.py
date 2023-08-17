@@ -1,10 +1,11 @@
 ###############################################################################################################
 #    main.py   Copyright (C) <2023>  <Kevin Scott>                                                            #
 #                                                                                                             #
-#    pyWeatherApp - Builds a main spreadsheet out of individual daily spreadsheets.                           #
+#    pyWeatherApp - Builds a main database out of individual daily spreadsheets.                              #
+#                   The main database can be either a Excel spreadsheet or a SQLite3 database.                #
 #                                                                                                             #
 #  Usage:                                                                                                     #
-#     main.py.py [-h] [-l] [-v] [-e]                                                                          #
+#     main.py [-h] for help.                                                                                  #
 #                                                                                                             #
 #     For changes see history.txt                                                                             #
 #                                                                                                             #
@@ -40,6 +41,7 @@ import src.license as License
 import src.dataXBuild as dataXBuild
 import src.dataXReport as dataXReport
 import src.dataSQLBuild as dataSQLBuild
+
 import src.utils.dataUtils as utils
 
 if __name__ == "__main__":
@@ -62,21 +64,30 @@ if __name__ == "__main__":
 
     utils.logPrint(logger, False, "-" * 100, "info")
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
-    utils.logPrint(logger, verbose, f"Running on {sys.version} Python", "info")
+    if DB_TYPE == "sqlite":
+        utils.logPrint(logger, verbose, f"Running on {sys.version} Python", "info")
+        utils.logPrint(logger, verbose, f"Running on {utils.sqlite3Version()} SQLite3", "info")
+    else:
+        utils.logPrint(logger, verbose, f"Running on {sys.version} Python", "info")
 
-
-    if create:
-        utils.logPrint(logger, True, "Creating SQLite database and tables", "info")
-        dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+    if create:                                  #  only create if we are in SQLite3 mode.
+        if DB_TYPE == "sqlite":
+            utils.logPrint(logger, True, "Creating SQLite3 database and tables", "info")
+            dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+        else:
+            utils.logPrint(logger, True, f"Cannot create SQLite3 database on DB TYPE {DB_TYPE}", "warning")
 
     if build:
         if DB_TYPE == "excel":
             utils.logPrint(logger, True, "Running build to EXCEL", "info")
             dataXBuild.build(mainWB, targetFiles, logger, verbose)
         elif DB_TYPE == "sqlite":
-            print(f"DB file name = {mainDB}")
-            utils.logPrint(logger, True, "Running build to SQLite", "info")
-            dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+            try:
+                print(f"DB file name = {mainDB}")
+                utils.logPrint(logger, True, "Running build to SQLite", "info")
+                dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+            except Exception as e:
+                utils.logPrint(logger, verbose, f"{e}.  Maybe run main.py -c", "warning")
         else:
             utils.logPrint(logger, verbose, "ERROR: Unkown DB type", "danger")
 

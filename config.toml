@@ -6,15 +6,15 @@
 #   <2023> (c) Kevin Scott 
 
 [INFO]
-myVERSION = "2023.11"
+myVERSION = "2023.12"
 myNAME = "pyWeatherApp"
 
 [DATA]
 directory = "data"
-mainwWorkBook = "July2023"
-mainDB = "July2023"
-target = "data//all*.xlsx"
+mainWB = "August2023"
+mainDB = "August2023"
+target = "data//2023//August//all*.xlsx"
 
 [DB]
 #  either "sqlite" OR "excel"
-type = "excel"
+type = "sqlite"

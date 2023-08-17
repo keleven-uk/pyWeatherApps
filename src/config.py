@@ -69,7 +69,7 @@ class Config():
     @property
     def MAIN_WB(self):
         location  = self.config["DATA"]["directory"]
-        filename  = self.config["DATA"]["mainwWorkBook"]
+        filename  = self.config["DATA"]["mainWB"]
         extension = "xlsx"
         return f"{location}\\{filename}.{extension}"
 
@@ -98,15 +98,15 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION": "2023.11",
-                          "myNAME"   : "pyWeatherApp"}
+        config["INFO"] = {"myVERSION" : "2023.11",
+                          "myNAME"    : "pyWeatherApp"}
 
-        config["DATA"] = {"directory"      : "data",
-                           "mainwWorkBook" : "July2023",
-                           "mainDB"        : "July2023",
-                           "target"        : "data//all*.xlsx"}
+        config["DATA"] = {"directory" : "data",
+                           "mainWB"   : "July2023",
+                           "mainDB"   : "July2023",
+                           "target"   : "data//2023//July//all*.xlsx"}
 
-        config["DB"]   = {"type"           : "sqlite"}              #  either "sqlite" OR "excel"
+        config["DB"]   = {"type"      : "sqlite"}              #  either "sqlite" OR "excel"
 
 
         st_toml = toml.dumps(config)

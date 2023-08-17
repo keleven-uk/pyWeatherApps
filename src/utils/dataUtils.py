@@ -20,9 +20,16 @@
 
 import os
 import glob
+import sqlite3
 
 from src.console import console
 
+
+######################################################################################## sqlite3Version() ####
+def sqlite3Version():
+    """  Returns the current sqlite3 version as a string.
+    """
+    return sqlite3.sqlite_version
 
 ######################################################################################## loadExplorer() ######
 def loadExplorer(logger):
