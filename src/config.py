@@ -46,13 +46,15 @@ class Config():
         except FileNotFoundError:
             console.print("Configure file not found.", "warning")
             console.print("Writing default configure file.", "warning")
+            console,print("Please check config values.", "warning")
             self._writeDefaultConfig()
             console.print("Running program with default configure settings.", "warning")
         except toml.TomlDecodeError:
-            console.print("Error reading configure file.", "warning")
-            console.print("Writing default configure file.", "info")
+            console.print("Configure file can't be read.", "warning")
+            console.print("Writing default configure file.", "warning")
+            console,print("Please check config values.", "warning")
             self._writeDefaultConfig()
-            console.print("Running program with default configure settings.", "info")
+            console.print("Running program with default configure settings.", "warning")
 
     @property
     def NAME(self):
@@ -98,7 +100,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.11",
+        config["INFO"] = {"myVERSION" : "2023.13",
                           "myNAME"    : "pyWeatherApp"}
 
         config["DATA"] = {"directory" : "data",

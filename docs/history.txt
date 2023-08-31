@@ -3,10 +3,6 @@
 #                                                                                                             #
 #    History file for pyWeatherApps                                                                           #
 #                                                                                                             #
-#    The apps include -                                                                                       #
-#                      pyDataXBuild  - scans a number of excel files and merges into one file.                #
-#                      pyDataXReport - scans the main file and finds the highs and lows.                      #
-#                      pyDataSQLBuild - scans a number of excel files and merges into one SQLite3 database.   #
 #                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
@@ -24,11 +20,18 @@
 #                                                                                                             #
 ###############################################################################################################
 
+
+V23.23
+
+    sql3Data.py - Added a second table to store the high and lows for the month.
+                  Added an index column [integer on autoincrement] to each table.
+    dataSQLBuild.py - Amended so that the create mode returns after calling create
+
+
 V23.12
 
-
     agrs.py - Added an extra command line argument -c, this creates the sql tables.
-              Use this at to initialise a new database [or to clear the database].
+              Use this at start to initialise a new database [or to clear the database].
     main.py - The sql build is now called from a try exception block.  Catches no tables error [see above].
               Sql version printed in verbose mode if build in sql.
     dataUtils.py - added function to return slq version.

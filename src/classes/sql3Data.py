@@ -22,6 +22,8 @@
 import sqlite3
 from sqlite3 import Error
 
+import src.classes.dataMapping as DM
+
 
 class sql3Data():
 
@@ -41,10 +43,10 @@ class sql3Data():
             #  A lot of increase in speed.
             #  https://avi.im/blag/2021/fast-sqlite-inserts/
             #self.cnx.execute("PRAGMA journal_mode = OFF;")              #  Turns off rollback journal, thus we cannot go back if any of the transactions fail.
-            self.cnx.execute("PRAGMA synchronous = 0;")                 #  SQLite does not care about writing to disk reliably and hands off that responsibility to the OS.
-            self.cnx.execute("PRAGMA cache_size = 1000000;")            #  Specifies how many memory pages SQLite is allowed to hold in the memory.
-            self.cnx.execute("PRAGMA locking_mode = EXCLUSIVE;")        #  Locking mode, the lock held by the SQLite connection is never released.
-            self.cnx.execute("PRAGMA temp_store = MEMORY;")             #  Make it behave like an in-memory database.
+            #self.cnx.execute("PRAGMA synchronous = 0;")                 #  SQLite does not care about writing to disk reliably and hands off that responsibility to the OS.
+            #self.cnx.execute("PRAGMA cache_size = 1000000;")            #  Specifies how many memory pages SQLite is allowed to hold in the memory.
+            #self.cnx.execute("PRAGMA locking_mode = EXCLUSIVE;")        #  Locking mode, the lock held by the SQLite connection is never released.
+            #self.cnx.execute("PRAGMA temp_store = MEMORY;")             #  Make it behave like an in-memory database.
 
             #Creating a cursor object using the cursor() method
             self.cursor = self.cnx.cursor()
@@ -64,33 +66,75 @@ class sql3Data():
 
 
     def createTable(self):
-        """  Creating blank table to hold a daily weather data.
+        """  Creating blank tables to hold a daily weather data.
+
+             DailyData holds the weather data for each day, each row for each day.
+             HighLows holds the weather high and low values for the month.
+                The table is only created and populated with the categories here.
         """
+        self.execute("DROP table IF EXISTS DailyData")
+        self.execute("DROP table IF EXISTS HighLows")
+
         sql = """CREATE TABLE DailyData(
-                DateTime CHAR(20) PRIMARY KEY,
-                OutdoorTemperature FLOAT,
-                OutdoorFeelsLike FLOAT,
-                OutdoorDewPoint FLOAT,
-                OutdoorHumidity FLOAT,
-                IndoorTemprature FLOAT,
-                IndoorHumidity FLOAT,
-                Solar FLOAT,
-                UVI FLOAT,
-                RainRate FLOAT,
-                RainDaily FLOAT,
-                RainEvent FLOAT,
-                RainHourly FLOAT,
-                RainWeekly FLOAT,
-                RainMonthly FLOAT,
-                RainYearly FLOAT,
-                WindSpeed FLOAT,
-                WindGust FLOAT,
-                WindDirection FLOAT,
-                PressueRelative FLOAT,
-                PressueAbsolute FLOAT
-                )"""
+                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                 DateTime CHAR(20),
+                 OutdoorTemperature FLOAT,
+                 OutdoorFeelsLike FLOAT,
+                 OutdoorDewPoint FLOAT,
+                 OutdoorHumidity FLOAT,
+                 IndoorTemprature FLOAT,
+                 IndoorHumidity FLOAT,
+                 Solar FLOAT,
+                 UVI FLOAT,
+                 RainRate FLOAT,
+                 RainDaily FLOAT,
+                 RainEvent FLOAT,
+                 RainHourly FLOAT,
+                 RainWeekly FLOAT,
+                 RainMonthly FLOAT,
+                 RainYearly FLOAT,
+                 WindSpeed FLOAT,
+                 WindGust FLOAT,
+                 WindDirection FLOAT,
+                 PressueRelative FLOAT,
+                 PressueAbsolute FLOAT
+                 )"""
         self.execute(sql)
 
+        sql = """CREATE TABLE HighLows(
+                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                 Category CHAR(30),
+                 High FLOAT,
+                 Low FLOAT,
+                 DateTime CHAR(20)
+                 )"""
+
+        self.execute(sql)
+
+        sql = """INSERT INTO HighLows
+                 (Category, High, Low, DateTime)
+                 VALUES (?, ?, ?, ?)"""
+
+        self.execute(sql, "OUTDOOR_TEMPERATURE", 0, 100, datetime("now"))
+        self.execute(sql, "OUTDOOR_FEELS_LIKE",  0, 100, datetime("now"))
+        self.execute(sql, "OUTDOOR_DEW_POINT",   0, 100, datetime("now"))
+        self.execute(sql, "OUTDOOR_HUMIDITY",    0, 100, datetime("now"))
+        self.execute(sql, "INDOOR_TEMPERATURE",  0, 100, datetime("now"))
+        self.execute(sql, "INDOOR_HUMIDITY",     0, 100, datetime("now"))
+        self.execute(sql, "SOLAR",               0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "UVI",                 0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "RAIN_RATE",           0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "RAIN DAILY",          0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "RAIN_EVENT",          0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "RAIN_HOURLY",         0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "RAIN_WEEKLY",         0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "RAIN_MONTHLY",        0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "RAIN_YEARLY",         0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "WIND_SPEED",          0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "WIND_GUST",           0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "WIND_DIRECTION",      0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "PRESSURE_RELATIVE",   0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, "PRESSURE_ABSOLUTE",   0, 100, datetime("now"))   #  low not used.
 
     def insert(self, data):
         """  Insert data into a SQLite2 database.
@@ -111,6 +155,7 @@ class sql3Data():
         except Error:
             self.rollback()
             raise sqlError("Insert failed, data rollback performed.") from Error
+
 
 
     def keyExists(self, key):
@@ -147,7 +192,7 @@ class sql3Data():
             result = self.cursor.fetchall()
             return result
         except Error:
-            raise sqlError("fetchall failed, has the tables been created.") from Error
+            raise sqlError("fetchall failed, has the tables been created?") from Error
 
 
     def close(self):

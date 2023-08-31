@@ -21,6 +21,8 @@
 import sqlite3
 from sqlite3 import Error
 
+from src.classes.dataClasses import weatherValues
+
 
 class sql3Data():
 

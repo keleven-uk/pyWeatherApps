@@ -46,9 +46,10 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
         try:
             sql3DB.createTable()
             utils.logPrint(logger, verbose, "SQLite3 tables created successfully.", "info")
+            return
         except Exception as e:
             utils.logPrint(logger, verbose, f"{e}.", "info")
-            sys.exit(1)
+            return
 
     dataFiles = utils.listFiles(targetFiles, verbose)   #  Returns a list of excel spreadsheets
 

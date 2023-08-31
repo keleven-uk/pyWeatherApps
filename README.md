@@ -25,7 +25,7 @@ options:
   -c, --create    Creates the SQLite3 database and tables.
   -V, --Verbose   Verbose - print more detail.
 
- Kevin Scott (C) 2023 :: pyWeatherApp 2023.12
+ Kevin Scott (C) 2023 :: pyWeatherApp 2023.13
 
 
 For changes see history.txt

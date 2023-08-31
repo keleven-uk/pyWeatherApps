@@ -85,7 +85,7 @@ if __name__ == "__main__":
             try:
                 print(f"DB file name = {mainDB}")
                 utils.logPrint(logger, True, "Running build to SQLite", "info")
-                dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+                dataSQLBuild.build(mainDB, targetFiles, logger, verbose)
             except Exception as e:
                 utils.logPrint(logger, verbose, f"{e}.  Maybe run main.py -c", "warning")
         else:

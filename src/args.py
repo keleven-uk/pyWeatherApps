@@ -59,7 +59,7 @@ def parseArgs(appName, appVersion, logger):
     parser.add_argument("-e", "--explorer", action="store_true", help="Load program working directory into file explorer.")
     parser.add_argument("-b", "--build",    action="store_true", help="Build the data - consolidate the spreadsheets.")
     parser.add_argument("-r", "--report",   action="store_true", help="Report on the data - finds the highs and lows.")
-    parser.add_argument("-c", "--create",   action="store_true", help="Creates the SQLite3 database and tables.")
+    parser.add_argument("-c", "--create",   action="store_true", help="Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS]")
     parser.add_argument("-V", "--Verbose",  action="store_true", help="Verbose - print more detail.")
 
     args = parser.parse_args()
