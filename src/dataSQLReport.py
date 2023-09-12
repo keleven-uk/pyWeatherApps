@@ -1,8 +1,6 @@
 ###############################################################################################################
-#    pyDataXBuild   Copyright (C) <2023>  <Kevin Scott>                                                       #
-#    Scans a given directory for excel spreadsheets the contains weather data and for each                    #
-#    new data adds them to a main spreadsheet.                                                                #
-#                                                                                                             #
+#    sql3Report   Copyright (C) <2023>  <Kevin Scott>                                                         #
+#    stores the highs and low weather values.                                                                 #
 #                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
@@ -22,50 +20,49 @@
 
 import sys
 
-import src.classes.weatherData as WD
+import src.classes.sql3Data as DB
 import src.utils.dataUtils as utils
 
 from src.console import console
 
-def build(mainWB, targetFiles, logger, verbose):
-    """  Scans a given directory for excel spreadsheets the contains weather data and for
-         each new data adds them to a main spreadsheet.
+def report(mainDB, logger, verbose):
+    """  Scans a given sqlite2 database and produces a report on high and low values.
     """
 
-    dataFiles = utils.listFiles(targetFiles, verbose)   #  Returns a list of excel spreadsheets
+    utils.logPrint(logger, verbose, f"Reporting on :: {mainDB}", "info")
 
-    if dataFiles == []:
-        utils.logPrint(logger, True, "ERROR : no data files to build", "warning")
+    try:
+        sql3DB = DB.sql3Data(mainDB)
+    except Exception as e:
+        print(e)
         sys.exit(1)
 
-    mainData = WD.WeatherData(mainWB, screen=verbose)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
-    if mainData.countData() !=0:
-        utils.logPrint(logger, verbose, "Size of mainData : {mainData.countData()}", "info")
 
-    old_rows = 0
-    new_rows = 0
+    highLowValues = ("OutdoorTemperature", "OutdoorFeelsLike", "OutdoorDewPoint", "OutdoorHumidity",  "IndoorTemprature", "IndoorHumidity", "PressueRelative", "PressueAbsolute")
+    highValues = ("Solar", "UVI", "RainRate", "RainDaily", "RainEvent", "RainHourly", "RainWeekly", "WindSpeed", "WindGust")
 
-    with console.status("Building main..."):
-        for file in dataFiles:   #  Loop through excel spreadsheets
-            #console.log(file)
-            newData = WD.WeatherData(file, screen=False)
+    with console.status("Reporting..."):
+        for highLow in highLowValues:
 
-            for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
-                key, row = next(newData.nextRow())
+            print(f"Processing {highLow}")
 
-                if (key in mainData):
-                    old_rows += 1
-                else:
-                    new_rows += 1
-                    mainData.add(key, row)
+            sql3DB.execute(f"SELECT DateTime, MAX({highLow}) from DailyData")
 
-            newData = None
+            print(sql3DB.fetchone())
+
+            sql3DB.execute(f"SELECT DateTime, MIN({highLow}) from DailyData")
+
+            print(sql3DB.fetchone())
 
 
-    utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}", "info")
-    utils.logPrint(logger, True, f" New size of mainData : {mainData.countData()}", "info")
-    utils.logPrint(logger, True, f" Saving back to {mainWB}", "info")
+            for high in highValues:
+                print(f"Processing {high}")
 
-    mainData.saveData()
+                sql3DB.execute(f"SELECT DateTime, MAX({high}) from DailyData")
+
+                print(sql3DB.fetchone())
+
+
+
 
 

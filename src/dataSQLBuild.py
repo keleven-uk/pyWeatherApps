@@ -22,7 +22,7 @@
 
 import sys
 
-import src.weatherData as WD
+import src.classes.weatherData as WD
 import src.classes.sql3Data as DB
 import src.utils.dataUtils as utils
 
@@ -31,10 +31,10 @@ from src.console import console
 def build(mainDB, targetFiles, logger, verbose, create=False):
     """  Scans a given directory for excel spreadsheets the contains weather data and for
          each new data adds them to a main spreadsheet.
-         if create os not supplied, default to False.
+         if create is not supplied, default to False.
     """
 
-    print(f"Building SQL in :: {mainDB}")
+    utils.logPrint(logger, verbose, f"Building SQL in :: {mainDB}", "info")
 
     try:
         sql3DB = DB.sql3Data(mainDB)
@@ -58,10 +58,10 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
         sys.exit(1)
 
     #Fetching all row from the table
-    results = sql3DB.fetchall()
+    count = sql3DB.count()
 
-    if len(results) !=0:
-        utils.logPrint(logger, verbose, f"Size of mainData : {len(results)}", "info")
+    if count !=0:
+        utils.logPrint(logger, verbose, f"Size of mainData : {count}", "info")
 
     old_rows = 0
     new_rows = 0
@@ -102,10 +102,10 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
             newData = None
 
     #Fetching all row from the table
-    results = sql3DB.fetchall()
+    count = sql3DB.count()
 
     utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}", "info")
-    utils.logPrint(logger, True, f" New size of mainData : {len(results)}", "info")
+    utils.logPrint(logger, True, f" New size of mainData : {count}", "info")
 
 
 

@@ -35,6 +35,8 @@ import sys
 import textwrap
 import argparse
 
+from pathlib import Path
+
 import src.license as License
 import src.utils.dataUtils as utils
 
@@ -61,32 +63,45 @@ def parseArgs(appName, appVersion, logger):
     parser.add_argument("-r", "--report",   action="store_true", help="Report on the data - finds the highs and lows.")
     parser.add_argument("-c", "--create",   action="store_true", help="Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS]")
     parser.add_argument("-V", "--Verbose",  action="store_true", help="Verbose - print more detail.")
+    parser.add_argument("infile", nargs="?")
 
     args = parser.parse_args()
 
     if args.version:
-        if args.Verbose:
-            License.printLongLicense(appName, appVersion, logger)
-        else:
-            License.printShortLicense(appName, appVersion, logger)
-        logger.info(f"Running on {sys.version} Python")
-        logger.info(f"Running on {utils.sqlite3Version()} SQLite3")
-        logger.info(f"End of {appName} V{appVersion}: version")
+        License.printShortLicense(appName, appVersion, logger)
+        print("")
+        utils.logPrint(logger, args.Verbose, f"Running on {sys.version} Python", "info")
+        utils.logPrint(logger, args.Verbose, f"Running on {utils.sqlite3Version()} SQLite3", "info")
+        utils.logPrint(logger, args.Verbose, f"End of {appName} V{appVersion}: Printed version", "info")
+        utils.logPrint(logger, False, "-" * 100, "info")
         print("Goodbye.")
         sys.exit(0)
 
     if args.license:
         License.printLongLicense(appName, appVersion, logger)
         logger.info(f"End of {appName} V{appVersion} : Printed Licence")
+        utils.logPrint(logger, False, "-" * 100, "info")
         print("Goodbye.")
         sys.exit(0)
 
     if args.explorer:
-        utils.loadExplorer(logger)             # Load program working directory n file explorer.
+        utils.loadExplorer(logger)              # Load program working directory n file explorer.
         print("Goodbye.")
         sys.exit(0)
 
-    return(args.build, args.report, args.Verbose, args.create)
+    if args.report and args.infile is not None: #  If a filename is given, check it exists.
+
+        path = Path(args.infile)
+
+        if path.is_file():
+            print("File exists")
+        else:
+            utils.logPrint(logger, True, f"ERROR :: {args.infile} does not exist", "warning")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(2)
+
+    return(args.build, args.report, args.infile, args.Verbose, args.create)
 
 
 

@@ -22,8 +22,6 @@
 import sqlite3
 from sqlite3 import Error
 
-import src.classes.dataMapping as DM
-
 
 class sql3Data():
 
@@ -103,38 +101,39 @@ class sql3Data():
 
         sql = """CREATE TABLE HighLows(
                  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                 Category CHAR(30),
+                 Category CHAR(20),
                  High FLOAT,
                  Low FLOAT,
-                 DateTime CHAR(20)
+                 DateTime CHAR(20) DEFAULT CURRENT_TIMESTAMP
                  )"""
 
         self.execute(sql)
 
         sql = """INSERT INTO HighLows
-                 (Category, High, Low, DateTime)
-                 VALUES (?, ?, ?, ?)"""
+                 (Category, High, Low)
+                 VALUES (?, ?, ?)"""
 
-        self.execute(sql, "OUTDOOR_TEMPERATURE", 0, 100, datetime("now"))
-        self.execute(sql, "OUTDOOR_FEELS_LIKE",  0, 100, datetime("now"))
-        self.execute(sql, "OUTDOOR_DEW_POINT",   0, 100, datetime("now"))
-        self.execute(sql, "OUTDOOR_HUMIDITY",    0, 100, datetime("now"))
-        self.execute(sql, "INDOOR_TEMPERATURE",  0, 100, datetime("now"))
-        self.execute(sql, "INDOOR_HUMIDITY",     0, 100, datetime("now"))
-        self.execute(sql, "SOLAR",               0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "UVI",                 0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "RAIN_RATE",           0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "RAIN DAILY",          0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "RAIN_EVENT",          0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "RAIN_HOURLY",         0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "RAIN_WEEKLY",         0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "RAIN_MONTHLY",        0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "RAIN_YEARLY",         0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "WIND_SPEED",          0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "WIND_GUST",           0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "WIND_DIRECTION",      0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "PRESSURE_RELATIVE",   0, 100, datetime("now"))   #  low not used.
-        self.execute(sql, "PRESSURE_ABSOLUTE",   0, 100, datetime("now"))   #  low not used.
+        self.execute(sql, ("OUTDOOR_TEMPERATURE", 0, 100))
+        self.execute(sql, ("OUTDOOR_FEELS_LIKE",  0, 100))
+        self.execute(sql, ("OUTDOOR_DEW_POINT",   0, 100))
+        self.execute(sql, ("OUTDOOR_HUMIDITY",    0, 100))
+        self.execute(sql, ("INDOOR_TEMPERATURE",  0, 100))
+        self.execute(sql, ("INDOOR_HUMIDITY",     0, 100))
+        self.execute(sql, ("SOLAR",               0, 100))   #  low not used.
+        self.execute(sql, ("UVI",                 0, 100))   #  low not used.
+        self.execute(sql, ("RAIN_RATE",           0, 100))   #  low not used.
+        self.execute(sql, ("RAIN DAILY",          0, 100))   #  low not used.
+        self.execute(sql, ("RAIN_EVENT",          0, 100))   #  low not used.
+        self.execute(sql, ("RAIN_HOURLY",         0, 100))   #  low not used.
+        self.execute(sql, ("RAIN_WEEKLY",         0, 100))   #  low not used.
+        self.execute(sql, ("RAIN_MONTHLY",        0, 100))   #  low not used.
+        self.execute(sql, ("RAIN_YEARLY",         0, 100))   #  low not used.
+        self.execute(sql, ("WIND_SPEED",          0, 100))   #  low not used.
+        self.execute(sql, ("WIND_GUST",           0, 100))   #  low not used.
+        self.execute(sql, ("WIND_DIRECTION",      0, 100))   #  low not used.
+        self.execute(sql, ("PRESSURE_RELATIVE",   0, 100))
+        self.execute(sql, ("PRESSURE_ABSOLUTE",   0, 100))
+
 
     def insert(self, data):
         """  Insert data into a SQLite2 database.
@@ -184,13 +183,23 @@ class sql3Data():
         self.cnx.rollback()
 
 
-    def fetchall(self):
-        """  Performs a fetchall on the sqlite3database.
+    def fetchone(self):
+        """  Performs a fetchone on the sqlite3 database.
+        """
+        try:
+            result = self.cursor.fetchone()
+            return result
+        except Error:
+            raise sqlError("fetchone failed, has the tables been created?") from Error
+
+
+    def count(self):
+        """  Performs a fetchall on the sqlite3 database to return the size.
         """
         try:
             self.execute("SELECT * FROM DailyData ORDER BY DateTime")
             result = self.cursor.fetchall()
-            return result
+            return len(result)
         except Error:
             raise sqlError("fetchall failed, has the tables been created?") from Error
 

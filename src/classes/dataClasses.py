@@ -49,48 +49,48 @@ class weatherValues:
     PressureAbsolute   : float
 
     def __post_init__(self):
-        """  Checks if the data value is of type float, if not make it so (set to 200.0)
-             A large value is used [hopefully never reached], will check later if this is an inserted value.
+        """  Checks if the data value is of type numeric, if not make see it to None.
+             In SQL the min and max functions ignore None..
         """
-        if not isinstance(self.OutdoorTemperature, float):
-            self.OutdoorTemperature = 200.0
-        if not isinstance(self.OutdoorFeelsLike, float):
-            self.OutdoorFeelsLike = 200.0
-        if not isinstance(self.OutdoorDewPoint, float):
-            self.OutdoorDewPoint = 200.0
-        if not isinstance(self.OutdoorHumidity, float):
-            self.OutdoorHumidity = 200.0
-        if not isinstance(self.IndoorTemperature, float):
-            self.IndoorTemperature = 200.0
-        if not isinstance(self.IndoorHumidity, float):
-            self.IndoorHumidity = 200.0
-        if not isinstance(self.Solar, float):
-            self.Solar = 200.0
-        if not isinstance(self.UVI, float):
-            self.UVI = 200.0
-        if not isinstance(self.RainRate, float):
-            self.RainRate = 200.0
-        if not isinstance(self.RainDaily, float):
-            self.RainDaily = 200.0
-        if not isinstance(self.RainEvent, float):
-            self.RainEvent = 200.0
-        if not isinstance(self.RainHourly, float):
-            self.RainHourly = 200.0
-        if not isinstance(self.RainWeekly, float):
-            self.RainWeekly = 200.0
-        if not isinstance(self.RainMonthly, float):
-            self.RainWeekly = 200.0
-        if not isinstance(self.RainYearly, float):
-            self.RainYearly = 200.0
-        if not isinstance(self.WindSpeed, float):
-            self.WindSpeed = 200.0
-        if not isinstance(self.WindGust, float):
-            self.WindGust = 200.0
-        if not isinstance(self.WindDirection, float):
-            self.WindDirection = 200.0
-        if not isinstance(self.PressureRelative, float):
-            self.PressureRelative = 200.0
-        if not isinstance(self.PressureAbsolute, float):
-            self.PressureAbsolute = 200.0
+        if not isinstance(self.OutdoorTemperature, (int, float)):
+            self.OutdoorTemperature = None
+        if not isinstance(self.OutdoorFeelsLike, (int, float)):
+            self.OutdoorFeelsLike = None
+        if not isinstance(self.OutdoorDewPoint, (int, float)):
+            self.OutdoorDewPoint = None
+        if not isinstance(self.OutdoorHumidity, (int, float)):
+            self.OutdoorHumidity = None
+        if not isinstance(self.IndoorTemperature, (int, float)):
+            self.IndoorTemperature = None
+        if not isinstance(self.IndoorHumidity, (int, float)):
+            self.IndoorHumidity = None
+        if not isinstance(self.Solar, (int, float)):
+            self.Solar = None
+        if not isinstance(self.UVI, (int, float)):
+            self.UVI = None
+        if not isinstance(self.RainRate, (int, float)):
+            self.RainRate = None
+        if not isinstance(self.RainDaily, (int, float)):
+            self.RainDaily = None
+        if not isinstance(self.RainEvent, (int, float)):
+            self.RainEvent = None
+        if not isinstance(self.RainHourly, (int, float)):
+            self.RainHourly = None
+        if not isinstance(self.RainWeekly, (int, float)):
+            self.RainWeekly = None
+        if not isinstance(self.RainMonthly, (int, float)):
+            self.RainWeekly = None
+        if not isinstance(self.RainYearly, (int, float)):
+            self.RainYearly = None
+        if not isinstance(self.WindSpeed, (int, float)):
+            self.WindSpeed = None
+        if not isinstance(self.WindGust, (int, float)):
+            self.WindGust = None
+        if not isinstance(self.WindDirection, (int, float)):
+            self.WindDirection = None
+        if not isinstance(self.PressureRelative, (int, float)):
+            self.PressureRelative = None
+        if not isinstance(self.PressureAbsolute, (int, float)):
+            self.PressureAbsolute = None
 
 

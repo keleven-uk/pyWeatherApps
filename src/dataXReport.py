@@ -21,7 +21,7 @@
 
 import sys
 
-import src.weatherData as WD
+import src.classes.weatherData as WD
 import src.utils.dataUtils as utils
 
 from src.console import console

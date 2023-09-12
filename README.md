@@ -7,6 +7,7 @@
                     pyDataXBuild   - scans a number of excel files and merges into one file.
                     pyDataXeport   - scans the main file and finds the highs and lows.
                     pyDataSQLBuild - scans a number of excel files and merges into one SQLite3 database.
+                    pyDataSQLeport - scans the main SQL file and finds the highs and lows.
 
 
 usage: main.py [-h] [-l] [-v] [-e] [-b] [-r] [-c] [-V]
@@ -25,7 +26,7 @@ options:
   -c, --create    Creates the SQLite3 database and tables.
   -V, --Verbose   Verbose - print more detail.
 
- Kevin Scott (C) 2023 :: pyWeatherApp 2023.13
+ Kevin Scott (C) 2023 :: pyWeatherApp 2023.14
 
 
 For changes see history.txt

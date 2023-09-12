@@ -100,7 +100,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.13",
+        config["INFO"] = {"myVERSION" : "2023.14",
                           "myNAME"    : "pyWeatherApp"}
 
         config["DATA"] = {"directory" : "data",
@@ -117,7 +117,7 @@ class Config():
             configFile.write("#   Configure files for pyDataBuild.py \n")
             configFile.write("#\n")
             configFile.write("#   true and false are lower case \n")
-            configFile.write("#   location needs double \ i.e. c:\\tmp\\music - well, on windows any way. \n")
+            configFile.write("#   location needs double i.e. c:\\tmp\\music - well, on windows any way. \n")
             configFile.write("#\n")
             configFile.write("#   <2023> (c) Kevin Scott \n")
             configFile.write("\n")

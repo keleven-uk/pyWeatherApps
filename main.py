@@ -41,6 +41,7 @@ import src.license as License
 import src.dataXBuild as dataXBuild
 import src.dataXReport as dataXReport
 import src.dataSQLBuild as dataSQLBuild
+import src.dataSQLReport as dataSQLReport
 
 import src.utils.dataUtils as utils
 
@@ -55,7 +56,7 @@ if __name__ == "__main__":
     DB_TYPE     = Config.DB_TYPE
     targetFiles = Config.TARGET_FILES
 
-    build, report, verbose, create = args.parseArgs(Config.NAME, Config.VERSION, logger)
+    build, report, infile, verbose, create = args.parseArgs(Config.NAME, Config.VERSION, logger)
 
     timer = Timer.Timer()
     timer.Start()
@@ -92,8 +93,14 @@ if __name__ == "__main__":
             utils.logPrint(logger, verbose, "ERROR: Unkown DB type", "danger")
 
     if report:
-        utils.logPrint(logger, verbose, "Running report", "info")
-        dataXReport.report(mainWB, logger, verbose)
+        if DB_TYPE == "sqlite":
+            if infile is None:
+                mainDB = Config.MAIN_DB
+            else:
+                mainDB = infile
+            dataSQLReport.report(mainDB, logger, verbose)
+        else:
+            dataXReport.report(mainWB, logger, verbose)
 
 
 
@@ -102,5 +109,6 @@ if __name__ == "__main__":
     print("")
     utils.logPrint(logger, True, f"{Config.NAME} Completed :: {timeStop}", "info")
     utils.logPrint(logger, True, f"End of {Config.NAME} {Config.VERSION}", "info")
+    utils.logPrint(logger, False, "-" * 100, "info")
 
     sys.exit(0)

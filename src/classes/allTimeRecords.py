@@ -1,8 +1,7 @@
 ###############################################################################################################
-#    pyDataXBuild   Copyright (C) <2023>  <Kevin Scott>                                                       #
-#    Scans a given directory for excel spreadsheets the contains weather data and for each                    #
-#    new data adds them to a main spreadsheet.                                                                #
+#    allTimeRecords.py    Copyright (C) <2023>  <Kevin Scott>                                                 #
 #                                                                                                             #
+#    A class to hold the all time weather records.                                                            #
 #                                                                                                             #
 ###############################################################################################################
 #    Copyright (C) <2023>  <Kevin Scott>                                                                      #
@@ -20,52 +19,45 @@
 #                                                                                                             #
 ###############################################################################################################
 
-import sys
+from dataclasses import dataclass
 
-import src.classes.weatherData as WD
-import src.utils.dataUtils as utils
 
-from src.console import console
+@dataclass
+class weatherValues:
+    """  A class to hold the all time weather records.
 
-def build(mainWB, targetFiles, logger, verbose):
-    """  Scans a given directory for excel spreadsheets the contains weather data and for
-         each new data adds them to a main spreadsheet.
+         All values should be numeric when passed in.
     """
 
-    dataFiles = utils.listFiles(targetFiles, verbose)   #  Returns a list of excel spreadsheets
+    OutdoorTemperature_MAX : float
+    OutdoorTemperature_MIN : float
+    OutdoorFeelsLike_MAX   : float
+    OutdoorFeelsLike_MIN   : float
+    OutdoorDewPoint_MAX    : float
+    OutdoorDewPoint_MIN    : float
+    OutdoorHumidity_MAX    : float
+    OutdoorHumidity_MIN    : float
+    IndoorTemperature_MAX  : float
+    IndoorTemperature_MIN  : float
+    IndoorHumidity_MAX     : float
+    IndoorHumidity_MIN     : float
+    Solar_MAX              : float
+    UVI_MAX                : float
+    RainRate_MAX           : float
+    RainDaily_MAX          : float
+    RainEvent_MAX          : float
+    RainHourly_MAX         : float
+    RainWeekly_MAX         : float
+    RainMonthly_MAX        : float
+    RainYearly_MAX         : float
+    WindSpeed_MAX          : float
+    WindGust_AMX           : float
+    WindDirection_MAX      : float
+    PressureRelative_MAX   : float
+    PressureRelative_MIN   : float
+    PressureAbsolute_MAX   : float
+    PressureAbsolute_MIN   : float
 
-    if dataFiles == []:
-        utils.logPrint(logger, True, "ERROR : no data files to build", "warning")
-        sys.exit(1)
 
-    mainData = WD.WeatherData(mainWB, screen=verbose)    #  Load the main spreadsheet - this is the running aggregate of weather data.git status
-    if mainData.countData() !=0:
-        utils.logPrint(logger, verbose, "Size of mainData : {mainData.countData()}", "info")
-
-    old_rows = 0
-    new_rows = 0
-
-    with console.status("Building main..."):
-        for file in dataFiles:   #  Loop through excel spreadsheets
-            #console.log(file)
-            newData = WD.WeatherData(file, screen=False)
-
-            for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
-                key, row = next(newData.nextRow())
-
-                if (key in mainData):
-                    old_rows += 1
-                else:
-                    new_rows += 1
-                    mainData.add(key, row)
-
-            newData = None
-
-
-    utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}", "info")
-    utils.logPrint(logger, True, f" New size of mainData : {mainData.countData()}", "info")
-    utils.logPrint(logger, True, f" Saving back to {mainWB}", "info")
-
-    mainData.saveData()
 
 

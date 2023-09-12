@@ -21,19 +21,34 @@
 ###############################################################################################################
 
 
-V23.23
+V23.14  [12 September 2023]
 
-    sql3Data.py - Added a second table to store the high and lows for the month.
-                  Added an index column [integer on autoincrement] to each table.
+    Moved classes\sql3Report.py to src.
+    Moved src\weatherDatapy to classes.
+    args.py          - args.Version now uses utils.logPrint().
+                       args.report can now have a second argument, a filename to report on.
+    sql3Report.py    - Start of the reporting process.  Contains initial log to scan the months database.
+    sql3Data.py      - The highLows table no longer stores the date.
+                       The fetchall() was renamed to count() - that's what it did.
+                       A fetchone() was added.
+    allTimeRecors.py - A class to hold the all time high and lows.
+    dataClasses.py   - The __post_init__ now checks values are numeric and not just floats.
+                           Some values where being passed in as ints.
+
+
+V23.13
+
+    sql3Data.py     - Added a second table to store the high and lows for the month.
+                      Added an index column [integer on autoincrement] to each table.
     dataSQLBuild.py - Amended so that the create mode returns after calling create
 
 
 V23.12
 
-    agrs.py - Added an extra command line argument -c, this creates the sql tables.
-              Use this at start to initialise a new database [or to clear the database].
-    main.py - The sql build is now called from a try exception block.  Catches no tables error [see above].
-              Sql version printed in verbose mode if build in sql.
+    agrs.py      - Added an extra command line argument -c, this creates the sql tables.
+                   Use this at start to initialise a new database [or to clear the database].
+    main.py      - The sql build is now called from a try exception block.  Catches no tables error [see above].
+                   Sql version printed in verbose mode if build in sql.
     dataUtils.py - added function to return slq version.
     sql3Data.py  - Added try exception block to fetchall function.
     sqlReport.py - New file, will report on highs and lows in sql mode.
