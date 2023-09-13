@@ -20,6 +20,19 @@
 #                                                                                                             #
 ###############################################################################################################
 
+V23.15  [13 September 2024]
+
+    Changed the way the app looks for data files.  The data files are stored in month directories with a year directory.
+    I now store the year and month separately, and build the filename for there - this can then be supplied via command line.
+    This should allow the app the run a script and batch build several months at once.
+    config - changed the DATA options from directory, mainWB, mainDB and target to
+                 data_dir, rec_dir, month, year and target.
+                 Changed to config.toml and config.py.
+    args.py - Added option -C to print out the current config values.
+              Added options -m & -y to pass in the month and year of the data.
+    dataUtils.py - added functions printConfig() and buildFileNames()
+    monthlyRecords.py & allTimeRecords.py - class to store highLows - to be used.
+
 
 V23.14  [12 September 2023]
 

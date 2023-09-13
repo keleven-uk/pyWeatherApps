@@ -69,14 +69,13 @@ def listFiles(targetFiles, verbose):
 
     return(dataFiles)
 
-
 ############################################################################################### maxMin() ######
 def maxMin(recordValue, newValue, recordDate, newDate, mode):
     """  Checks to see if a newValue is greater of less then the recordValue.
          Returns the new record values with the corresponding date.
     """
     if mode == "MAX":
-        if newValue == 200.0:                 #  An inserted value, so ignore.
+        if newValue == None:                 #  An inserted value, so ignore.
             return recordValue, recordDate
         elif newValue > recordValue:
             return newValue, newDate
@@ -88,6 +87,30 @@ def maxMin(recordValue, newValue, recordDate, newDate, mode):
             return newValue, newDate
         else:
             return recordValue, recordDate
+
+############################################################################################ printConfig() ######
+def printConfig(logger, name, version, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE):
+    """  Prints out a list of the current config values.
+    """
+    logPrint(logger, True, "List of Config Values", "info")
+    logPrint(logger, True, f"App Name            :: {name}",    "info")
+    logPrint(logger, True, f"Current Version     :: {version}", "info")
+    logPrint(logger, True, f"Location of main WB :: {mainWB}", "info")
+    logPrint(logger, True, f"Location of main DB :: {mainDB}", "info")
+    logPrint(logger, True, f"Location of records :: {recordFiles}", "info")
+    logPrint(logger, True, f"Location of target  :: {targetFiles}", "info")
+    logPrint(logger, True, f"Current data type   :: {DB_TYPE}", "info")
+
+########################################################################################### buildFileName() ######
+def buildFileNames(month, year, target):
+    """  Builds a new set on config values from arguments supplied at the command line.
+    """
+    mainWB = f"data\\{month}{year}.xlsx"
+    mainDB = f"data\\{month}{year}.sql"
+    recordFiles = f"records\\{month}{year}.pickle"
+    targetFiles = f"data\\{year}\\{month}\\{target}"
+
+    return mainWB, mainDB, recordFiles, targetFiles
 
 
 

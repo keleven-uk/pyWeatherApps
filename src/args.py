@@ -41,7 +41,7 @@ import src.license as License
 import src.utils.dataUtils as utils
 
 ############################################################################################## parseArgs ######
-def parseArgs(appName, appVersion, logger):
+def parseArgs(Config, logger):
     """  Process the command line arguments.
 
          Checks the arguments and will exit if not valid.
@@ -54,15 +54,18 @@ def parseArgs(appName, appVersion, logger):
         Builds a main data store out of individual weather data spreadsheets.
         The data store can be either an Excel spreadsheet or a SQLite3 database.
         The type of data store is specified in config.toml."""),
-        epilog=f" Kevin Scott (C) 2023 :: {appName} {appVersion}")
+        epilog=f" Kevin Scott (C) 2023 :: {Config.NAME} V{Config.VERSION}")
 
     parser.add_argument("-l", "--license",  action="store_true", help="Print the Software License.")
     parser.add_argument("-v", "--version",  action="store_true", help="Print the version of the application.")
     parser.add_argument("-e", "--explorer", action="store_true", help="Load program working directory into file explorer.")
     parser.add_argument("-b", "--build",    action="store_true", help="Build the data - consolidate the spreadsheets.")
     parser.add_argument("-r", "--report",   action="store_true", help="Report on the data - finds the highs and lows.")
-    parser.add_argument("-c", "--create",   action="store_true", help="Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS]")
+    parser.add_argument("-c", "--create",   action="store_true", help="Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS].")
     parser.add_argument("-V", "--Verbose",  action="store_true", help="Verbose - print more detail.")
+    parser.add_argument("-C", "--Config",   action="store_true", help="Print out the config values.")
+    parser.add_argument("-m", "--month",    action="store", type=str, help="Month of data files.")
+    parser.add_argument("-y", "--year",     action="store", type=str, help="Year of data files.")
     parser.add_argument("infile", nargs="?")
 
     args = parser.parse_args()
@@ -72,7 +75,7 @@ def parseArgs(appName, appVersion, logger):
         print("")
         utils.logPrint(logger, args.Verbose, f"Running on {sys.version} Python", "info")
         utils.logPrint(logger, args.Verbose, f"Running on {utils.sqlite3Version()} SQLite3", "info")
-        utils.logPrint(logger, args.Verbose, f"End of {appName} V{appVersion}: Printed version", "info")
+        utils.logPrint(logger, args.Verbose, f"End of {Config.NAME} V{Config.VERSION}: Printed version", "info")
         utils.logPrint(logger, False, "-" * 100, "info")
         print("Goodbye.")
         sys.exit(0)
@@ -101,7 +104,10 @@ def parseArgs(appName, appVersion, logger):
             print("Goodbye.")
             sys.exit(2)
 
-    return(args.build, args.report, args.infile, args.Verbose, args.create)
+    return(args.build, args.report, args.infile, args.Verbose, args.create, args.Config, args.month, args.year)
+
+
+
 
 
 

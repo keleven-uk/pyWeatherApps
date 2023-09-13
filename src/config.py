@@ -70,21 +70,39 @@ class Config():
 
     @property
     def MAIN_WB(self):
-        location  = self.config["DATA"]["directory"]
-        filename  = self.config["DATA"]["mainWB"]
+        location  = self.config["DATA"]["data_dir"]
+        filename  = self.config["DATA"]["month"]
+        year      = self.config["DATA"]["year"]
         extension = "xlsx"
-        return f"{location}\\{filename}.{extension}"
+        return f"{location}\\{filename}{year}.{extension}"
 
     @property
     def MAIN_DB(self):
-        location  = self.config["DATA"]["directory"]
-        filename  = self.config["DATA"]["mainDB"]
+        location  = self.config["DATA"]["data_dir"]
+        filename  = self.config["DATA"]["month"]
+        year      = self.config["DATA"]["year"]
         extension = "sql"
-        return f"{location}\\{filename}.{extension}"
+        return f"{location}\\{filename}{year}.{extension}"
+
+    @property
+    def RECORD_FILES(self):
+        location  = self.config["DATA"]["rec_dir"]
+        filename  = self.config["DATA"]["month"]
+        year      = self.config["DATA"]["year"]
+        extension = "pickle"
+        return f"{location}\\{filename}{year}.{extension}"
 
     @property
     def TARGET_FILES(self):
-        target = self.config["DATA"]["target"]
+        location = self.config["DATA"]["data_dir"]
+        month    = self.config["DATA"]["month"]
+        year     = self.config["DATA"]["year"]
+        target   = self.config["DATA"]["target"]
+        return f"{location}\\{year}\\{month}\\{target}"
+
+    @property
+    def TARGET(self):
+        target   = self.config["DATA"]["target"]
         return f"{target}"
 
     @property
@@ -100,13 +118,14 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.14",
+        config["INFO"] = {"myVERSION" : "2023.15",
                           "myNAME"    : "pyWeatherApp"}
 
-        config["DATA"] = {"directory" : "data",
-                           "mainWB"   : "July2023",
-                           "mainDB"   : "July2023",
-                           "target"   : "data//2023//July//all*.xlsx"}
+        config["DATA"] = {"data_dir" : "data",
+                          "rec_dir"  : "records",
+                          "month"    : "September",
+                          "year"     : "2023",
+                          "target"   : "all*.xlsx"}
 
         config["DB"]   = {"type"      : "sqlite"}              #  either "sqlite" OR "excel"
 
@@ -117,7 +136,6 @@ class Config():
             configFile.write("#   Configure files for pyDataBuild.py \n")
             configFile.write("#\n")
             configFile.write("#   true and false are lower case \n")
-            configFile.write("#   location needs double i.e. c:\\tmp\\music - well, on windows any way. \n")
             configFile.write("#\n")
             configFile.write("#   <2023> (c) Kevin Scott \n")
             configFile.write("\n")

@@ -21,6 +21,9 @@
 import sys
 
 import src.classes.sql3Data as DB
+import src.classes.monthlyRecords as monthly
+import src.classes.allTimeRecords as allTime
+
 import src.utils.dataUtils as utils
 
 from src.console import console
@@ -28,6 +31,9 @@ from src.console import console
 def report(mainDB, logger, verbose):
     """  Scans a given sqlite2 database and produces a report on high and low values.
     """
+
+    monthlyRecords = monthly.monthlyRecords(mainDB)
+    allTimeRecords = allTime.allTimeRecords()
 
     utils.logPrint(logger, verbose, f"Reporting on :: {mainDB}", "info")
 
@@ -38,8 +44,10 @@ def report(mainDB, logger, verbose):
         sys.exit(1)
 
 
-    highLowValues = ("OutdoorTemperature", "OutdoorFeelsLike", "OutdoorDewPoint", "OutdoorHumidity",  "IndoorTemprature", "IndoorHumidity", "PressueRelative", "PressueAbsolute")
-    highValues = ("Solar", "UVI", "RainRate", "RainDaily", "RainEvent", "RainHourly", "RainWeekly", "WindSpeed", "WindGust")
+    # highLowValues = ("OutdoorTemperature", "OutdoorFeelsLike", "OutdoorDewPoint", "OutdoorHumidity",  "IndoorTemprature", "IndoorHumidity", "PressueRelative", "PressueAbsolute")
+    # highValues = ("Solar", "UVI", "RainRate", "RainDaily", "RainEvent", "RainHourly", "RainWeekly", "WindSpeed", "WindGust")
+
+    highLowValues = ("OutdoorTemperature",)
 
     with console.status("Reporting..."):
         for highLow in highLowValues:
@@ -48,19 +56,28 @@ def report(mainDB, logger, verbose):
 
             sql3DB.execute(f"SELECT DateTime, MAX({highLow}) from DailyData")
 
-            print(sql3DB.fetchone())
+            value    = sql3DB.fetchone()
+            dt_value = value[0]
+            mx_value = value[1]
+            print(f"date = {dt_value}  max value = {mx_value}")
 
             sql3DB.execute(f"SELECT DateTime, MIN({highLow}) from DailyData")
 
-            print(sql3DB.fetchone())
+            value    = sql3DB.fetchone()
+            dt_value = value[0]
+            mn_value = value[1]
+            print(f"date = {dt_value}  max value = {mn_value}")
+
+            #
+            # for high in highValues:
+            #     print(f"Processing {high}")
+            #
+            #     sql3DB.execute(f"SELECT DateTime, MAX({high}) from DailyData")
+            #
+            #     print(sql3DB.fetchone())
 
 
-            for high in highValues:
-                print(f"Processing {high}")
-
-                sql3DB.execute(f"SELECT DateTime, MAX({high}) from DailyData")
-
-                print(sql3DB.fetchone())
+    monthlyRecords.save()
 
 
 

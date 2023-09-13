@@ -45,6 +45,7 @@ import src.dataSQLReport as dataSQLReport
 
 import src.utils.dataUtils as utils
 
+
 if __name__ == "__main__":
 
     Config = Config.Config()  # Need to do this first.
@@ -54,14 +55,22 @@ if __name__ == "__main__":
     mainWB      = Config.MAIN_WB
     mainDB      = Config.MAIN_DB
     DB_TYPE     = Config.DB_TYPE
+    recordFiles = Config.RECORD_FILES
     targetFiles = Config.TARGET_FILES
 
-    build, report, infile, verbose, create = args.parseArgs(Config.NAME, Config.VERSION, logger)
+    build, report, infile, verbose, create, config, month, year = args.parseArgs(Config, logger)
 
     timer = Timer.Timer()
     timer.Start()
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
+
+    if month and year:
+        mainWB, mainDB, recordFiles, targetFiles = utils.buildFileNames(month, year, Config.TARGET)
+
+    if config:
+        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE)
+        sys.exit(0)
 
     utils.logPrint(logger, False, "-" * 100, "info")
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
