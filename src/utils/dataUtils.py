@@ -75,7 +75,7 @@ def maxMin(recordValue, newValue, recordDate, newDate, mode):
          Returns the new record values with the corresponding date.
     """
     if mode == "MAX":
-        if newValue == None:                 #  An inserted value, so ignore.
+        if newValue is None:                 #  An inserted value, so ignore.
             return recordValue, recordDate
         elif newValue > recordValue:
             return newValue, newDate
@@ -102,13 +102,13 @@ def printConfig(logger, name, version, mainWB, mainDB, recordFiles, targetFiles,
     logPrint(logger, True, f"Current data type   :: {DB_TYPE}", "info")
 
 ########################################################################################### buildFileName() ######
-def buildFileNames(month, year, target):
+def buildFileNames(data_dir, rec_dir, db_dir, month, year, target):
     """  Builds a new set on config values from arguments supplied at the command line.
     """
-    mainWB = f"data\\{month}{year}.xlsx"
-    mainDB = f"data\\{month}{year}.sql"
-    recordFiles = f"records\\{month}{year}.pickle"
-    targetFiles = f"data\\{year}\\{month}\\{target}"
+    mainWB = f"{data_dir}\\{db_dir}\\{month}{year}.xlsx"
+    mainDB = f"{data_dir}\\{db_dir}\\{month}{year}.sql"
+    recordFiles = f"{data_dir}\\{rec_dir}\\{month}{year}.pickle"
+    targetFiles = f"{data_dir}\\{year}\\{month}\\{target}"
 
     return mainWB, mainDB, recordFiles, targetFiles
 

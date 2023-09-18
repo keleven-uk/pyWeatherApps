@@ -20,6 +20,17 @@
 #                                                                                                             #
 ###############################################################################################################
 
+
+
+V23.16  [18 September 2023]
+
+    Build.bat - A new file, a simple bat file to create, build or report on files across a range or months and years.
+    config.py - Added a new property - the location of the record files, YEAR_RECORD_FILES.
+                Added a new property - the locations DATA_DIR, REC_DIR and DB_DIR.
+    monthlyRecords.py - Stores all the high and lows for the month - now working.
+    allTimeRecords.py - Stores all the absolute high and lows - now working.
+
+
 V23.15  [13 September 2024]
 
     Changed the way the app looks for data files.  The data files are stored in month directories with a year directory.

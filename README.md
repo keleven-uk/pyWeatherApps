@@ -35,5 +35,6 @@ options:
  Kevin Scott (C) 2023 :: pyWeatherApp V2023.15
 
 
+To install dependencies pip -r requirements.txt
 
 For changes see history.txt

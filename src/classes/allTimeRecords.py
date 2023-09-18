@@ -19,6 +19,8 @@
 #                                                                                                             #
 ###############################################################################################################
 
+import pickle
+import pathlib
 
 class allTimeRecords:
     """  A class to hold the all time weather records.
@@ -26,7 +28,45 @@ class allTimeRecords:
          All values should be numeric when passed in.
     """
 
+    def __init__(self, yearRecordFiles):
+        self.yearRecords     = {}
+        self.yearRecordFiles = pathlib.Path(yearRecordFiles)
 
+
+    def add(self, cat, value, dt_value):
+        """  Adds a new entry if not already present and the value is greater then already present.
+               If the new value is equal to the stored values, it is ignored.
+               So, only the first instance is stored. [is this correct?]
+
+             The key is the category and the data is a tuple of the date and value.
+
+             The categories can be found on the calling script - dataSQLreport.py
+        """
+        if cat not in self.yearRecords:
+            self.yearRecords[cat] = (dt_value, value)
+        else:
+            data = self.yearRecords[cat]
+            if value > data[1]:
+                 self.yearRecords[cat] = (dt_value, value)
+
+
+
+    def load(self):
+        """  Load the monthly records  in pickle format.
+        """
+        try:
+            with open(self.yearRecordFiles, "rb") as pickle_file:
+                self.yearRecords = pickle.load(pickle_file)
+        except FileNotFoundError:
+            print(f"ERROR :: Cannot find library file. {self.recordFiles}.  Will use an empty library")
+            self.yearRecords = {}
+
+
+    def save(self):
+        """  Save the monthly records in pickle format.
+        """
+        with open(self.yearRecordFiles, "wb") as pickle_file:
+            pickle.dump(self.yearRecords, pickle_file)
 
 
 

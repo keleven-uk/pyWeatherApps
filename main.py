@@ -52,11 +52,12 @@ if __name__ == "__main__":
     LGpath = "logs\\" +Config.NAME +".log"
     logger = Logger.get_logger(LGpath)                        # Create the logger.
 
-    mainWB      = Config.MAIN_WB
-    mainDB      = Config.MAIN_DB
-    DB_TYPE     = Config.DB_TYPE
-    recordFiles = Config.RECORD_FILES
-    targetFiles = Config.TARGET_FILES
+    mainWB          = Config.MAIN_WB
+    mainDB          = Config.MAIN_DB
+    DB_TYPE         = Config.DB_TYPE
+    recordFiles     = Config.RECORD_FILES
+    targetFiles     = Config.TARGET_FILES
+    yearRecordFiles = Config.YEAR_RECORD_FILES
 
     build, report, infile, verbose, create, config, month, year = args.parseArgs(Config, logger)
 
@@ -65,15 +66,19 @@ if __name__ == "__main__":
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
+    utils.logPrint(logger, False, "-" * 100, "info")
+    utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
+
+    if not config and not build and not report:
+        utils.logPrint(logger, True, "No mode given, please state either config, build or report - main.py -h for help", "warning")
+
     if month and year:
-        mainWB, mainDB, recordFiles, targetFiles = utils.buildFileNames(month, year, Config.TARGET)
+        mainWB, mainDB, recordFiles, targetFiles = utils.buildFileNames(Config.DATA_DIR, Config.REC_DIR, Config.DB_DIR, month, year, Config.TARGET)
 
     if config:
         utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE)
         sys.exit(0)
 
-    utils.logPrint(logger, False, "-" * 100, "info")
-    utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
     if DB_TYPE == "sqlite":
         utils.logPrint(logger, verbose, f"Running on {sys.version} Python", "info")
         utils.logPrint(logger, verbose, f"Running on {utils.sqlite3Version()} SQLite3", "info")
@@ -107,7 +112,8 @@ if __name__ == "__main__":
                 mainDB = Config.MAIN_DB
             else:
                 mainDB = infile
-            dataSQLReport.report(mainDB, logger, verbose)
+            utils.logPrint(logger, True, f"Running report on SQLite3 database - {mainDB}", "info")
+            dataSQLReport.report(mainDB, recordFiles, yearRecordFiles, logger, verbose)
         else:
             dataXReport.report(mainWB, logger, verbose)
 

@@ -71,7 +71,7 @@ def parseArgs(Config, logger):
     args = parser.parse_args()
 
     if args.version:
-        License.printShortLicense(appName, appVersion, logger)
+        License.printShortLicense(Config.NAME, Config.VERSION, logger)
         print("")
         utils.logPrint(logger, args.Verbose, f"Running on {sys.version} Python", "info")
         utils.logPrint(logger, args.Verbose, f"Running on {utils.sqlite3Version()} SQLite3", "info")
@@ -81,8 +81,8 @@ def parseArgs(Config, logger):
         sys.exit(0)
 
     if args.license:
-        License.printLongLicense(appName, appVersion, logger)
-        logger.info(f"End of {appName} V{appVersion} : Printed Licence")
+        License.printLongLicense(Config.NAME, Config.VERSION, logger)
+        logger.info(f"End of {Config.NAME} V{Config.VERSION} : Printed Licence")
         utils.logPrint(logger, False, "-" * 100, "info")
         print("Goodbye.")
         sys.exit(0)

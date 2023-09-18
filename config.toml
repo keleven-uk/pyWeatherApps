@@ -10,6 +10,7 @@ myNAME    = "pyWeatherApp"
 
 [DATA]
 data_dir = "data"
+db_dir   = "db"
 rec_dir  = "records"
 month    = "September"
 year     = "2023"

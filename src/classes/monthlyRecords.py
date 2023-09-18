@@ -20,6 +20,7 @@
 ###############################################################################################################
 
 import pickle
+import pathlib
 
 class monthlyRecords:
     """  A class to hold the monthly weather records.
@@ -27,28 +28,37 @@ class monthlyRecords:
          All values should be numeric when passed in.
     """
 
-    def __init__(self, DBfilename):
+    def __init__(self, recordFiles):
         self.monthlyRecords = {}
-        self.DBfilename = f"{DBfilename[0:-4]}.pickle"
-        print(self.DBfilename)
+        self.recordFiles = pathlib.Path(recordFiles)
         self.load()
+
+
+    def add(self, category, value, dt_value):
+        """  Adds a new entry if not already present.
+             The key is the category and the data is a tuple of the date and value.
+
+             The categories can be found on the calling script - dataSQLreport.py
+        """
+        if category not in self.monthlyRecords:
+            self.monthlyRecords[category] = (dt_value, value)
 
 
     def load(self):
         """  Load the monthly records  in pickle format.
         """
         try:
-            with open(self.DBfilename, "rb") as pickle_file:
+            with open(self.recordFiles, "rb") as pickle_file:
                 self.monthlyRecords = pickle.load(pickle_file)
         except FileNotFoundError:
-            print(f"ERROR :: Cannot find library file. {self.DBfilename}.  Will use an empty library")
+            print(f"ERROR :: Cannot find library file. {self.recordFiles}.  Will use an empty library")
             self.monthlyRecords = {}
 
 
     def save(self):
         """  Save the monthly records in pickle format.
         """
-        with open(self.DBfilename, "wb") as pickle_file:
+        with open(self.recordFiles, "wb") as pickle_file:
             pickle.dump(self.monthlyRecords, pickle_file)
 
 

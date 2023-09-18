@@ -70,40 +70,78 @@ class Config():
 
     @property
     def MAIN_WB(self):
-        location  = self.config["DATA"]["data_dir"]
-        filename  = self.config["DATA"]["month"]
+        """  return should be like - data\\db\\July2013.xlsx
+        """
+        data_dir  = self.config["DATA"]["data_dir"]
+        db_dir    = self.config["DATA"]["db_dir"]
+        month     = self.config["DATA"]["month"]
         year      = self.config["DATA"]["year"]
         extension = "xlsx"
-        return f"{location}\\{filename}{year}.{extension}"
+        return f"{data_dir}\\{db_dir}\\{month}{year}.{extension}"
 
     @property
     def MAIN_DB(self):
-        location  = self.config["DATA"]["data_dir"]
-        filename  = self.config["DATA"]["month"]
+        """  return should be like - data\\db\\July2013.sql
+        """
+        data_dir  = self.config["DATA"]["data_dir"]
+        db_dir    = self.config["DATA"]["db_dir"]
+        month     = self.config["DATA"]["month"]
         year      = self.config["DATA"]["year"]
         extension = "sql"
-        return f"{location}\\{filename}{year}.{extension}"
+        return f"{data_dir}\\{db_dir}\\{month}{year}.{extension}"
 
     @property
     def RECORD_FILES(self):
-        location  = self.config["DATA"]["rec_dir"]
+        """  return should be like - records\\July2013.pickle
+        """
+        data_dir  = self.config["DATA"]["data_dir"]
+        rec_dir   = self.config["DATA"]["rec_dir"]
         filename  = self.config["DATA"]["month"]
         year      = self.config["DATA"]["year"]
         extension = "pickle"
-        return f"{location}\\{filename}{year}.{extension}"
+        return f"{data_dir}\\{rec_dir}\\{filename}{year}.{extension}"
+
+    @property
+    def YEAR_RECORD_FILES(self):
+        """  return should be like - records\\July2013.pickle
+        """
+        data_dir  = self.config["DATA"]["data_dir"]
+        rec_dir   = self.config["DATA"]["rec_dir"]
+        year      = self.config["DATA"]["year"]
+        extension = "pickle"
+        return f"{data_dir}\\{rec_dir}\\{year}.{extension}"
 
     @property
     def TARGET_FILES(self):
-        location = self.config["DATA"]["data_dir"]
+        """  return should be like - data\\July2003\\July2013\\all*.xlsx
+        """
+        data_dir = self.config["DATA"]["data_dir"]
         month    = self.config["DATA"]["month"]
         year     = self.config["DATA"]["year"]
         target   = self.config["DATA"]["target"]
-        return f"{location}\\{year}\\{month}\\{target}"
+        return f"{data_dir}\\{year}\\{month}\\{target}"
 
     @property
     def TARGET(self):
+        """  return should be like - all*.xlsx
+        """
         target   = self.config["DATA"]["target"]
         return f"{target}"
+
+    @property
+    def DATA_DIR(self):
+        data_dir = self.config["DATA"]["data_dir"]
+        return f"{data_dir}"
+
+    @property
+    def REC_DIR(self):
+        rec_dir = self.config["DATA"]["rec_dir"]
+        return f"{rec_dir}"
+
+    @property
+    def DB_DIR(self):
+        db_dir = self.config["DATA"]["db_dir"]
+        return f"{db_dir}"
 
     @property
     def DB_TYPE(self):
