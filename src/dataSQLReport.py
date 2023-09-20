@@ -28,7 +28,7 @@ import src.utils.dataUtils as utils
 
 from src.console import console
 
-def report(mainDB, recordFiles, yearRecordFiles, logger, verbose):
+def report(mainDB, recordFiles, yearRecordFiles, month, year, logger, verbose):
     """  Scans a given sqlite2 database and produces a report on high and low values.
     """
 
@@ -85,6 +85,8 @@ def report(mainDB, recordFiles, yearRecordFiles, logger, verbose):
 
     monthlyRecords.save()
     allTimeRecords.save()
+
+    monthlyRecords.show(month, year)
 
 
 

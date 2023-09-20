@@ -89,7 +89,7 @@ def maxMin(recordValue, newValue, recordDate, newDate, mode):
             return recordValue, recordDate
 
 ############################################################################################ printConfig() ######
-def printConfig(logger, name, version, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE):
+def printConfig(logger, name, version, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE, month, year):
     """  Prints out a list of the current config values.
     """
     logPrint(logger, True, "List of Config Values", "info")
@@ -100,6 +100,8 @@ def printConfig(logger, name, version, mainWB, mainDB, recordFiles, targetFiles,
     logPrint(logger, True, f"Location of records :: {recordFiles}", "info")
     logPrint(logger, True, f"Location of target  :: {targetFiles}", "info")
     logPrint(logger, True, f"Current data type   :: {DB_TYPE}", "info")
+    logPrint(logger, True, f"Current year        :: {month}", "info")
+    logPrint(logger, True, f"Current month       :: {year}", "info")
 
 ########################################################################################### buildFileName() ######
 def buildFileNames(data_dir, rec_dir, db_dir, month, year, target):

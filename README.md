@@ -20,19 +20,19 @@ positional arguments:
   infile
 
 options:
-  -h, --help               show this help message and exit
-  -l, --license            Print the Software License.
-  -v, --version            Print the version of the application.
-  -e, --explorer           Load program working directory into file explorer.
-  -b, --build              Build the data - consolidate the spreadsheets.
-  -r, --report             Report on the data - finds the highs and lows.
-  -c, --create             Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS].
-  -V, --Verbose            Verbose - print more detail.
-  -C, --Config             Print out the config values.
-  -m MONTH, --month MONTH  Month of data files.
-  -y YEAR, --year YEAR     Year of data files.
+  -h, --help              show this help message and exit
+  -l, --license           Print the Software License.
+  -v, --version           Print the version of the application.
+  -e, --explorer          Load program working directory into file explorer.
+  -b, --build             Build the data - consolidate the spreadsheets.
+  -r, --report            Report on the data - finds the highs and lows.
+  -c, --create            Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS].
+  -V, --Verbose           Verbose - print more detail.
+  -C, --Config            Print out the config values.
+  -m MONTH, --month MONTH Month of data files.
+  -y YEAR, --year YEAR    Year of data files.
 
- Kevin Scott (C) 2023 :: pyWeatherApp V2023.15
+ Kevin Scott (C) 2023 :: pyWeatherApp V2023.17
 
 
 To install dependencies pip -r requirements.txt

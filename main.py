@@ -72,11 +72,16 @@ if __name__ == "__main__":
     if not config and not build and not report:
         utils.logPrint(logger, True, "No mode given, please state either config, build or report - main.py -h for help", "warning")
 
+    #  If month and year are supplied from the command line use them, if not use from config file.
     if month and year:
         mainWB, mainDB, recordFiles, targetFiles = utils.buildFileNames(Config.DATA_DIR, Config.REC_DIR, Config.DB_DIR, month, year, Config.TARGET)
+    else:
+        month = Config.MONTH
+        year  = Config.YEAR
 
+    print(f"month = {month}  year = {year}  mainDB = {mainDB}  recordFiles = {recordFiles}")
     if config:
-        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE)
+        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE, month, year)
         sys.exit(0)
 
     if DB_TYPE == "sqlite":
@@ -108,12 +113,8 @@ if __name__ == "__main__":
 
     if report:
         if DB_TYPE == "sqlite":
-            if infile is None:
-                mainDB = Config.MAIN_DB
-            else:
-                mainDB = infile
             utils.logPrint(logger, True, f"Running report on SQLite3 database - {mainDB}", "info")
-            dataSQLReport.report(mainDB, recordFiles, yearRecordFiles, logger, verbose)
+            dataSQLReport.report(mainDB, recordFiles, yearRecordFiles, month, year, logger, verbose)
         else:
             dataXReport.report(mainWB, logger, verbose)
 

@@ -21,6 +21,20 @@
 ###############################################################################################################
 
 
+V23.17  [20 September 2023]
+
+    Running on python V3.12.0rc2.
+    All sources now pass ruff check . - [https://github.com/astral-sh/ruff]
+
+    Finished the -r [report] option, the high and lows for each moth are display on the screen on a table.
+
+    main.py - pass the month and year to utils.printConfig()
+              pass the month and year to dataSQLReport.report()
+              corrected bug in passing the report file to dataSQLReport.report()
+    monthlyRecords.py - add show(), which display the high and lows in table format.
+    config.py - added the properties month and year.
+    requirements.txt - updated Pygments and rich to latest versions.
+
 
 V23.16  [18 September 2023]
 

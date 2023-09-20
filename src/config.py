@@ -129,6 +129,16 @@ class Config():
         return f"{target}"
 
     @property
+    def MONTH(self):
+        month = self.config["DATA"]["month"]
+        return f"{month}"
+
+    @property
+    def YEAR(self):
+        data_dir = self.config["DATA"]["year"]
+        return f"{data_dir}"
+
+    @property
     def DATA_DIR(self):
         data_dir = self.config["DATA"]["data_dir"]
         return f"{data_dir}"
@@ -156,10 +166,11 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.15",
+        config["INFO"] = {"myVERSION" : "2023.17",
                           "myNAME"    : "pyWeatherApp"}
 
         config["DATA"] = {"data_dir" : "data",
+                          "db_dir"   : "db",
                           "rec_dir"  : "records",
                           "month"    : "September",
                           "year"     : "2023",

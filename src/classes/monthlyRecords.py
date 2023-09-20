@@ -22,6 +22,9 @@
 import pickle
 import pathlib
 
+from rich.console import Console
+from rich.table import Table
+
 class monthlyRecords:
     """  A class to hold the monthly weather records.
 
@@ -47,6 +50,7 @@ class monthlyRecords:
     def load(self):
         """  Load the monthly records  in pickle format.
         """
+        print(self.recordFiles)
         try:
             with open(self.recordFiles, "rb") as pickle_file:
                 self.monthlyRecords = pickle.load(pickle_file)
@@ -60,6 +64,22 @@ class monthlyRecords:
         """
         with open(self.recordFiles, "wb") as pickle_file:
             pickle.dump(self.monthlyRecords, pickle_file)
+
+
+    def show(self, month, year):
+        print()
+        table = Table(title=f" Weather records for {month} {year}")
+
+        table.add_column("Category", justify="right", style="cyan", no_wrap=True)
+        table.add_column("Date", style="magenta")
+        table.add_column("Value", justify="right", style="green")
+
+        for d, v in self.monthlyRecords.items():
+            table.add_row(f"{d}", f"{v[0]}", f"{v[1]}")
+
+        console = Console()
+        console.print(table)
+
 
 
 
