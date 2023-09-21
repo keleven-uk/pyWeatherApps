@@ -112,6 +112,15 @@ class Config():
         return f"{data_dir}\\{rec_dir}\\{year}.{extension}"
 
     @property
+    def ALLTIME_RECORD_FILES(self):
+        """  return should be like - records\\July2013.pickle
+        """
+        data_dir  = self.config["DATA"]["data_dir"]
+        rec_dir   = self.config["DATA"]["rec_dir"]
+        extension = "pickle"
+        return f"{data_dir}\\{rec_dir}\\allTime.{extension}"
+
+    @property
     def TARGET_FILES(self):
         """  return should be like - data\\July2003\\July2013\\all*.xlsx
         """
@@ -166,7 +175,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.17",
+        config["INFO"] = {"myVERSION" : "2023.18",
                           "myNAME"    : "pyWeatherApp"}
 
         config["DATA"] = {"data_dir" : "data",

@@ -52,14 +52,15 @@ if __name__ == "__main__":
     LGpath = "logs\\" +Config.NAME +".log"
     logger = Logger.get_logger(LGpath)                        # Create the logger.
 
-    mainWB          = Config.MAIN_WB
-    mainDB          = Config.MAIN_DB
-    DB_TYPE         = Config.DB_TYPE
-    recordFiles     = Config.RECORD_FILES
-    targetFiles     = Config.TARGET_FILES
-    yearRecordFiles = Config.YEAR_RECORD_FILES
+    mainWB             = Config.MAIN_WB
+    mainDB             = Config.MAIN_DB
+    DB_TYPE            = Config.DB_TYPE
+    recordFiles        = Config.RECORD_FILES
+    targetFiles        = Config.TARGET_FILES
+    yearRecordFiles    = Config.YEAR_RECORD_FILES
+    allTimeRecordsFile = Config.ALLTIME_RECORD_FILES
 
-    build, report, infile, verbose, create, config, month, year = args.parseArgs(Config, logger)
+    build, report, ATreport, infile, verbose, create, config, month, year = args.parseArgs(Config, logger)
 
     timer = Timer.Timer()
     timer.Start()
@@ -69,7 +70,7 @@ if __name__ == "__main__":
     utils.logPrint(logger, False, "-" * 100, "info")
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
 
-    if not config and not build and not report:
+    if not create and not config and not build and not report and not ATreport:
         utils.logPrint(logger, True, "No mode given, please state either config, build or report - main.py -h for help", "warning")
 
     #  If month and year are supplied from the command line use them, if not use from config file.
@@ -79,7 +80,6 @@ if __name__ == "__main__":
         month = Config.MONTH
         year  = Config.YEAR
 
-    print(f"month = {month}  year = {year}  mainDB = {mainDB}  recordFiles = {recordFiles}")
     if config:
         utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE, month, year)
         sys.exit(0)
@@ -111,10 +111,10 @@ if __name__ == "__main__":
         else:
             utils.logPrint(logger, verbose, "ERROR: Unkown DB type", "danger")
 
-    if report:
+    if report or ATreport:
         if DB_TYPE == "sqlite":
             utils.logPrint(logger, True, f"Running report on SQLite3 database - {mainDB}", "info")
-            dataSQLReport.report(mainDB, recordFiles, yearRecordFiles, month, year, logger, verbose)
+            dataSQLReport.report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year, logger, verbose, ATreport)
         else:
             dataXReport.report(mainWB, logger, verbose)
 

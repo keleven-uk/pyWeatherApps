@@ -79,7 +79,7 @@ class weatherValues:
         if not isinstance(self.RainWeekly, (int, float)):
             self.RainWeekly = None
         if not isinstance(self.RainMonthly, (int, float)):
-            self.RainWeekly = None
+            self.RainMonthly = None
         if not isinstance(self.RainYearly, (int, float)):
             self.RainYearly = None
         if not isinstance(self.WindSpeed, (int, float)):

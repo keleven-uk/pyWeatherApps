@@ -22,19 +22,15 @@
 import pickle
 import pathlib
 
-from rich.console import Console
-from rich.table import Table
-
 class allTimeRecords:
     """  A class to hold the all time weather records.
 
          All values should be numeric when passed in.
     """
 
-    def __init__(self, recordFiles):
-        self.Records     = {}
-        self.recordFiles = pathlib.Path(recordFiles)
-        self.load()
+    def __init__(self, yearRecordFiles):
+        self.yearRecords     = {}
+        self.yearRecordFiles = pathlib.Path(yearRecordFiles)
 
 
     def add(self, cat, value, dt_value):
@@ -46,48 +42,31 @@ class allTimeRecords:
 
              The categories can be found on the calling script - dataSQLreport.py
         """
-        if cat not in self.Records:
-            print(f"value {cat} :: {dt_value} :: {value}")
-            self.Records[cat] = (dt_value, value)
+        if cat not in self.yearRecords:
+            self.yearRecords[cat] = (dt_value, value)
         else:
-            data = self.Records[cat]
+            data = self.yearRecords[cat]
             if value > data[1]:
-                 print(f"new value {cat} :: {dt_value} :: {value}")
-                 self.Records[cat] = (dt_value, value)
+                 self.yearRecords[cat] = (dt_value, value)
 
 
 
     def load(self):
-        """  Load the records  in pickle format.
+        """  Load the monthly records  in pickle format.
         """
         try:
-            with open(self.recordFiles, "rb") as pickle_file:
-                self.Records = pickle.load(pickle_file)
+            with open(self.yearRecordFiles, "rb") as pickle_file:
+                self.yearRecords = pickle.load(pickle_file)
         except FileNotFoundError:
             print(f"ERROR :: Cannot find library file. {self.recordFiles}.  Will use an empty library")
-            self.Records = {}
+            self.yearRecords = {}
 
 
     def save(self):
         """  Save the monthly records in pickle format.
         """
-        with open(self.recordFiles, "wb") as pickle_file:
-            pickle.dump(self.Records, pickle_file)
-
-
-    def show(self):
-        print()
-        table = Table(title=" All Time Weather records for")
-
-        table.add_column("Category", justify="right", style="cyan", no_wrap=True)
-        table.add_column("Date", style="magenta")
-        table.add_column("Value", justify="right", style="green")
-
-        for d, v in self.Records.items():
-            table.add_row(f"{d}", f"{v[0]}", f"{v[1]}")
-
-        console = Console()
-        console.print(table)
+        with open(self.yearRecordFiles, "wb") as pickle_file:
+            pickle.dump(self.yearRecords, pickle_file)
 
 
 

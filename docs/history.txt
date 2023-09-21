@@ -21,6 +21,18 @@
 ###############################################################################################################
 
 
+V23.18  [21 September 2023]
+
+    Added an all time records table - called by main.py -rA.
+
+    args.py - Added the command line argument -rA.
+    allTimeRecords.py - finished the class, results are displayed in a table.
+    yearRecords.py - copy of above, will hold records for an individual year.
+    config.py - Added the property ALLTIME_RECORD_FILES
+    dataSQLReport.py - changes for above.
+    dataClasses.py - Corrected bug, rainWeekly was in twice - changed one to rainMonthly.
+
+
 V23.17  [20 September 2023]
 
     Running on python V3.12.0rc2.

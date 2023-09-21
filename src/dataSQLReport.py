@@ -28,12 +28,12 @@ import src.utils.dataUtils as utils
 
 from src.console import console
 
-def report(mainDB, recordFiles, yearRecordFiles, month, year, logger, verbose):
+def report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year, logger, verbose, ATreport):
     """  Scans a given sqlite2 database and produces a report on high and low values.
     """
 
     monthlyRecords = monthly.monthlyRecords(recordFiles)
-    allTimeRecords = allTime.allTimeRecords(yearRecordFiles)
+    allTimeRecords = allTime.allTimeRecords(allTimeRecordsFile)
 
     utils.logPrint(logger, verbose, f"Reporting on :: {mainDB}", "info")
 
@@ -44,8 +44,9 @@ def report(mainDB, recordFiles, yearRecordFiles, month, year, logger, verbose):
         sys.exit(1)
 
 
+    #  WindDirection not added yet.
     highLowValues = ("OutdoorTemperature", "OutdoorFeelsLike", "OutdoorDewPoint", "OutdoorHumidity",  "IndoorTemprature", "IndoorHumidity", "PressueRelative", "PressueAbsolute")
-    highValues = ("Solar", "UVI", "RainRate", "RainDaily", "RainEvent", "RainHourly", "RainWeekly", "WindSpeed", "WindGust")
+    highValues = ("Solar", "UVI", "RainRate", "RainDaily", "RainEvent", "RainHourly", "RainWeekly", "RainMonthly", "RainYearly", "WindSpeed", "WindGust")
 
     with console.status("Reporting..."):
         for highLow in highLowValues:
@@ -86,7 +87,13 @@ def report(mainDB, recordFiles, yearRecordFiles, month, year, logger, verbose):
     monthlyRecords.save()
     allTimeRecords.save()
 
-    monthlyRecords.show(month, year)
+    if ATreport:
+        print("All Time")
+        allTimeRecords.show()
+    else:
+        print("monthly")
+        monthlyRecords.show(month, year)
+
 
 
 
