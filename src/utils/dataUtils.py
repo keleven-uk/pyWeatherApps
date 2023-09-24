@@ -89,19 +89,21 @@ def maxMin(recordValue, newValue, recordDate, newDate, mode):
             return recordValue, recordDate
 
 ############################################################################################ printConfig() ######
-def printConfig(logger, name, version, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE, month, year):
+def printConfig(logger, name, version, mainWB, mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, targetFiles, DB_TYPE, month, year):
     """  Prints out a list of the current config values.
     """
     logPrint(logger, True, "List of Config Values", "info")
-    logPrint(logger, True, f"App Name            :: {name}",    "info")
-    logPrint(logger, True, f"Current Version     :: {version}", "info")
-    logPrint(logger, True, f"Location of main WB :: {mainWB}", "info")
-    logPrint(logger, True, f"Location of main DB :: {mainDB}", "info")
-    logPrint(logger, True, f"Location of records :: {recordFiles}", "info")
-    logPrint(logger, True, f"Location of target  :: {targetFiles}", "info")
-    logPrint(logger, True, f"Current data type   :: {DB_TYPE}", "info")
-    logPrint(logger, True, f"Current year        :: {month}", "info")
-    logPrint(logger, True, f"Current month       :: {year}", "info")
+    logPrint(logger, True, f"App Name                     :: {name}",    "info")
+    logPrint(logger, True, f"Current Version              :: {version}", "info")
+    logPrint(logger, True, f"Location of main WB          :: {mainWB}", "info")
+    logPrint(logger, True, f"Location of main DB          :: {mainDB}", "info")
+    logPrint(logger, True, f"Location of records          :: {recordFiles}", "info")
+    logPrint(logger, True, f"Location of yearly records   :: {yearRecordFiles}", "info")
+    logPrint(logger, True, f"Location of all time records :: {allTimeRecordsFile}", "info")
+    logPrint(logger, True, f"Location of target           :: {targetFiles}", "info")
+    logPrint(logger, True, f"Current data type            :: {DB_TYPE}", "info")
+    logPrint(logger, True, f"Current year                 :: {month}", "info")
+    logPrint(logger, True, f"Current month                :: {year}", "info")
 
 ########################################################################################### buildFileName() ######
 def buildFileNames(data_dir, rec_dir, db_dir, month, year, target):

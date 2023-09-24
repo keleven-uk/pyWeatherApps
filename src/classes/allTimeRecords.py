@@ -46,14 +46,19 @@ class allTimeRecords:
 
              The categories can be found on the calling script - dataSQLreport.py
         """
+        mode = cat[-3:]                     #  either MAX or MIN
         if cat not in self.Records:
-            print(f"value {cat} :: {dt_value} :: {value}")
             self.Records[cat] = (dt_value, value)
         else:
             data = self.Records[cat]
-            if value > data[1]:
-                 print(f"new value {cat} :: {dt_value} :: {value}")
-                 self.Records[cat] = (dt_value, value)
+            if mode == "MAX":
+                if value > data[1]:
+                    self.Records[cat] = (dt_value, value)
+            elif mode == "MIN":
+                if value < data[1]:
+                    self.Records[cat] = (dt_value, value)
+            else:
+                print("Unknown mode.")
 
 
 
@@ -77,7 +82,7 @@ class allTimeRecords:
 
     def show(self):
         print()
-        table = Table(title=" All Time Weather records for")
+        table = Table(title=" All Time Weather Records")
 
         table.add_column("Category", justify="right", style="cyan", no_wrap=True)
         table.add_column("Date", style="magenta")

@@ -21,9 +21,22 @@
 ###############################################################################################################
 
 
+V23.19  [24 September 2023]
+
+    Added an all yearly records table - called by main.py -Y.
+
+    args.py - Added the command line argument -Y.  Changed -rA to -A.
+    allTimeRecords.py - Corrected a bug where min values was not being handled correctly.
+    monthlyRecords.py - Corrected a bug where min values was not being handled correctly.
+    yearRecords.py    - Corrected a bug where min values was not being handled correctly.
+                      - finished the class, results are displayed in a table.
+    dataSQLReport.py  - changes for above.
+    dataUtils.py - Added yearly and all time record file paths to printConfig()
+
+
 V23.18  [21 September 2023]
 
-    Added an all time records table - called by main.py -rA.
+    Added an all time records table - called by main.py -A.
 
     args.py - Added the command line argument -rA.
     allTimeRecords.py - finished the class, results are displayed in a table.

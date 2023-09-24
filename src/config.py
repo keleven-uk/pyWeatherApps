@@ -92,7 +92,7 @@ class Config():
 
     @property
     def RECORD_FILES(self):
-        """  return should be like - records\\July2013.pickle
+        """  return should be like - data\\records\\July2013.pickle
         """
         data_dir  = self.config["DATA"]["data_dir"]
         rec_dir   = self.config["DATA"]["rec_dir"]
@@ -103,7 +103,7 @@ class Config():
 
     @property
     def YEAR_RECORD_FILES(self):
-        """  return should be like - records\\July2013.pickle
+        """  return should be like - data\\records\\2013.pickle
         """
         data_dir  = self.config["DATA"]["data_dir"]
         rec_dir   = self.config["DATA"]["rec_dir"]
@@ -113,7 +113,7 @@ class Config():
 
     @property
     def ALLTIME_RECORD_FILES(self):
-        """  return should be like - records\\July2013.pickle
+        """  return should be like - data\\records\\July2013.pickle
         """
         data_dir  = self.config["DATA"]["data_dir"]
         rec_dir   = self.config["DATA"]["rec_dir"]
@@ -175,7 +175,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.18",
+        config["INFO"] = {"myVERSION" : "2023.19",
                           "myNAME"    : "pyWeatherApp"}
 
         config["DATA"] = {"data_dir" : "data",

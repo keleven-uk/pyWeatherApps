@@ -22,18 +22,20 @@ import sys
 
 import src.classes.sql3Data as DB
 import src.classes.monthlyRecords as monthly
+import src.classes.yearlyRecords as yearly
 import src.classes.allTimeRecords as allTime
 
 import src.utils.dataUtils as utils
 
 from src.console import console
 
-def report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year, logger, verbose, ATreport):
-    """  Scans a given sqlite2 database and produces a report on high and low values.
+def report(mainDB, recordFiles, yearlyRecordsFile, allTimeRecordsFile, month, year, logger, verbose, Areport, Yreport):
+    """  Scans a given sqlite3 database and produces a report on high and low values.
     """
 
     monthlyRecords = monthly.monthlyRecords(recordFiles)
     allTimeRecords = allTime.allTimeRecords(allTimeRecordsFile)
+    yearlyRecords  = yearly.yearlyRecords(yearlyRecordsFile)
 
     utils.logPrint(logger, verbose, f"Reporting on :: {mainDB}", "info")
 
@@ -46,7 +48,7 @@ def report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year
 
     #  WindDirection not added yet.
     highLowValues = ("OutdoorTemperature", "OutdoorFeelsLike", "OutdoorDewPoint", "OutdoorHumidity",  "IndoorTemprature", "IndoorHumidity", "PressueRelative", "PressueAbsolute")
-    highValues = ("Solar", "UVI", "RainRate", "RainDaily", "RainEvent", "RainHourly", "RainWeekly", "RainMonthly", "RainYearly", "WindSpeed", "WindGust")
+    highValues = ("Solar", "UVI", "RainRate", "RainEvent", "RainHourly", "RainDaily", "RainWeekly", "RainMonthly", "RainYearly", "WindSpeed", "WindGust")
 
     with console.status("Reporting..."):
         for highLow in highLowValues:
@@ -60,6 +62,7 @@ def report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year
             utils.logPrint(logger, verbose, f"date = {dt_value}  max value = {mx_value}", "info")
 
             monthlyRecords.add(f"{highLow}_MAX", mx_value, dt_value)
+            yearlyRecords.add(f"{highLow}_MAX",  mx_value, dt_value)
             allTimeRecords.add(f"{highLow}_MAX", mx_value, dt_value)
 
             sql3DB.execute(f"SELECT DateTime, MIN({highLow}) from DailyData")
@@ -69,6 +72,7 @@ def report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year
             utils.logPrint(logger, verbose, f"date = {dt_value}  max value = {mn_value}", "info")
 
             monthlyRecords.add(f"{highLow}_MIN", mn_value, dt_value)
+            yearlyRecords.add(f"{highLow}_MIN",  mn_value, dt_value)
             allTimeRecords.add(f"{highLow}_MIN", mn_value, dt_value)
 
         for high in highValues:
@@ -81,17 +85,19 @@ def report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year
             utils.logPrint(logger, verbose, f"date = {dt_value}  max value = {mx_value}", "info")
 
             monthlyRecords.add(f"{high}_MAX", mx_value, dt_value)
+            yearlyRecords.add(f"{high}_MAX",  mx_value, dt_value)
             allTimeRecords.add(f"{high}_MAX", mx_value, dt_value)
 
 
     monthlyRecords.save()
+    yearlyRecords.save()
     allTimeRecords.save()
 
-    if ATreport:
-        print("All Time")
+    if Areport:
         allTimeRecords.show()
+    elif Yreport:
+        yearlyRecords.show(year)
     else:
-        print("monthly")
         monthlyRecords.show(month, year)
 
 

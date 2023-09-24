@@ -22,15 +22,19 @@
 import pickle
 import pathlib
 
-class allTimeRecords:
-    """  A class to hold the all time weather records.
+from rich.console import Console
+from rich.table import Table
+
+class yearlyRecords:
+    """  A class to hold the yearly weather records.
 
          All values should be numeric when passed in.
     """
 
-    def __init__(self, yearRecordFiles):
-        self.yearRecords     = {}
-        self.yearRecordFiles = pathlib.Path(yearRecordFiles)
+    def __init__(self, yearlyRecordFiles):
+        self.yearlyRecords     = {}
+        self.yearlyRecordFiles = pathlib.Path(yearlyRecordFiles)
+        self.load()
 
 
     def add(self, cat, value, dt_value):
@@ -42,12 +46,19 @@ class allTimeRecords:
 
              The categories can be found on the calling script - dataSQLreport.py
         """
-        if cat not in self.yearRecords:
-            self.yearRecords[cat] = (dt_value, value)
+        mode = cat[-3:]                     #  either MAX or MIN
+        if cat not in self.yearlyRecords:
+            self.yearlyRecords[cat] = (dt_value, value)
         else:
-            data = self.yearRecords[cat]
-            if value > data[1]:
-                 self.yearRecords[cat] = (dt_value, value)
+            data = self.yearlyRecords[cat]
+            if mode == "MAX":
+                if value > data[1]:
+                    self.yearlyRecords[cat] = (dt_value, value)
+            elif mode == "MIN":
+                if value < data[1]:
+                    self.yearlyRecords[cat] = (dt_value, value)
+            else:
+                print("Unknown mode.")
 
 
 
@@ -55,19 +66,32 @@ class allTimeRecords:
         """  Load the monthly records  in pickle format.
         """
         try:
-            with open(self.yearRecordFiles, "rb") as pickle_file:
-                self.yearRecords = pickle.load(pickle_file)
+            with open(self.yearlyRecordFiles, "rb") as pickle_file:
+                self.yearlyRecords = pickle.load(pickle_file)
         except FileNotFoundError:
-            print(f"ERROR :: Cannot find library file. {self.recordFiles}.  Will use an empty library")
-            self.yearRecords = {}
+            print(f"ERROR :: Cannot find library file. {self.yearlyRecords}.  Will use an empty library")
+            self.yearlyRecords = {}
 
 
     def save(self):
         """  Save the monthly records in pickle format.
         """
-        with open(self.yearRecordFiles, "wb") as pickle_file:
-            pickle.dump(self.yearRecords, pickle_file)
+        with open(self.yearlyRecordFiles, "wb") as pickle_file:
+            pickle.dump(self.yearlyRecords, pickle_file)
 
 
+    def show(self, year):
+        print()
 
+        table = Table(title=f" Weather Records for {year}")
+
+        table.add_column("Category", justify="right", style="cyan", no_wrap=True)
+        table.add_column("Date", style="magenta")
+        table.add_column("Value", justify="right", style="green")
+
+        for d, v in self.yearlyRecords.items():
+            table.add_row(f"{d}", f"{v[0]}", f"{v[1]}")
+
+        console = Console()
+        console.print(table)
 

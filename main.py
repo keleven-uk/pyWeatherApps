@@ -57,10 +57,10 @@ if __name__ == "__main__":
     DB_TYPE            = Config.DB_TYPE
     recordFiles        = Config.RECORD_FILES
     targetFiles        = Config.TARGET_FILES
-    yearRecordFiles    = Config.YEAR_RECORD_FILES
+    yearlyRecordFile   = Config.YEAR_RECORD_FILES
     allTimeRecordsFile = Config.ALLTIME_RECORD_FILES
 
-    build, report, ATreport, infile, verbose, create, config, month, year = args.parseArgs(Config, logger)
+    build, report, Areport, Yreport, infile, verbose, create, config, month, year = args.parseArgs(Config, logger)
 
     timer = Timer.Timer()
     timer.Start()
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     utils.logPrint(logger, False, "-" * 100, "info")
     utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
 
-    if not create and not config and not build and not report and not ATreport:
+    if not create and not config and not build and not report and not Areport and not Yreport:
         utils.logPrint(logger, True, "No mode given, please state either config, build or report - main.py -h for help", "warning")
 
     #  If month and year are supplied from the command line use them, if not use from config file.
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         year  = Config.YEAR
 
     if config:
-        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, targetFiles, DB_TYPE, month, year)
+        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, yearlyRecordFile, allTimeRecordsFile, targetFiles, DB_TYPE, month, year)
         sys.exit(0)
 
     if DB_TYPE == "sqlite":
@@ -111,10 +111,10 @@ if __name__ == "__main__":
         else:
             utils.logPrint(logger, verbose, "ERROR: Unkown DB type", "danger")
 
-    if report or ATreport:
+    if report or Areport or Yreport:
         if DB_TYPE == "sqlite":
             utils.logPrint(logger, True, f"Running report on SQLite3 database - {mainDB}", "info")
-            dataSQLReport.report(mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, month, year, logger, verbose, ATreport)
+            dataSQLReport.report(mainDB, recordFiles, yearlyRecordFile, allTimeRecordsFile, month, year, logger, verbose, Areport, Yreport)
         else:
             dataXReport.report(mainWB, logger, verbose)
 

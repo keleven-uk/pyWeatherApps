@@ -43,14 +43,24 @@ class monthlyRecords:
 
              The categories can be found on the calling script - dataSQLreport.py
         """
+        mode = category[-3:]                     #  either MAX or MIN
         if category not in self.monthlyRecords:
             self.monthlyRecords[category] = (dt_value, value)
+        else:
+            data = self.monthlyRecords[category]
+            if mode == "MAX":
+                if value > data[1]:
+                    self.monthlyRecords[category] = (dt_value, value)
+            elif mode == "MIN":
+                if value < data[1]:
+                    self.monthlyRecords[category] = (dt_value, value)
+            else:
+                print("Unknown mode.")
 
 
     def load(self):
         """  Load the monthly records  in pickle format.
         """
-        print(self.recordFiles)
         try:
             with open(self.recordFiles, "rb") as pickle_file:
                 self.monthlyRecords = pickle.load(pickle_file)
@@ -68,7 +78,7 @@ class monthlyRecords:
 
     def show(self, month, year):
         print()
-        table = Table(title=f" Weather records for {month} {year}")
+        table = Table(title=f" Weather Records for {month} {year}")
 
         table.add_column("Category", justify="right", style="cyan", no_wrap=True)
         table.add_column("Date", style="magenta")
