@@ -45,6 +45,7 @@ import src.dataSQLReport as dataSQLReport
 
 import src.utils.dataUtils as utils
 
+from src.console import confirm
 
 if __name__ == "__main__":
 
@@ -92,8 +93,11 @@ if __name__ == "__main__":
 
     if create:                                  #  only create if we are in SQLite3 mode.
         if DB_TYPE == "sqlite":
-            utils.logPrint(logger, True, "Creating SQLite3 database and tables", "info")
-            dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+            if confirm.ask(f"Do you really want to create sql database {mainDB}"):
+                utils.logPrint(logger, True, "Creating SQLite3 database and tables", "info")
+                dataSQLBuild.build(mainDB, targetFiles, logger, verbose, create)
+            else:
+                utils.logPrint(logger, True, "Creating SQLite3 database Cancelled", "info")
         else:
             utils.logPrint(logger, True, f"Cannot create SQLite3 database on DB TYPE {DB_TYPE}", "warning")
 

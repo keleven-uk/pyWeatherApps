@@ -22,8 +22,7 @@
 import pickle
 import pathlib
 
-from rich.console import Console
-from rich.table import Table
+from src.console import console, monthlyTable
 
 class monthlyRecords:
     """  A class to hold the monthly weather records.
@@ -50,9 +49,11 @@ class monthlyRecords:
             data = self.monthlyRecords[category]
             if mode == "MAX":
                 if value > data[1]:
+                    print(f"New monthly record {category:25} {dt_value:14} {value}")
                     self.monthlyRecords[category] = (dt_value, value)
             elif mode == "MIN":
                 if value < data[1]:
+                    print(f"New monthly record {category:25} {dt_value:14} {value}")
                     self.monthlyRecords[category] = (dt_value, value)
             else:
                 print("Unknown mode.")
@@ -78,17 +79,42 @@ class monthlyRecords:
 
     def show(self, month, year):
         print()
-        table = Table(title=f" Weather Records for {month} {year}")
 
-        table.add_column("Category", justify="right", style="cyan", no_wrap=True)
-        table.add_column("Date", style="magenta")
-        table.add_column("Value", justify="right", style="green")
+        monthlyTable.title=f" Weather Records for {month} {year}"
+
+        monthlyTable.add_column("Category", justify="right", style="cyan", no_wrap=True)
+        monthlyTable.add_column("Date", style="magenta")
+        monthlyTable.add_column("Value", justify="left", style="green")
 
         for d, v in self.monthlyRecords.items():
-            table.add_row(f"{d}", f"{v[0]}", f"{v[1]}")
+            amount = float(v[1])
 
-        console = Console()
-        console.print(table)
+            match d:
+                case d if d.startswith("Rain"):
+                    value  = f"{amount}mm ({amount*0.0393701:.2f}in)"
+                case d if d.startswith("Wind"):
+                    value  = f"{amount}km/h ({amount*0.6213715277778:.2f}mph)"
+                case d if d.startswith("Solar"):
+                    value  = f"{amount}Klux"
+                case d if d.startswith("Pressue"):
+                    value  = f"{amount}hPa"
+                case d if "Humidity" in d:
+                    value  = f"{amount}%"
+                case d if "Temperature" in d:
+                    value  = f"{amount}C"
+                case d if "Temprature" in d:                    #  Correct spelling mistake in category title.
+                    d = d.replace("Temprature", "Temperature")
+                    value  = f"{amount}C"
+                case d if "DewPoint" in d:
+                    value  = f"{amount}C"
+                case d if "FeelsLike" in d:
+                    value  = f"{amount}C"
+                case other:
+                    value = v[1]
+
+            monthlyTable.add_row(f"{d}", f"{v[0]}", f"{value}")
+
+        console.print(monthlyTable)
 
 
 

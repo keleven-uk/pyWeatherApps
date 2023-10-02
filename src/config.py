@@ -175,7 +175,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.19",
+        config["INFO"] = {"myVERSION" : "2023.20",
                           "myNAME"    : "pyWeatherApp"}
 
         config["DATA"] = {"data_dir" : "data",

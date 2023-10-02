@@ -21,6 +21,18 @@
 ###############################################################################################################
 
 
+V23.20  [2 October 2023]
+
+    Added units to report mode, also added imperial measure {in brackets] to metric units.}
+        Also corrected spelling mistake to env_3.12 IndoorTemp[e]rature.
+    Changed over the command line arguments for create and print config.
+        -C for create, using capitals so harder to enter by mistake.
+        -c for print config.
+
+    main.py - and confirm if create is chosen.
+    console.py - moved the table import to here.
+
+
 V23.19  [24 September 2023]
 
     Added an all yearly records table - called by main.py -Y.
