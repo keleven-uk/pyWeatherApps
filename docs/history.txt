@@ -21,6 +21,14 @@
 ###############################################################################################################
 
 
+V23.21  [13 October 2023]
+
+    Created a new branch parent.
+        The three records class share a lot of duplication.  So, a parent class, Records, was created and
+        the tree record classes inherited from this.  Most of the logic was then moved into the parent class.
+        This removed a lot of duplication and simplified the record class structure.
+
+
 V23.20  [2 October 2023]
 
     Added units to report mode, also added imperial measure {in brackets] to metric units.}

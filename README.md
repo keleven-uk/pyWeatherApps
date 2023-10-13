@@ -35,7 +35,7 @@ options:
                         Month of data files.
   -y YEAR, --year YEAR  Year of data files.
 
- Kevin Scott (C) 2023 :: pyWeatherApp V2023.19
+ Kevin Scott (C) 2023 :: pyWeatherApp V2023.21
 
 
 To install dependencies pip -r requirements.txt

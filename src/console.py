@@ -29,9 +29,9 @@
 """
 
 from rich.console import Console
-from rich.table import Table
-from rich.theme import Theme
-from rich.prompt import Confirm
+from rich.table   import Table
+from rich.theme   import Theme
+from rich.prompt  import Confirm
 
 #  Bold only seems to work, not underline or blink etc.
 custom_theme = Theme({
@@ -40,9 +40,7 @@ custom_theme = Theme({
     "danger": "bold red underline"
 })
 
-allTimeTable = Table(title=" All Time Weather Records")
-YearlyTable  = Table(title=" Weather Records for")
-monthlyTable = Table(title=" Weather Records for")
+Table = Table(title=" Weather Records for")
 
 confirm = Confirm
 

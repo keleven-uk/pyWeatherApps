@@ -175,13 +175,13 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2023.20",
+        config["INFO"] = {"myVERSION" : "2023.21",
                           "myNAME"    : "pyWeatherApp"}
 
         config["DATA"] = {"data_dir" : "data",
                           "db_dir"   : "db",
                           "rec_dir"  : "records",
-                          "month"    : "September",
+                          "month"    : "October",
                           "year"     : "2023",
                           "target"   : "all*.xlsx"}
 
