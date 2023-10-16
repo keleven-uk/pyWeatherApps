@@ -29,11 +29,11 @@ import src.utils.dataUtils as utils
 
 from src.console import console
 
-def report(mainDB, recordFiles, yearlyRecordsFile, allTimeRecordsFile, month, year, logger, verbose, Areport, Yreport):
+def report(mainDB, monthlyrecordFiles, yearlyRecordsFile, allTimeRecordsFile, month, year, logger, verbose, Areport, Yreport):
     """  Scans a given sqlite3 database and produces a report on high and low values.
     """
 
-    monthlyRecords = monthly.monthlyRecords(recordFiles)
+    monthlyRecords = monthly.monthlyRecords(monthlyrecordFiles)
     allTimeRecords = allTime.allTimeRecords(allTimeRecordsFile)
     yearlyRecords  = yearly.yearlyRecords(yearlyRecordsFile)
 

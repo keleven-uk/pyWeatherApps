@@ -21,6 +21,12 @@
 ###############################################################################################################
 
 
+V23.22  [16 October 2023]
+
+    Minor changes to rename Records to monthlyRecords.
+    Changes case of create and command arguments, so that flag and arguments are the same.
+
+
 V23.21  [13 October 2023]
 
     Created a new branch parent.

@@ -63,9 +63,9 @@ def parseArgs(Config, logger):
     parser.add_argument("-r", "--report",   action="store_true", help="Report on the data - finds the monthly highs and lows.")
     parser.add_argument("-Y", "--Yreport",  action="store_true",  help="Report on the data - finds the yearly highs and lows.")
     parser.add_argument("-A", "--Areport",  action="store_true",  help="Report on the data - finds the all time highs and lows.")
-    parser.add_argument("-C", "--create",   action="store_true", help="Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS].")
+    parser.add_argument("-C", "--Create",   action="store_true", help="Creates the SQLite3 database and tables. [WARNING WILL DROP TABLES IF EXITS].")
     parser.add_argument("-V", "--Verbose",  action="store_true", help="Verbose - print more detail.")
-    parser.add_argument("-c", "--Config",   action="store_true", help="Print out the config values.")
+    parser.add_argument("-c", "--config",   action="store_true", help="Print out the config values.")
     parser.add_argument("-m", "--month",    action="store", type=str, help="Month of data files.")
     parser.add_argument("-y", "--year",     action="store", type=str, help="Year of data files.")
     parser.add_argument("infile", nargs="?")
@@ -75,9 +75,9 @@ def parseArgs(Config, logger):
     if args.version:
         License.printShortLicense(Config.NAME, Config.VERSION, logger)
         print("")
-        utils.logPrint(logger, args.Verbose, f"Running on {sys.version} Python", "info")
-        utils.logPrint(logger, args.Verbose, f"Running on {utils.sqlite3Version()} SQLite3", "info")
-        utils.logPrint(logger, args.Verbose, f"End of {Config.NAME} V{Config.VERSION}: Printed version", "info")
+        utils.logPrint(logger, True, f"Running on {sys.version} Python", "info")
+        utils.logPrint(logger, True, f"Running on {utils.sqlite3Version()} SQLite3", "info")
+        utils.logPrint(logger, True, f"End of {Config.NAME} V{Config.VERSION}: Printed version", "info")
         utils.logPrint(logger, False, "-" * 100, "info")
         print("Goodbye.")
         sys.exit(0)
@@ -106,7 +106,7 @@ def parseArgs(Config, logger):
             print("Goodbye.")
             sys.exit(2)
 
-    return(args.build, args.report, args.Areport, args.Yreport, args.infile, args.Verbose, args.create, args.Config, args.month, args.year)
+    return(args.build, args.report, args.Areport, args.Yreport, args.infile, args.Verbose, args.Create, args.config, args.month, args.year)
 
 
 

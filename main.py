@@ -56,8 +56,8 @@ if __name__ == "__main__":
     mainWB             = Config.MAIN_WB
     mainDB             = Config.MAIN_DB
     DB_TYPE            = Config.DB_TYPE
-    recordFiles        = Config.RECORD_FILES
     targetFiles        = Config.TARGET_FILES
+    MonthlyRecordFile  = Config.RECORD_FILES
     yearlyRecordFile   = Config.YEAR_RECORD_FILES
     allTimeRecordsFile = Config.ALLTIME_RECORD_FILES
 
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     if report or Areport or Yreport:
         if DB_TYPE == "sqlite":
             utils.logPrint(logger, True, f"Running report on SQLite3 database - {mainDB}", "info")
-            dataSQLReport.report(mainDB, recordFiles, yearlyRecordFile, allTimeRecordsFile, month, year, logger, verbose, Areport, Yreport)
+            dataSQLReport.report(mainDB, MonthlyRecordFile, yearlyRecordFile, allTimeRecordsFile, month, year, logger, verbose, Areport, Yreport)
         else:
             dataXReport.report(mainWB, logger, verbose)
 
