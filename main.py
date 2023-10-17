@@ -76,13 +76,13 @@ if __name__ == "__main__":
 
     #  If month and year are supplied from the command line use them, if not use from config file.
     if month and year:
-        mainWB, mainDB, recordFiles, targetFiles = utils.buildFileNames(Config.DATA_DIR, Config.REC_DIR, Config.DB_DIR, month, year, Config.TARGET)
+        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config.DATA_DIR, Config.REC_DIR, Config.DB_DIR, month, year, Config.TARGET)
     else:
         month = Config.MONTH
         year  = Config.YEAR
 
     if config:
-        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, recordFiles, yearlyRecordFile, allTimeRecordsFile, targetFiles, DB_TYPE, month, year)
+        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, MonthlyRecordFile, yearlyRecordFile, allTimeRecordsFile, targetFiles, DB_TYPE, month, year)
         sys.exit(0)
 
     if DB_TYPE == "sqlite":

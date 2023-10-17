@@ -21,10 +21,16 @@
 ###############################################################################################################
 
 
-V23.22  [16 October 2023]
+V23.23  [17 October 2023]
+
+    Added the calculation of monthly average temperature, night time maximum and day time min temperature.
+
+
+V23.22  [16 October 2023] in parent branch.
 
     Minor changes to rename Records to monthlyRecords.
     Changes case of create and command arguments, so that flag and arguments are the same.
+    merged back into main.
 
 
 V23.21  [13 October 2023]

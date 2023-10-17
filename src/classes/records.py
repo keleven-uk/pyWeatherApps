@@ -59,7 +59,7 @@ class Records:
         """
         mode = category[-3:]                     #  either MAX or MIN
         if category not in self.Records:
-            self.monthlyRecords[category] = (dt_value, value)
+            self.Records[category] = (dt_value, value)
         else:
             data = self.Records[category]
             if mode == "MAX":
@@ -70,6 +70,9 @@ class Records:
                 if value < data[1]:
                     print(f"New monthly record {category:25} {dt_value:14} {value}")
                     self.Records[category] = (dt_value, value)
+            elif mode == "AVG":
+                if value > data[1]:
+                    print(f"New monthly record {category:25} {dt_value:14} {value}")
             else:
                 print("Unknown mode.")
 
@@ -92,7 +95,7 @@ class Records:
             pickle.dump(self.Records, pickle_file)
 
 
-    def show(self, title):
+    def show(self, title, mothlyReport=False):
         """  Prints to screen the contains of the records in a pretty table.
 
              The title of the table needs to be passed in.
@@ -119,11 +122,14 @@ class Records:
                     value  = f"{amount}hPa"
                 case d if "Humidity" in d:
                     value  = f"{amount}%"
+                case d if d == "OutdoorTemperature_AVG":
+                    if mothlyReport: continue                                    #  Ignore monthly average on yearly and all time displays.
+                    value  = f"{amount:.2f}C"
                 case d if "Temperature" in d:
-                    value  = f"{amount}C"
+                    value  = f"{amount:.2f}C"
                 case d if "Temprature" in d:                    #  Correct spelling mistake in category title.
                     d = d.replace("Temprature", "Temperature")
-                    value  = f"{amount}C"
+                    value  = f"{amount:.2f}C"
                 case d if "DewPoint" in d:
                     value  = f"{amount}C"
                 case d if "FeelsLike" in d:

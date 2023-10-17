@@ -88,6 +88,44 @@ def report(mainDB, monthlyrecordFiles, yearlyRecordsFile, allTimeRecordsFile, mo
             yearlyRecords.add(f"{high}_MAX",  mx_value, dt_value)
             allTimeRecords.add(f"{high}_MAX", mx_value, dt_value)
 
+        #  Obtain average temperatures for the month.
+        sql3DB.execute("SELECT DateTime, AVG(OutdoorTemperature) from DailyData")
+        value    = sql3DB.fetchone()
+        dt_value = f"{month} {year}"
+        mx_value = value[1]
+        utils.logPrint(logger, verbose, f"date = {dt_value}  max value = {mx_value}", "info")
+
+        monthlyRecords.add("OutdoorTemperature_AVG", mx_value, dt_value)        #  Add average to monthly.
+        yearlyRecords.add( "OutdoorTemperature_AVG_MAX", mx_value, dt_value)    #  add min and max average to yearly.
+        yearlyRecords.add( "OutdoorTemperature_AVG_MIN", mx_value, dt_value)
+        allTimeRecords.add("OutdoorTemperature_AVG_MAX", mx_value, dt_value)    #  add min and max average to all time.
+        allTimeRecords.add("OutdoorTemperature_AVG_MIN", mx_value, dt_value)
+
+
+        #  Obtain highest night-time temperatures for the month.
+        sql3DB.execute("SELECT DateTime, MAX(OutdoorTemperature) from DailyData where Solar == 0")
+        value    = sql3DB.fetchone()
+        dt_value = value[0]
+        mx_value = value[1]
+        utils.logPrint(logger, verbose, f"date = {dt_value}  max value = {mx_value}", "info")
+
+        monthlyRecords.add("NightTimeTemprature_MAX", mx_value, dt_value)    #  Add lowest day time to monthly.
+        yearlyRecords.add( "NightTimeTemprature_MAX", mx_value, dt_value)    #  add min and max lowest day time to yearly.
+        allTimeRecords.add("NightTimeTemprature_MAX", mx_value, dt_value)    #  add min and max lowest day time to all time.
+
+        #  Obtain lowest day time temperatures for the month.
+        sql3DB.execute("SELECT DateTime, MAX(OutdoorTemperature) from DailyData where Solar != 0")
+        value    = sql3DB.fetchone()
+        dt_value = value[0]
+        mx_value = value[1]
+        utils.logPrint(logger, verbose, f"date = {dt_value}  max value = {mx_value}", "info")
+
+        monthlyRecords.add("DayTimeTemprature_MIN", mx_value, dt_value)    #  Add lowest day time to records.
+        yearlyRecords.add( "DayTimeTemprature_MIN", mx_value, dt_value)
+        allTimeRecords.add("DayTimeTemprature_MIN", mx_value, dt_value)
+
+
+
 
     monthlyRecords.save()
     yearlyRecords.save()

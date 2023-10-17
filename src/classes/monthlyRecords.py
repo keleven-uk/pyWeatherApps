@@ -36,7 +36,7 @@ class monthlyRecords(Records):
         super().__init__(recordFiles)
 
 
-    def show(self, month, year):
+    def show(self, month, year, mothlyReport=True):
         """  Prints to screen the contains of the records in a pretty table.
 
              Overrides the same method in the parent class.
