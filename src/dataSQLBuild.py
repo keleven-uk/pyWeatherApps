@@ -73,11 +73,19 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
             for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
                 key, row = next(newData.nextRow())
 
+                year  = key[0:4]
+                month = key[5:7]
+                day   = key[8:10]
+
+                #print(f"key = {key}  year = {year}  month = {month}  day = {day}")
                 if sql3DB.keyExists(key):
                     old_rows += 1
                 else:
                     new_rows += 1
                     sql3DB.insert([key,
+                                   day,
+                                   month,
+                                   year,
                                    row.OutdoorTemperature,
                                    row.OutdoorFeelsLike,
                                    row.OutdoorDewPoint,

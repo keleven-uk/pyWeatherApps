@@ -36,11 +36,11 @@ class allTimeRecords(Records):
         super().__init__(recordFiles)
 
 
-    def show(self):
+    def show(self, month, year):
         """  Prints to screen the contains of the records in a pretty table.
 
              Overrides the same method in the parent class.
 
              Supplies the custom title.
         """
-        super().show(" All Time Weather Records")
+        super().show(" All Time Weather Records", month, year,)

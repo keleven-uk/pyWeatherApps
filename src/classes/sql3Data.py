@@ -73,6 +73,9 @@ class sql3Data():
         sql = """CREATE TABLE DailyData(
                  ID INTEGER PRIMARY KEY AUTOINCREMENT,
                  DateTime CHAR(20),
+                 day CHAR(2),
+                 month CHAR(2),
+                 year CHAR(4),
                  OutdoorTemperature FLOAT,
                  OutdoorFeelsLike FLOAT,
                  OutdoorDewPoint FLOAT,
@@ -102,11 +105,11 @@ class sql3Data():
              It calls self.execute with a pre-defined sql query and the supplied data.
         """
         query = """INSERT INTO DailyData
-                   (DateTime, OutdoorTemperature, OutdoorFeelsLike, OutdoorDewPoint, OutdoorHumidity,
-                    IndoorTemprature, IndoorHumidity, Solar, UVI, RainRate, RainDaily, RainEvent,
-                    RainHourly, RainWeekly, RainMonthly, RainYearly, WindSpeed, WindGust,
+                   (DateTime, day, month, year, OutdoorTemperature, OutdoorFeelsLike, OutdoorDewPoint,
+                    OutdoorHumidity, IndoorTemprature, IndoorHumidity, Solar, UVI, RainRate, RainDaily,
+                    RainEvent, RainHourly, RainWeekly, RainMonthly, RainYearly, WindSpeed, WindGust,
                     WindDirection, PressueRelative, PressueAbsolute)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
 
         try:
             # Executing the SQL command
@@ -150,6 +153,16 @@ class sql3Data():
         """
         try:
             result = self.cursor.fetchone()
+            return result
+        except Error:
+            raise sqlError("fetchone failed, has the tables been created?") from Error
+
+
+    def fetchall(self):
+        """  Performs a fetchall on the sqlite3 database.
+        """
+        try:
+            result = self.cursor.fetchall()
             return result
         except Error:
             raise sqlError("fetchone failed, has the tables been created?") from Error

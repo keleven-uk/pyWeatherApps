@@ -95,7 +95,7 @@ class Records:
             pickle.dump(self.Records, pickle_file)
 
 
-    def show(self, title, mothlyReport=False):
+    def show(self, title, month, year, mothlyReport=False):
         """  Prints to screen the contains of the records in a pretty table.
 
              The title of the table needs to be passed in.
@@ -108,36 +108,49 @@ class Records:
         Table.add_column("Date", style="magenta")
         Table.add_column("Value", justify="left", style="green")
 
-        for d, v in self.Records.items():
+        for category, v in self.Records.items():
+            date   = v[0]
             amount = float(v[1])
 
-            match d:
-                case d if d.startswith("Rain"):
+            match category:
+                case category if category.startswith("Rain"):
                     value  = f"{amount}mm ({amount*0.0393701:.2f}in)"
-                case d if d.startswith("Wind"):
+                    match category:
+                        case "RainMonthly_MAX":
+                            date  = f"{month} {year}"
+                        case "RainYearly_MAX":
+                            date  = f"{year}"
+                case category if category.startswith("Wind"):
                     value  = f"{amount}km/h ({amount*0.6213715277778:.2f}mph)"
-                case d if d.startswith("Solar"):
+                case category if category.startswith("Solar"):
                     value  = f"{amount}Klux"
-                case d if d.startswith("Pressue"):
+                case category if category.startswith("Pressue"):
                     value  = f"{amount}hPa"
-                case d if "Humidity" in d:
+                case category if "Humidity" in category:
                     value  = f"{amount}%"
-                case d if d == "OutdoorTemperature_AVG":
+                case category if category == "OutdoorTemperature_AVG":
                     if mothlyReport: continue                                    #  Ignore monthly average on yearly and all time displays.
+                    value = f"{amount:.2f}C"
+                    date  = f"{month} {year}"
+                case category if "Temperature" in category:
                     value  = f"{amount:.2f}C"
-                case d if "Temperature" in d:
+                case category if "Temprature" in category:                       #  Correct spelling mistake in category title.
+                    category = category.replace("Temprature", "Temperature")
                     value  = f"{amount:.2f}C"
-                case d if "Temprature" in d:                    #  Correct spelling mistake in category title.
-                    d = d.replace("Temprature", "Temperature")
-                    value  = f"{amount:.2f}C"
-                case d if "DewPoint" in d:
+                case category if "DewPoint" in category:
                     value  = f"{amount}C"
-                case d if "FeelsLike" in d:
+                case category if "FeelsLike" in category:
                     value  = f"{amount}C"
                 case _:
                     value = v[1]
 
-            Table.add_row(f"{d}", f"{v[0]}", f"{value}")
+            #  Add horizontal lines to the table to split the categories
+            match category:
+                case "IndoorTemperature_MIN" | "IndoorHumidity_MIN"| "PressueAbsolute_MIN" | "UVI_MAX" | \
+                     "RainYearly_MAX":
+                    Table.add_row(f"{category}", f"{date}", f"{value}", end_section=True)
+                case _:
+                    Table.add_row(f"{category}", f"{date}", f"{value}")
 
         console.print(Table)
 
