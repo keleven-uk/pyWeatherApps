@@ -99,6 +99,17 @@ class sql3Data():
                  )"""
         self.execute(sql)
 
+        self.execute("DROP table IF EXISTS XtarData")
+
+        sql = """CREATE TABLE XtraData(
+            ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            Category CHAR(20),
+            noOfDays FLOAT,
+            rainDays FLOAT
+            )"""
+
+        self.execute(sql)
+
 
     def insert(self, data):
         """  Insert data into a SQLite2 database.
@@ -107,8 +118,8 @@ class sql3Data():
         query = """INSERT INTO DailyData
                    (DateTime, day, month, year, OutdoorTemperature, OutdoorFeelsLike, OutdoorDewPoint,
                     OutdoorHumidity, IndoorTemprature, IndoorHumidity, Solar, UVI, RainRate, RainDaily,
-                    RainEvent, RainHourly, RainWeekly, RainMonthly, RainYearly, WindSpeed, WindGust,
-                    WindDirection, PressueRelative, PressueAbsolute)
+                    RainEvent, RainHourly, RainWeekly, RainMonthly, RainYearly,
+                    WindSpeed, WindGust, WindDirection, PressueRelative, PressueAbsolute)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
 
         try:
@@ -120,6 +131,23 @@ class sql3Data():
             self.rollback()
             raise sqlError("Insert failed, data rollback performed.") from Error
 
+
+    def insertXtra(self, data):
+        """  Insert data into a SQLite2 database.
+             It calls self.execute with a pre-defined sql query and the supplied data.
+        """
+        query = """INSERT INTO XtraData
+                   (Category, noOfDays, rainDays)
+                    VALUES (?, ?, ?)"""
+
+        try:
+            # Executing the SQL command
+            self.execute(query, data)
+            # Commit your changes in the database
+            self.commit()
+        except Error:
+            self.rollback()
+            raise sqlError("Insert failed, data rollback performed.") from Error
 
 
     def keyExists(self, key):
@@ -165,7 +193,7 @@ class sql3Data():
             result = self.cursor.fetchall()
             return result
         except Error:
-            raise sqlError("fetchone failed, has the tables been created?") from Error
+            raise sqlError("fetchoall failed, has the tables been created?") from Error
 
 
     def count(self):

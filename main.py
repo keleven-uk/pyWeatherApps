@@ -61,10 +61,12 @@ if __name__ == "__main__":
     yearlyRecordFile   = Config.YEAR_RECORD_FILES
     allTimeRecordsFile = Config.ALLTIME_RECORD_FILES
 
-    build, report, Areport, Yreport, infile, verbose, create, config, month, year = args.parseArgs(Config, logger)
+    build, report, Areport, Yreport, infile, verbose, create, createYES, config, month, year = args.parseArgs(Config, logger)
 
     timer = Timer.Timer()
     timer.Start()
+
+    utils.logPrint(logger, False, "=" * 100, "info")
 
     License.printShortLicense(Config.NAME, Config.VERSION, logger)
 
@@ -101,6 +103,12 @@ if __name__ == "__main__":
         else:
             utils.logPrint(logger, True, f"Cannot create SQLite3 database on DB TYPE {DB_TYPE}", "warning")
 
+    if createYES:
+        if DB_TYPE == "sqlite":
+            utils.logPrint(logger, True, f"Creating SQLite3 database and tables :: {mainDB}", "info")
+            dataSQLBuild.build(mainDB, targetFiles, logger, verbose, "True")        #  Set create to True.
+
+
     if build:
         if DB_TYPE == "excel":
             utils.logPrint(logger, True, "Running build to EXCEL", "info")
@@ -111,7 +119,7 @@ if __name__ == "__main__":
                 utils.logPrint(logger, True, "Running build to SQLite", "info")
                 dataSQLBuild.build(mainDB, targetFiles, logger, verbose)
             except Exception as e:
-                utils.logPrint(logger, verbose, f"{e}.  Maybe run main.py -c", "warning")
+                utils.logPrint(logger, verbose, f"{e}.  Maybe run main.py -C", "warning")
         else:
             utils.logPrint(logger, verbose, "ERROR: Unkown DB type", "danger")
 

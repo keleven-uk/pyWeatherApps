@@ -45,7 +45,7 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
     if create:                               #  Create the table - should be on a new database.
         try:
             sql3DB.createTable()
-            utils.logPrint(logger, verbose, "SQLite3 tables created successfully.", "info")
+            utils.logPrint(logger, "True", "SQLite3 tables created successfully.", "info")
             return
         except Exception as e:
             utils.logPrint(logger, verbose, f"{e}.", "info")
@@ -63,12 +63,15 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
     if count !=0:
         utils.logPrint(logger, verbose, f"Size of mainData : {count}", "info")
 
-    old_rows = 0
-    new_rows = 0
+    oldRows  = 0
+    newRows  = 0
+    noOfDays = 0
+    rainDays = 0
 
     with console.status("Scanning..."):
         for file in dataFiles:   #  Loop through excel spreadsheets
             newData = WD.WeatherData(file, screen=verbose)
+            noOfDays += 1
 
             for _ in range(newData.countData()-1):      #  Iterate each row of each new spreadsheet.
                 key, row = next(newData.nextRow())
@@ -77,11 +80,10 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
                 month = key[5:7]
                 day   = key[8:10]
 
-                #print(f"key = {key}  year = {year}  month = {month}  day = {day}")
                 if sql3DB.keyExists(key):
-                    old_rows += 1
+                    oldRows += 1
                 else:
-                    new_rows += 1
+                    newRows += 1
                     sql3DB.insert([key,
                                    day,
                                    month,
@@ -105,15 +107,24 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
                                    row.WindGust,
                                    row.WindDirection,
                                    row.PressureRelative,
-                                   row.PressureAbsolute])
+                                   row.PressureAbsolute
+                                   ])
 
-            newData = None
+            #  values should be the last for the day.
+            if row.RainDaily:
+                rainDays += 1
+
+        key = "RainDays"
+        sql3DB.insertXtra([key , noOfDays, rainDays])
 
     #Fetching all row from the table
     count = sql3DB.count()
 
-    utils.logPrint(logger, True, f" rows existing {old_rows} :: rows to be added {new_rows}", "info")
+    utils.logPrint(logger, True, f" Number of data files : {noOfDays}", "info")
+    utils.logPrint(logger, True, f" Number of rain days  : {rainDays}", "info")
+    utils.logPrint(logger, True, f" rows existing {oldRows} :: rows to be added {newRows}", "info")
     utils.logPrint(logger, True, f" New size of mainData : {count}", "info")
+
 
 
 

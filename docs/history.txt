@@ -21,6 +21,23 @@
 ###############################################################################################################
 
 
+V2023.26  [30 December 2023]
+
+    Added the number of rain days in a given month, also update yearly and all time reports.
+        This data in saved in a xtra SQL table stored within the month file.
+    Corrected some bugs in the saving og rain data generally.
+
+
+V2023.25  [7 November 2023]
+
+    Added the argument -CT [--CreateYes], will create the SLQlite table; but will not ask for confirmation.
+        mainly used in build.bat.
+    The report type [monthly, yearly or allTime] is passed to the report class.
+    Amended the reports to format values correctly and add imperial equivalents, if appropriate.
+        Also correct spelling mistakes.
+    Added a new table, XtraData, to hole number of rain days - not reported on yet.
+
+
 V2023.24  [21 October 2023]
 
     Perfected the calculation of night time maximum and day time min temperatures.

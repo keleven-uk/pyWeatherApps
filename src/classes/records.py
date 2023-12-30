@@ -21,6 +21,7 @@
 
 import pickle
 import pathlib
+import calendar
 
 from src.console import console, Table
 
@@ -51,7 +52,7 @@ class Records:
         self.load()
 
 
-    def add(self, category, value, dt_value):
+    def add(self, category, period, value, dt_value):
         """  Adds a new entry if not already present.
              The key is the category and the data is a tuple of the date and value.
 
@@ -60,19 +61,19 @@ class Records:
         mode = category[-3:]                     #  either MAX or MIN
         if category not in self.Records:
             self.Records[category] = (dt_value, value)
-        else:
+        elif category != "Rain Days":
             data = self.Records[category]
             if mode == "MAX":
                 if value > data[1]:
-                    print(f"New monthly record {category:25} {dt_value:14} {value}")
+                    print(f"New {period:9} record {category:25} {dt_value:14} {value} :: {data}")
                     self.Records[category] = (dt_value, value)
             elif mode == "MIN":
                 if value < data[1]:
-                    print(f"New monthly record {category:25} {dt_value:14} {value}")
+                    print(f"New {period:9} record {category:25} {dt_value:14} {value} :: {data}")
                     self.Records[category] = (dt_value, value)
             elif mode == "AVG":
                 if value > data[1]:
-                    print(f"New monthly record {category:25} {dt_value:14} {value}")
+                    print(f"New {period:9} record {category:25} {dt_value:14} {value} :: {data}")
             else:
                 print("Unknown mode.")
 
@@ -95,7 +96,7 @@ class Records:
             pickle.dump(self.Records, pickle_file)
 
 
-    def show(self, title, month, year, mothlyReport=False):
+    def show(self, title, month, year, monthlyReport=False):
         """  Prints to screen the contains of the records in a pretty table.
 
              The title of the table needs to be passed in.
@@ -112,14 +113,29 @@ class Records:
             date   = v[0]
             amount = float(v[1])
 
+
+            #  Format values correctly and add imperial equivalents, if appropriate.
+            #  Also correct spelling mistakes.
             match category:
                 case category if category.startswith("Rain"):
-                    value  = f"{amount}mm ({amount*0.0393701:.2f}in)"
+                    if category == "Rain Days":
+                        value = f"{date}/{int(amount)}"
+                    else:
+                        value  = f"{amount}mm ({amount*0.0393701:.2f}in)"
                     match category:
-                        case "RainMonthly_MAX":
-                            date  = f"{month} {year}"
+                        case category if category.startswith("Rain Days"):
+                            date  = f"{calendar.month_name[month]} {year}"
+                        case category if category.startswith("RainMonthly"):
+                            if monthlyReport:           #  Used for monthly reports only
+                                date  = f"{month} {year}"
+                            else:                       #  Use the correct year and month for the record.
+                                month = int(date[5:7])
+                                date = f"{calendar.month_name[month]} {date[0:4]}"
                         case "RainYearly_MAX":
-                            date  = f"{year}"
+                            if monthlyReport:           #  Used for monthly reports only
+                                date  = f"{year}"
+                            else:                       #  Use the correct year for the record.
+                                date = f"{date[0:4]}"
                 case category if category.startswith("Wind"):
                     value  = f"{amount}km/h ({amount*0.6213715277778:.2f}mph)"
                 case category if category.startswith("Solar"):
@@ -129,7 +145,7 @@ class Records:
                 case category if "Humidity" in category:
                     value  = f"{amount}%"
                 case category if category == "OutdoorTemperature_AVG":
-                    if mothlyReport: continue                                    #  Ignore monthly average on yearly and all time displays.
+                    if monthlyReport: continue                                    #  Ignore monthly average on yearly and all time displays.
                     value = f"{amount:.2f}C"
                     date  = f"{month} {year}"
                 case category if "Temperature" in category:
@@ -146,8 +162,8 @@ class Records:
 
             #  Add horizontal lines to the table to split the categories
             match category:
-                case "IndoorTemperature_MIN" | "IndoorHumidity_MIN"| "PressueAbsolute_MIN" | "UVI_MAX" | \
-                     "RainYearly_MAX":
+                case "IndoorTemperature_MIN" | "DayTimeTemperature_MIN" | "OutdoorHumidity_MIN" | "IndoorHumidity_MIN"| \
+                     "PressueAbsolute_MIN" | "UVI_MAX" | "Rain Days":
                     Table.add_row(f"{category}", f"{date}", f"{value}", end_section=True)
                 case _:
                     Table.add_row(f"{category}", f"{date}", f"{value}")
