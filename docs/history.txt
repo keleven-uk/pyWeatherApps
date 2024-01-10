@@ -1,11 +1,11 @@
 ###############################################################################################################
-#    history.txt   Copyright (C) <2023>  <Kevin Scott>                                                        #
+#    history.txt   Copyright (C) <2023 - 2024>  <Kevin Scott>                                                 #
 #                                                                                                             #
 #    History file for pyWeatherApps                                                                           #
 #                                                                                                             #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
+#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                               #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -21,11 +21,22 @@
 ###############################################################################################################
 
 
+V2024.27  [10 January 2024]
+
+    With the new year, the data directory structure could become a little messy.
+    So, amend the structure to consist of a series of sub directors below data - one for each year.
+    The xl, db and record files will reside within each year directory.
+    Main changes to confit ant util files.
+    The directory paths are checked on program start and if don't exist, they will be created.
+    Amended copyright year to 2023 - 2024 on changed files.
+
+
 V2023.26  [30 December 2023]
 
     Added the number of rain days in a given month, also update yearly and all time reports.
         This data in saved in a xtra SQL table stored within the month file.
     Corrected some bugs in the saving og rain data generally.
+
 
 
 V2023.25  [7 November 2023]

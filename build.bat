@@ -13,15 +13,8 @@
 
 FOR %%y IN (2023) DO (
     FOR %%m IN (July August September October November December) DO (
-    main.py -CY -b -m %%m -y %%y
+        main.py -r -m %%m -y %%y
     )
 )
-
-FOR %%y IN (2023) DO (
-    FOR %%m IN (July August September October November December) DO (
-    main.py -r  -m %%m -y %%y
-    )
-)
-
-main.py -rA
+@rem main.py -rA
 

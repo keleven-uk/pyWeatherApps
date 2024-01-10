@@ -1,5 +1,5 @@
 ###############################################################################################################
-#    main.py   Copyright (C) <2023>  <Kevin Scott>                                                            #
+#    main.py   Copyright (C) <2023 - 2024>  <Kevin Scott>                                                     #
 #                                                                                                             #
 #    pyWeatherApp - Builds a main database out of individual daily spreadsheets.                              #
 #                   The main database can be either a Excel spreadsheet or a SQLite3 database.                #
@@ -10,7 +10,7 @@
 #     For changes see history.txt                                                                             #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
+#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                               #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -56,6 +56,7 @@ if __name__ == "__main__":
     mainWB             = Config.MAIN_WB
     mainDB             = Config.MAIN_DB
     DB_TYPE            = Config.DB_TYPE
+    xl_dir             = Config.XL_DIR
     targetFiles        = Config.TARGET_FILES
     MonthlyRecordFile  = Config.RECORD_FILES
     yearlyRecordFile   = Config.YEAR_RECORD_FILES
@@ -78,10 +79,13 @@ if __name__ == "__main__":
 
     #  If month and year are supplied from the command line use them, if not use from config file.
     if month and year:
-        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config.DATA_DIR, Config.REC_DIR, Config.DB_DIR, month, year, Config.TARGET)
+        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config.DATA_DIR, Config.REC_DIR, Config.DB_DIR, xl_dir, month, year, Config.TARGET)
     else:
         month = Config.MONTH
         year  = Config.YEAR
+
+    #  Checks the data directories exist, if not create them.
+    utils.checkPaths(Config, logger, verbose)
 
     if config:
         utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, MonthlyRecordFile, yearlyRecordFile, allTimeRecordsFile, targetFiles, DB_TYPE, month, year)

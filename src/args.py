@@ -1,5 +1,5 @@
 ###############################################################################################################
-#    args   Copyright (C) <2023>  <Kevin Scott>                                                               #
+#    args   Copyright (C) <2023 - 2024>  <Kevin Scott>                                                        #
 #                                                                                                             #
 #    Parse the command line arguments.                                     .                                  #
 #                                                                                                             #
@@ -16,7 +16,7 @@
 #     For changes see history.txt                                                                             #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
+#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                               #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -54,7 +54,7 @@ def parseArgs(Config, logger):
         Builds a main data store out of individual weather data spreadsheets.
         The data store can be either an Excel spreadsheet or a SQLite3 database.
         The type of data store is specified in config.toml."""),
-        epilog=f" Kevin Scott (C) 2023 :: {Config.NAME} V{Config.VERSION}")
+        epilog=f" Kevin Scott (C) 2023 - 2024 :: {Config.NAME} V{Config.VERSION}")
 
     parser.add_argument("-l", "--license",    action="store_true", help="Print the Software License.")
     parser.add_argument("-v", "--version",    action="store_true", help="Print the version of the application.")
@@ -106,8 +106,6 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(2)
-
-    print(args)
 
     return(args.build, args.report, args.Areport, args.Yreport, args.infile, args.Verbose, args.Create, args.CreateYES, args.config, args.month, args.year)
 

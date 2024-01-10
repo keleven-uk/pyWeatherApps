@@ -45,6 +45,6 @@ The type of data store is specified in config.toml.
                             Month of data files.
       -y YEAR, --year YEAR  Year of data files.
 
-     Kevin Scott (C) 2023 :: pyWeatherApp V2023.26
+     Kevin Scott (C) 2023 - 2024 :: pyWeatherApp V2023.26
 
 For changes see history.txt

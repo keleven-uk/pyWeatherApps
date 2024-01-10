@@ -1,9 +1,9 @@
 ###############################################################################################################
-#    dataUtils.py   Copyright (C) <2023>  <Kevin Scott>                                                       #                                                                                                             #                                                                                                             #
+#    dataUtils.py   Copyright (C) <2023 - 2024>  <Kevin Scott>                                                #                                                                                                             #
 #    A number of helper and utility functions                                                                 #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                     #
+#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                               #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -21,6 +21,7 @@
 import os
 import glob
 import sqlite3
+import pathlib
 
 from src.console import console
 
@@ -106,15 +107,51 @@ def printConfig(logger, name, version, mainWB, mainDB, recordFiles, yearRecordFi
     logPrint(logger, True, f"Current month                :: {year}", "info")
 
 ########################################################################################### buildFileName() ######
-def buildFileNames(data_dir, rec_dir, db_dir, month, year, target):
+def buildFileNames(data_dir, rec_dir, db_dir, xl_dir, month, year, target):
     """  Builds a new set on config values from arguments supplied at the command line.
     """
-    mainWB = f"{data_dir}\\{db_dir}\\{month}{year}.xlsx"
-    mainDB = f"{data_dir}\\{db_dir}\\{month}{year}.sql"
-    recordFiles = f"{data_dir}\\{rec_dir}\\{month}{year}.pickle"
-    targetFiles = f"{data_dir}\\{year}\\{month}\\{target}"
+    mainWB = f"{data_dir}\\{year}\\{db_dir}\\{month}{year}.xlsx"
+    mainDB = f"{data_dir}\\{year}\\{db_dir}\\{month}{year}.sql"
+    recordFiles = f"{data_dir}\\{year}\\{rec_dir}\\{month}{year}.pickle"
+    targetFiles = f"{data_dir}\\{year}\\{xl_dir}\\{month}\\{target}"
 
     return mainWB, mainDB, recordFiles, targetFiles
+
+########################################################################################### checkPaths() #########
+def checkPaths(config, logger, verbose):
+    """  Checks the data directories exist, if not create them.
+    """
+
+    logPrint(logger, verbose, "Checking Paths", "info")
+
+    mainDB             = config.MAIN_DB
+    targetFiles        = config.TARGET_FILES
+    monthlyRecordFile  = config.RECORD_FILES
+
+    mainDB_path            = pathlib.Path(mainDB).parent
+    targetFiles_path       = pathlib.Path(targetFiles).parent
+    monthlyRecordFile_path = pathlib.Path(monthlyRecordFile).parent
+
+    if mainDB_path.exists():
+        logPrint(logger, verbose, f"{mainDB_path} exists", "info")
+    else:
+        logPrint(logger, verbose, f"{mainDB_path} doesn't exists, will create", "warning")
+        mainDB_path.mkdir(parents=True)
+
+    if targetFiles_path.exists():
+        logPrint(logger, verbose, f"{targetFiles_path} exists", "info")
+    else:
+        logPrint(logger, verbose, f"{targetFiles_path} doesn't exists, will create", "warning")
+        targetFiles_path.mkdir(parents=True)
+
+    if monthlyRecordFile_path.exists():
+        logPrint(logger, verbose, f"{monthlyRecordFile_path} exists", "info")
+    else:
+        logPrint(logger, verbose, f"{monthlyRecordFile_path} doesn't exists, will create", "warning")
+        monthlyRecordFile_path.mkdir(parents=True)
+
+
+
 
 
 

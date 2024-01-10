@@ -2,18 +2,19 @@
 #
 #   true and false are lower case
 #
-#   <2023> (c) Kevin Scott
+#   <2023 - 2024> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2023.26"
+myVERSION = "2024.27"
 myNAME    = "pyWeatherApp"
 
 [DATA]
 data_dir = "data"
+xl_dir   = "xl"
 db_dir   = "db"
 rec_dir  = "records"
-month    = "December"
-year     = "2023"
+month    = "January"
+year     = "2024"
 target   = "all*.xlsx"
 
 [DB]
