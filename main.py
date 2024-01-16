@@ -53,6 +53,14 @@ if __name__ == "__main__":
     LGpath = "logs\\" +Config.NAME +".log"
     logger = Logger.get_logger(LGpath)                        # Create the logger.
 
+
+    utils.logPrint(logger, False, "=" * 100, "info")
+
+    License.printShortLicense(Config.NAME, Config.VERSION, logger)
+
+    utils.logPrint(logger, False, "-" * 100, "info")
+    utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
+
     mainWB             = Config.MAIN_WB
     mainDB             = Config.MAIN_DB
     DB_TYPE            = Config.DB_TYPE
@@ -62,24 +70,28 @@ if __name__ == "__main__":
     yearlyRecordFile   = Config.YEAR_RECORD_FILES
     allTimeRecordsFile = Config.ALLTIME_RECORD_FILES
 
-    build, report, Areport, Yreport, infile, verbose, create, createYES, config, month, year = args.parseArgs(Config, logger)
+    build, report, Areport, Yreport, infile, verbose, create, createYES, config, month, year, toFile, fromFile = args.parseArgs(Config, logger)
+
+    if toFile:
+        print(f"toFile = {toFile}")
+        utils.makeArchive(toFile, Config, logger)
+        sys.exit(0)
+
+    if fromFile:
+        print(f"fromFile = {fromFile}")
+        utils.loadArchive(fromFile, Config, logger)
+        sys.exit(0)
+
 
     timer = Timer.Timer()
     timer.Start()
 
-    utils.logPrint(logger, False, "=" * 100, "info")
-
-    License.printShortLicense(Config.NAME, Config.VERSION, logger)
-
-    utils.logPrint(logger, False, "-" * 100, "info")
-    utils.logPrint(logger, True, f"Start of {Config.NAME} {Config.VERSION}", "info")
-
-    if not create and not config and not build and not report and not Areport and not Yreport:
+    if not create and not createYES and not config and not build and not report and not Areport and not Yreport:
         utils.logPrint(logger, True, "No mode given, please state either config, build or report - main.py -h for help", "warning")
 
     #  If month and year are supplied from the command line use them, if not use from config file.
     if month and year:
-        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config.DATA_DIR, Config.REC_DIR, Config.DB_DIR, xl_dir, month, year, Config.TARGET)
+        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config)
     else:
         month = Config.MONTH
         year  = Config.YEAR

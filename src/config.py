@@ -173,8 +173,13 @@ class Config():
 
     @property
     def DB_TYPE(self):
-        target = self.config["DB"]["type"]
-        return f"{target}"
+        db_type = self.config["DB"]["type"]
+        return f"{db_type}"
+
+    @property
+    def ARCHIVE_TYPE(self):
+        archive_type = self.config["ARCHIVE"]["type"]
+        return f"{archive_type}"
 
 
 
@@ -184,17 +189,20 @@ class Config():
         """
         config = dict()
 
-        config["INFO"] = {"myVERSION" : "2024.27main.property",
-                          "myNAME"    : "pyWeatherApp"}
+        config["INFO"]    = {"myVERSION" : "2024.27",
+                             "myNAME"    : "pyWeatherApp"}
 
-        config["DATA"] = {"data_dir" : "data",
-                          "db_dir"   : "db",
-                          "rec_dir"  : "records",
-                          "month"    : "October",
-                          "year"     : "2023",
-                          "target"   : "all*.xlsx"}
+        config["DATA"]    = {"data_dir"  : "data",
+                             "xl_dir"    : "xl",
+                             "db_dir"    : "db",
+                             "rec_dir"   : "records",
+                             "month"     : "January",
+                             "year"      : "2024",
+                             "target"    : "all*.xlsx"}
 
-        config["DB"]   = {"type"      : "sqlite"}              #  either "sqlite" OR "excel"
+        config["DB"]      = {"type"      : "sqlite"}        #  either "sqlite" OR "excel"
+
+        config["ARCHIVE"] = {"ARCHIVE"   : "zip"}           #  type of archive used. - bztar, gztar, tar, xztar or zip
 
 
         st_toml = toml.dumps(config)

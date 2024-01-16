@@ -11,10 +11,13 @@
 
 @echo OFF
 
-FOR %%y IN (2023) DO (
-    FOR %%m IN (July August September October November December) DO (
-        main.py -r -m %%m -y %%y
-    )
-)
+@rem FOR %%y IN (2023) DO (
+@rem     FOR %%m IN (July August September October November December) DO (
+@rem         main.py -r -m %%m -y %%y
+@rem     )
+@rem )
 @rem main.py -rA
+
+main.py -Cb
+main.py -r
 

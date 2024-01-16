@@ -21,6 +21,7 @@
 import os
 import glob
 import sqlite3
+import shutil
 import pathlib
 
 from src.console import console
@@ -107,9 +108,17 @@ def printConfig(logger, name, version, mainWB, mainDB, recordFiles, yearRecordFi
     logPrint(logger, True, f"Current month                :: {year}", "info")
 
 ########################################################################################### buildFileName() ######
-def buildFileNames(data_dir, rec_dir, db_dir, xl_dir, month, year, target):
+def buildFileNames(config):
     """  Builds a new set on config values from arguments supplied at the command line.
     """
+    data_dir = config.DATA_DIR
+    rec_dir  = config.REC_DIR
+    db_dir   = config.MAIN_DB
+    xl_dir   = config.XL_DIR
+    month    = config.MONTH
+    year     = config.YEAR
+    target   = config.TARGET_FILES
+
     mainWB = f"{data_dir}\\{year}\\{db_dir}\\{month}{year}.xlsx"
     mainDB = f"{data_dir}\\{year}\\{db_dir}\\{month}{year}.sql"
     recordFiles = f"{data_dir}\\{year}\\{rec_dir}\\{month}{year}.pickle"
@@ -150,7 +159,36 @@ def checkPaths(config, logger, verbose):
         logPrint(logger, verbose, f"{monthlyRecordFile_path} doesn't exists, will create", "warning")
         monthlyRecordFile_path.mkdir(parents=True)
 
+############################################################################################# makeArchive() ######
+def makeArchive(tofile, config, logger):
+    """  Create an archive at tofile containing the data directory.
 
+         NB : No extension should be supplies with the filename.
+              The correct extension according to the type of archive will be added.
+    """
+    type     = config.ARCHIVE_TYPE
+    data_dir = config.DATA_DIR
+
+    try:
+        shutil.make_archive(base_name=f"{tofile}", format=f"{type}", root_dir=".", base_dir=f"{data_dir}")
+    except Exception as e:
+        logPrint(logger, True, f"{e}.  ERROR : Archive save", "warning")
+
+############################################################################################# loadArchive() ######
+def loadArchive(fromfile, config, logger):
+    """  Create an archive at tofile containing the data directory.
+
+         NB : the file extension should be supplied with the filename.
+              The unpack method uses the extension to determine the type of the archive.
+    """
+    if not fromfile.exists():
+        logPrint(logger, True, f"{fromfile} does not exists", "info")
+        return
+
+    try:
+        shutil.unpack_archive(filename=f"{fromfile}", extract_dir=".")
+    except Exception as e:
+        logPrint(logger, True, f"{e}.  ERROR : Archive load", "warning")
 
 
 

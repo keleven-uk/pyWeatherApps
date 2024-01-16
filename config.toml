@@ -5,7 +5,7 @@
 #   <2023 - 2024> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2024.27"
+myVERSION = "2024.28"
 myNAME    = "pyWeatherApp"
 
 [DATA]
@@ -20,3 +20,7 @@ target   = "all*.xlsx"
 [DB]
 #  either "sqlite" OR "excel"
 type = "sqlite"
+
+[ARCHIVE]
+#  type of archive used. - bztar, gztar, tar, xztar or zip
+type = "zip"
