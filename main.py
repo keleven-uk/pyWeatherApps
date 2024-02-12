@@ -73,15 +73,18 @@ if __name__ == "__main__":
     build, report, Areport, Yreport, infile, verbose, create, createYES, config, month, year, toFile, fromFile = args.parseArgs(Config, logger)
 
     if toFile:
-        print(f"toFile = {toFile}")
+        print(f"Archiving data to = {toFile}")
         utils.makeArchive(toFile, Config, logger)
         sys.exit(0)
 
     if fromFile:
-        print(f"fromFile = {fromFile}")
+        print(f"Loading data from = {fromFile}")
         utils.loadArchive(fromFile, Config, logger)
         sys.exit(0)
 
+    if config:
+        utils.printConfig(logger, Config)
+        sys.exit(0)
 
     timer = Timer.Timer()
     timer.Start()
@@ -98,10 +101,6 @@ if __name__ == "__main__":
 
     #  Checks the data directories exist, if not create them.
     utils.checkPaths(Config, logger, verbose)
-
-    if config:
-        utils.printConfig(logger, Config.NAME, Config.VERSION, mainWB, mainDB, MonthlyRecordFile, yearlyRecordFile, allTimeRecordsFile, targetFiles, DB_TYPE, month, year)
-        sys.exit(0)
 
     if DB_TYPE == "sqlite":
         utils.logPrint(logger, verbose, f"Running on {sys.version} Python", "info")

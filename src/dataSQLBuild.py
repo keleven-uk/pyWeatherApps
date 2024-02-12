@@ -1,11 +1,11 @@
 ###############################################################################################################
-#    pyDataSQLBuild   Copyright (C) <2023>  <Kevin Scott>                                                     #
+#    pyDataSQLBuild   Copyright (C) <2023 - 2024>  <Kevin Scott>                                              #
 #    Scans a given directory for excel spreadsheets the contains weather data and for each                    #
 #    new data adds them to a main spreadsheet.                                                                #
 #                                                                                                             #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
+#    Copyright (C) <2023>  <Kevin Scott - 2024>                                                               #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -67,6 +67,7 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
     newRows  = 0
     noOfDays = 0
     rainDays = 0
+    dryDays  = 0
 
     with console.status("Scanning..."):
         for file in dataFiles:   #  Loop through excel spreadsheets
@@ -113,9 +114,11 @@ def build(mainDB, targetFiles, logger, verbose, create=False):
             #  values should be the last for the day.
             if row.RainDaily:
                 rainDays += 1
+            else:
+                dryDays += 1
 
-        key = "RainDays"
-        sql3DB.insertXtra([key , noOfDays, rainDays])
+        sql3DB.insertXtra(["RainDays", noOfDays, rainDays, month, year])
+        sql3DB.insertXtra(["DryDays" , noOfDays, dryDays, month, year])
 
     #Fetching all row from the table
     count = sql3DB.count()

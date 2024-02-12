@@ -105,7 +105,9 @@ class sql3Data():
             ID INTEGER PRIMARY KEY AUTOINCREMENT,
             Category CHAR(20),
             noOfDays FLOAT,
-            rainDays FLOAT
+            Days FLOAT,
+            month CHAR(2),
+            year CHAR(4)
             )"""
 
         self.execute(sql)
@@ -137,8 +139,8 @@ class sql3Data():
              It calls self.execute with a pre-defined sql query and the supplied data.
         """
         query = """INSERT INTO XtraData
-                   (Category, noOfDays, rainDays)
-                    VALUES (?, ?, ?)"""
+                   (Category, noOfDays, Days, month, year)
+                    VALUES (?, ?, ?, ?, ?)"""
 
         try:
             # Executing the SQL command

@@ -19,6 +19,7 @@
 ###############################################################################################################
 
 import sys
+import calendar
 
 import src.classes.sql3Data as DB
 import src.classes.monthlyRecords as monthly
@@ -131,13 +132,24 @@ def report(mainDB, monthlyrecordFiles, yearlyRecordsFile, allTimeRecordsFile, mo
 
             if high == "RainYearly":
                 utils.logPrint(logger, verbose, "Processing Rain Day Data", "info")
-                sql3DB.execute("""SELECT noOfDays, rainDays FROM XtraData WHERE Category = 'RainDays'""")
+                sql3DB.execute("""SELECT noOfDays, Days, month, year FROM XtraData WHERE Category = 'RainDays'""")
                 value = sql3DB.fetchone()
-                d0 = int(value[0])
-                d1 = int(value[1])
-                monthlyRecords.add("Rain Days", "Monthly",  d0, d1)
-                yearlyRecords.add("Rain Days" ,  "Yearly",  d0, d1)
-                allTimeRecords.add("Rain Days", "All Time", d0, d1)
+                d0 = f"{int(value[1])}/{int(value[0])}"
+                d1 = f"{calendar.month_name[int(value[2])]} {value[3]}"
+
+                monthlyRecords.add("RainDays", "Monthly",  d0, d1)
+                yearlyRecords.add("RainDays" ,  "Yearly",  d0, d1)
+                allTimeRecords.add("RainDays", "All Time", d0, d1)
+
+                utils.logPrint(logger, verbose, "Processing Dry Day Data", "info")
+                sql3DB.execute("""SELECT noOfDays, Days, month, year FROM XtraData WHERE Category = 'DryDays'""")
+                value = sql3DB.fetchone()
+                d0 = f"{int(value[1])}/{int(value[0])}"
+                d1 = f"{calendar.month_name[int(value[2])]} {value[3]}"
+
+                monthlyRecords.add("DryDays", "Monthly",  d0, d1)
+                yearlyRecords.add("DryDays" ,  "Yearly",  d0, d1)
+                allTimeRecords.add("DryDays", "All Time", d0, d1)
 
 
     monthlyRecords.save()

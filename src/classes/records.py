@@ -1,10 +1,10 @@
 ###############################################################################################################
-#    Records.py    Copyright (C) <2023>  <Kevin Scott>                                                        #
+#    Records.py    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                 #
 #                                                                                                             #
 #    A class to hold records, this then subclassed to monthly, yearly and all time.                           #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023>  <Kevin Scott>                                                                      #
+#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                               #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -59,9 +59,10 @@ class Records:
              The categories can be found on the calling script - dataSQLreport.py
         """
         mode = category[-3:]                     #  either MAX or MIN
+
         if category not in self.Records:
             self.Records[category] = (dt_value, value)
-        elif category != "Rain Days":
+        elif category != "RainDays" or category != "DryDays":
             data = self.Records[category]
             if mode == "MAX":
                 if value > data[1]:
@@ -74,8 +75,6 @@ class Records:
             elif mode == "AVG":
                 if value > data[1]:
                     print(f"New {period:9} record {category:25} {dt_value:14} {value} :: {data}")
-            else:
-                print("Unknown mode.")
 
 
     def load(self):
@@ -111,19 +110,25 @@ class Records:
 
         for category, v in self.Records.items():
             date   = v[0]
-            amount = float(v[1])
+
+            if category == "RainDays" or category == "DryDays":
+                amount = v[1]
+            else:
+                amount = float(v[1])
 
 
             #  Format values correctly and add imperial equivalents, if appropriate.
             #  Also correct spelling mistakes.
             match category:
                 case category if category.startswith("Rain"):
-                    if category == "Rain Days":
-                        value = f"{date}/{int(amount)}"
+                    if category == "RainDays" or category == "DryDays":
+                        value = amount
                     else:
                         value  = f"{amount}mm ({amount*0.0393701:.2f}in)"
                     match category:
-                        case category if category.startswith("Rain Days"):
+                        case category if category.startswith("RainDays"):
+                            date  = f"{calendar.month_name[month]} {year}"
+                        case category if category.startswith("DryDays"):
                             date  = f"{calendar.month_name[month]} {year}"
                         case category if category.startswith("RainMonthly"):
                             if monthlyReport:           #  Used for monthly reports only
@@ -163,7 +168,7 @@ class Records:
             #  Add horizontal lines to the table to split the categories
             match category:
                 case "IndoorTemperature_MIN" | "DayTimeTemperature_MIN" | "OutdoorHumidity_MIN" | "IndoorHumidity_MIN"| \
-                     "PressueAbsolute_MIN" | "UVI_MAX" | "Rain Days":
+                     "PressueAbsolute_MIN" | "UVI_MAX" | "Dry Days":
                     Table.add_row(f"{category}", f"{date}", f"{value}", end_section=True)
                 case _:
                     Table.add_row(f"{category}", f"{date}", f"{value}")

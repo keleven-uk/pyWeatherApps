@@ -1,10 +1,10 @@
  PyMP3duplicate.
 
     PyDataBuild.
-    
+
     Scans a given directory for excel spreadsheets the contains daily weather data and for
      new data then adds them to a main spreadsheet or SQLite3 database.
-    
+
     The apps include -
      pyDataXBuild - scans a number of excel files and merges into one file.
      pyDataXReport - scans the main file and finds the highs and lows.
@@ -21,7 +21,7 @@ The type of data store is specified in config.toml.
 
     positional arguments:
       infile
-    
+
     options:
       -h, --help            show this help message and exit
       -l, --license         Print the Software License.
@@ -42,7 +42,7 @@ The type of data store is specified in config.toml.
                             Archive data to file.
       -al FROMFILE, --FromFile FROMFILE
                             Load data from file.
-    
-     Kevin Scott (C) 2023 - 2024 :: pyWeatherApp V2024.28
+
+     Kevin Scott (C) 2023 - 2024 :: pyWeatherApp V2024.29
 
 For changes see history.txt

@@ -91,21 +91,21 @@ def maxMin(recordValue, newValue, recordDate, newDate, mode):
             return recordValue, recordDate
 
 ############################################################################################ printConfig() ######
-def printConfig(logger, name, version, mainWB, mainDB, recordFiles, yearRecordFiles, allTimeRecordsFile, targetFiles, DB_TYPE, month, year):
+def printConfig(logger, config):
     """  Prints out a list of the current config values.
     """
     logPrint(logger, True, "List of Config Values", "info")
-    logPrint(logger, True, f"App Name                     :: {name}",    "info")
-    logPrint(logger, True, f"Current Version              :: {version}", "info")
-    logPrint(logger, True, f"Location of main WB          :: {mainWB}", "info")
-    logPrint(logger, True, f"Location of main DB          :: {mainDB}", "info")
-    logPrint(logger, True, f"Location of records          :: {recordFiles}", "info")
-    logPrint(logger, True, f"Location of yearly records   :: {yearRecordFiles}", "info")
-    logPrint(logger, True, f"Location of all time records :: {allTimeRecordsFile}", "info")
-    logPrint(logger, True, f"Location of target           :: {targetFiles}", "info")
-    logPrint(logger, True, f"Current data type            :: {DB_TYPE}", "info")
-    logPrint(logger, True, f"Current year                 :: {month}", "info")
-    logPrint(logger, True, f"Current month                :: {year}", "info")
+    logPrint(logger, True, f"App Name                     :: {config.NAME}",    "info")
+    logPrint(logger, True, f"Current Version              :: {config.VERSION}", "info")
+    logPrint(logger, True, f"Location of main WB          :: {config.MAIN_WB}", "info")
+    logPrint(logger, True, f"Location of main DB          :: {config.MAIN_DB}", "info")
+    logPrint(logger, True, f"Location of records          :: {config.RECORD_FILES}", "info")
+    logPrint(logger, True, f"Location of yearly records   :: {config.YEAR_RECORD_FILES}", "info")
+    logPrint(logger, True, f"Location of all time records :: {config.ALLTIME_RECORD_FILES}", "info")
+    logPrint(logger, True, f"Location of target           :: {config.TARGET_FILES}", "info")
+    logPrint(logger, True, f"Current data type            :: {config.DB_TYPE}", "info")
+    logPrint(logger, True, f"Current year                 :: {config.MONTH}", "info")
+    logPrint(logger, True, f"Current month                :: {config.YEAR}", "info")
 
 ########################################################################################### buildFileName() ######
 def buildFileNames(config):

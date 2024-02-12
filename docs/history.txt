@@ -21,17 +21,24 @@
 ###############################################################################################################
 
 
-V2025.28  [16 January 2024]
+V2024.29  [12 February 2024]
+
+    Added records for the number of dry and rain days per month.
+        Only works [tested] for current month so far.
+        The data is stored on the XtraData SQL table.
+
+
+V2024.28  [16 January 2024]
 
     Added two new command line arguments, -al and -as.
         -as  Saves the data directory to a archive file.  The default is zip but can be changes in the config file.
         -al  Loads the archive file into the data directory.
         Both arguments should have a second argument of a filename.  -as without extension, -al with.
         This is because the type of archive is derived from the extension and -as add the correct one.
-        Corrected typos and added missing fields to writeDefaultConfig in config.py
-        Tidied up buildFileName in dataUtils.py, now pas the config object instead of a large number of single arguments.
-        Hopefullt finalyy sorted out auto create SQL tables --CreateYes.
-        Running on Python V3.12.1.
+    Corrected typos and added missing fields to writeDefaultConfig in config.py
+    Tidied up buildFileName in dataUtils.py, now pas the config object instead of a large number of single arguments.
+    Hopefully finally sorted out auto create SQL tables --CreateYes.
+    Running on Python V3.12.1.
 
 
 V2024.27  [10 January 2024]

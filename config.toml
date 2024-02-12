@@ -5,7 +5,7 @@
 #   <2023 - 2024> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2024.28"
+myVERSION = "2024.29"
 myNAME    = "pyWeatherApp"
 
 [DATA]
@@ -13,7 +13,7 @@ data_dir = "data"
 xl_dir   = "xl"
 db_dir   = "db"
 rec_dir  = "records"
-month    = "January"
+month    = "February"
 year     = "2024"
 target   = "all*.xlsx"
 
