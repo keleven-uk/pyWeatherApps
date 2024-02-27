@@ -128,9 +128,9 @@ class Config():
         """  return should be like - data\\2023\\July2003\\July2023\\all*.xlsx
         """
         data_dir = self.config["DATA"]["data_dir"]
+        year     = self.config["DATA"]["year"]
         xl_dir   = self.config["DATA"]["xl_dir"]
         month    = self.config["DATA"]["month"]
-        year     = self.config["DATA"]["year"]
         target   = self.config["DATA"]["target"]
         return f"{data_dir}\\{year}\\{xl_dir}\\{month}\\{target}"
 
@@ -189,7 +189,7 @@ class Config():
         """
         config = dict()
 
-        config["INFO"]    = {"myVERSION" : "2024.29",
+        config["INFO"]    = {"myVERSION" : "2024.30",
                              "myNAME"    : "pyWeatherApp"}
 
         config["DATA"]    = {"data_dir"  : "data",

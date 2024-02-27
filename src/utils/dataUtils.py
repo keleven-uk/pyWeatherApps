@@ -108,15 +108,13 @@ def printConfig(logger, config):
     logPrint(logger, True, f"Current month                :: {config.YEAR}", "info")
 
 ########################################################################################### buildFileName() ######
-def buildFileNames(config):
+def buildFileNames(config, month, year):
     """  Builds a new set on config values from arguments supplied at the command line.
     """
     data_dir = config.DATA_DIR
     rec_dir  = config.REC_DIR
-    db_dir   = config.MAIN_DB
+    db_dir   = config.DB_DIR
     xl_dir   = config.XL_DIR
-    month    = config.MONTH
-    year     = config.YEAR
     target   = config.TARGET_FILES
 
     mainWB = f"{data_dir}\\{year}\\{db_dir}\\{month}{year}.xlsx"

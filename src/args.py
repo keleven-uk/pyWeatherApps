@@ -50,6 +50,7 @@
 import sys
 import textwrap
 import argparse
+import calendar
 
 from pathlib import Path
 
@@ -64,6 +65,9 @@ def parseArgs(Config, logger):
 
          Exit code 0 - program has exited normally, after print version, licence or help.
     """
+    months = calendar.month_name[1:]
+    years  = ["2023", "2024"]
+
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=textwrap.dedent("""\
@@ -92,7 +96,6 @@ def parseArgs(Config, logger):
     args = parser.parse_args()
 
     if args.version:
-        License.printShortLicense(Config.NAME, Config.VERSION, logger)
         print("")
         utils.logPrint(logger, True, f"Running on {sys.version} Python", "info")
         utils.logPrint(logger, True, f"Running on {utils.sqlite3Version()} SQLite3", "info")
@@ -124,6 +127,21 @@ def parseArgs(Config, logger):
             utils.logPrint(logger, False, "-" * 100, "info")
             print("Goodbye.")
             sys.exit(2)
+
+    if args.month:
+        if args.month not in months:
+            utils.logPrint(logger, True, f"ERROR :: {args.month} is not a valid month", "danger")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(3)
+
+    if args.year:
+        if args.year not in years:
+            utils.logPrint(logger, True, f"ERROR :: {args.year} is not a valid year {years}", "danger")
+            utils.logPrint(logger, False, "-" * 100, "info")
+            print("Goodbye.")
+            sys.exit(3)
+
 
     return(args.build, args.report, args.Areport, args.Yreport, args.infile, args.Verbose, args.Create, args.CreateYES, args.config, args.month, args.year, args.ToFile, args.FromFile)
 

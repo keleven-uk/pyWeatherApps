@@ -43,6 +43,6 @@ The type of data store is specified in config.toml.
       -al FROMFILE, --FromFile FROMFILE
                             Load data from file.
 
-     Kevin Scott (C) 2023 - 2024 :: pyWeatherApp V2024.29
+     Kevin Scott (C) 2023 - 2024 :: pyWeatherApp V2024.30
 
 For changes see history.txt

@@ -21,6 +21,45 @@
 ###############################################################################################################
 
 
+V2024.30  [27 February 2024]
+
+    Added value checking to the command line argument for month and year.
+        The month must be a valid month.
+        The year has to be from [2023, 2024].
+    Corrected but in the directory paths if month and year supplied as arguments.
+    Corrected bug in the target directory path, if month supplied as an argument.
+    Running on Python V3.12.2.
+
+    ----------------------------------------------------------------------------------------------
+    File                                                       blank        comment           code
+    ----------------------------------------------------------------------------------------------
+    pyWeatherApps\src\config.py                                   36             50            134
+    pyWeatherApps\src\dataSQLReport.py                            39             25            106
+    pyWeatherApps\src\utils\dataUtils.py                          37             57            102
+    pyWeatherApps\src\classes\records.py                          32             48            100
+    pyWeatherApps\src\classes\weatherData.py                      45             54             98
+    pyWeatherApps\main.py                                         32             32             93
+    pyWeatherApps\src\classes\sql3Data.py                         40            102             90
+    pyWeatherApps\src\dataSQLBuild.py                             26             28             81
+    pyWeatherApps\src\args.py                                     25             56             71
+    pyWeatherApps\src\classes\dataClasses.py                       7             25             64
+    pyWeatherApps\src\dataXReport.py                              25             22             40
+    pyWeatherApps\src\timer.py                                    16             40             31
+    pyWeatherApps\ruff.toml                                        7              8             30
+    pyWeatherApps\src\dataXBuild.py                               17             25             29
+    pyWeatherApps\src\classes\dataMapping.py                       4             24             22
+    pyWeatherApps\src\license.py                                  10             40             22
+    pyWeatherApps\build.bat                                        4              0             19
+    pyWeatherApps\src\logger.py                                   11             28             18
+    pyWeatherApps\config.toml                                      4              7             15
+    pyWeatherApps\src\console.py                                   9             28             12
+    pyWeatherApps\src\classes\allTimeRecords.py                   10             30              6
+    pyWeatherApps\src\classes\monthlyRecords.py                   10             30              6
+    pyWeatherApps\src\classes\yearlyRecords.py                    10             30              6
+    ----------------------------------------------------------------------------------------------
+    SUM:                                                         456            789           1195
+    ----------------------------------------------------------------------------------------------
+
 V2024.29  [12 February 2024]
 
     Added records for the number of dry and rain days per month.

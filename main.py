@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     #  If month and year are supplied from the command line use them, if not use from config file.
     if month and year:
-        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config)
+        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config, month, year)
     else:
         month = Config.MONTH
         year  = Config.YEAR

@@ -5,7 +5,7 @@
 #   <2023 - 2024> (c) Kevin Scott
 
 [INFO]
-myVERSION = "2024.29"
+myVERSION = "2024.30"
 myNAME    = "pyWeatherApp"
 
 [DATA]
