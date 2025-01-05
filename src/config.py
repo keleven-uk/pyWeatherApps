@@ -6,7 +6,6 @@
 #    The configure file is currently in toml format.                                                          #
 #                                                                                                             #
 ###############################################################################################################
-#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                               #
 #                                                                                                             #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the           #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the         #
@@ -127,12 +126,12 @@ class Config():
     def TARGET_FILES(self):
         """  return should be like - data\\2023\\July2003\\July2023\\all*.xlsx
         """
-        data_dir = self.config["DATA"]["data_dir"]
-        year     = self.config["DATA"]["year"]
-        xl_dir   = self.config["DATA"]["xl_dir"]
-        month    = self.config["DATA"]["month"]
+        # data_dir = self.config["DATA"]["data_dir"]
+        # year     = self.config["DATA"]["year"]
+        # xl_dir   = self.config["DATA"]["xl_dir"]
+        # month    = self.config["DATA"]["month"]
         target   = self.config["DATA"]["target"]
-        return f"{data_dir}\\{year}\\{xl_dir}\\{month}\\{target}"
+        return f"{target}"
 
     @property
     def TARGET(self):

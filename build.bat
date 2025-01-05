@@ -7,17 +7,27 @@
 @rem
 @rem  The python environment must be activated.
 @rem
-@rem   <2023> (c) Kevin Scott
+@rem   <2023-2025> (c) Kevin Scott
 
 @echo OFF
 
-@rem FOR %%y IN (2023) DO (
-@rem     FOR %%m IN (July August September October November December) DO (
-@rem         main.py -r -m %%m -y %%y
-@rem     )
-@rem )
-@rem main.py -rA
+ FOR %%y IN (2023) DO (
+     FOR %%m IN (July August September October November December) DO (
+         main.py -CY -b -m %%m -y %%y
+     )
+ )
 
-main.py -Cb
-main.py -r
+ FOR %%y IN (2024) DO (
+     FOR %%m IN (January February March April May June July August September October November December) DO (
+         main.py -CY -b -m %%m -y %%y
+     )
+ )
+
+ FOR %%y IN (2025) DO (
+     FOR %%m IN (January) DO (
+         main.py -CY -b -m %%m -y %%y
+     )
+ )
+rem main.py -rA
+
 

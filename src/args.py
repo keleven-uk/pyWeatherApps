@@ -1,5 +1,5 @@
 #############################################################################################################################
-#    args   Copyright (C) <2023 - 2024>  <Kevin Scott>                                                                      #
+#    args   Copyright (C) <2023 - 2025>  <Kevin Scott>                                                                      #
 #                                                                                                                           #
 #    Parse the command line arguments.                                     .                                                #
 #                                                                                                                           #
@@ -32,7 +32,6 @@
 #     For changes see history.txt                                                                                           #
 #                                                                                                                           #
 #############################################################################################################################
-#    Copyright (C) <2023 - 2024>  <Kevin Scott>                                                                             #
 #                                                                                                                           #
 #    This program is free software: you can redistribute it and/or modify it under the terms of the                         #
 #    GNU General Public License as published by the Free Software Foundation, either Version 3 of the                       #
@@ -66,7 +65,7 @@ def parseArgs(Config, logger):
          Exit code 0 - program has exited normally, after print version, licence or help.
     """
     months = calendar.month_name[1:]
-    years  = ["2023", "2024"]
+    years  = ["2023", "2024", "2025"]
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,

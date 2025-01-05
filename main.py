@@ -98,6 +98,7 @@ if __name__ == "__main__":
     else:
         month = Config.MONTH
         year  = Config.YEAR
+        mainWB, mainDB, MonthlyRecordFile, targetFiles = utils.buildFileNames(Config, month, year)
 
     #  Checks the data directories exist, if not create them.
     utils.checkPaths(Config, logger, verbose)
