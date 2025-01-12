@@ -20,6 +20,12 @@
 ###############################################################################################################
 
 
+V2025.32  [10 January 2025]
+Hibernating the project
+The project was written in SQL, this has got complex to my simple mind.
+So, rewriting the project in Pandas - it looks simpler.
+
+
 V2025.31  [5 January 2025]
 
     Running on Python V3.12.8.
